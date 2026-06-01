@@ -1,4 +1,4 @@
-import { useState, useMemo, type FormEvent } from "react";
+import { useState, useMemo, useRef, useEffect, type FormEvent } from "react";
 import logo from "@/assets/logo.png";
 import { ExternalLink, ChevronRight, ChevronDown, ArrowLeft, Search } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LabelList } from "recharts";
@@ -39,6 +39,27 @@ const getSourceBadgeClass = (source: SourceType): string => {
 
 const pillarName = (id: PillarId) => pillars.find((p) => p.id === id)?.name ?? id;
 
+type SearchResult =
+  | { kind: "category"; item: Category }
+  | { kind: "subcategory"; item: Subcategory; parent: Category };
+
+function Highlight({ text, query }: { text: string; query: string }) {
+  if (!query.trim()) return <>{text}</>;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const parts = text.split(new RegExp(`(${escaped})`, "gi"));
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.toLowerCase() === query.toLowerCase() ? (
+          <mark key={i} className="rounded bg-primary/25 px-0.5 text-foreground">{part}</mark>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  );
+}
+
 const Index = () => {
   const [view, setView] = useState<View>("dashboard");
   const [selectedPillar, setSelectedPillar] = useState<PillarId | null>(null);
@@ -64,18 +85,40 @@ const Index = () => {
     else if (view === "pillar") navigate("dashboard");
   };
 
-  const filteredCategories = searchQuery
-    ? categories.filter(
-        (c) =>
-          c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          c.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          c.subcategories.some(
-            (s) =>
-              s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              s.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()))
-          )
-      )
-    : [];
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
+
+  const searchResults = useMemo<SearchResult[]>(() => {
+    if (!searchQuery.trim()) return [];
+    const q = searchQuery.toLowerCase();
+    const out: SearchResult[] = [];
+    categories.forEach((c) => {
+      if (c.name.toLowerCase().includes(q) || c.description.toLowerCase().includes(q)) {
+        out.push({ kind: "category", item: c });
+      }
+      c.subcategories.forEach((s) => {
+        if (
+          s.name.toLowerCase().includes(q) ||
+          s.description.toLowerCase().includes(q) ||
+          s.tags.some((t) => t.toLowerCase().includes(q))
+        ) {
+          out.push({ kind: "subcategory", item: s, parent: c });
+        }
+      });
+    });
+    return out;
+  }, [searchQuery]);
+  const categoryHits = searchResults.filter((r) => r.kind === "category");
+  const subcategoryHits = searchResults.filter((r) => r.kind === "subcategory");
 
   return (
     <div className="min-h-screen bg-background">
@@ -93,12 +136,14 @@ const Index = () => {
             <div className="relative">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
+                ref={searchInputRef}
                 type="text"
                 placeholder="Søg i compliance-krav..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="h-9 w-64 rounded-md border border-border bg-secondary pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="h-9 w-64 rounded-md border border-border bg-secondary pl-9 pr-12 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               />
+              <kbd className="pointer-events-none absolute right-2 top-1/2 hidden h-5 -translate-y-1/2 select-none items-center gap-0.5 rounded border border-border bg-background px-1.5 text-[10px] font-medium text-muted-foreground sm:flex">⌘K</kbd>
             </div>
             <div className="flex gap-2">
               <a
@@ -137,34 +182,75 @@ const Index = () => {
             <h2 className="mb-4 font-display text-lg text-foreground">
               Søgeresultater for "{searchQuery}"
               <span className="ml-2 text-sm text-muted-foreground">
-                ({filteredCategories.length} kategorier fundet)
+                ({categoryHits.length} områder · {subcategoryHits.length} krav)
               </span>
             </h2>
-            {filteredCategories.length > 0 ? (
-              <div className="grid gap-3">
-                {filteredCategories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => {
-                      setSearchQuery("");
-                      navigate("category", cat.pillar, cat);
-                    }}
-                    className="card-hover flex items-center gap-4 rounded-lg border border-border bg-card p-4 text-left"
-                  >
-                    <span className="text-2xl">{cat.icon}</span>
-                    <div className="flex-1">
-                      <p className="font-display text-sm font-semibold text-foreground">{cat.name}</p>
-                      <p className="text-xs text-muted-foreground line-clamp-1">{cat.description}</p>
-                    </div>
-                    <span className="rounded border border-border px-2 py-0.5 text-xs text-muted-foreground">
-                      {pillarName(cat.pillar)}
-                    </span>
-                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                  </button>
-                ))}
-              </div>
-            ) : (
+            {searchResults.length === 0 ? (
               <p className="text-sm text-muted-foreground">Ingen compliance-krav matcher din søgning.</p>
+            ) : (
+              <>
+                {categoryHits.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="mb-2 font-display text-sm font-semibold uppercase tracking-wide text-muted-foreground">Områder ({categoryHits.length})</h3>
+                    <div className="grid gap-3">
+                      {categoryHits.map((r) => r.kind === "category" && (
+                        <button
+                          key={r.item.id}
+                          onClick={() => {
+                            setSearchQuery("");
+                            navigate("category", r.item.pillar, r.item);
+                          }}
+                          className="card-hover flex items-center gap-4 rounded-lg border border-border bg-card p-4 text-left"
+                        >
+                          <span className="text-2xl">{r.item.icon}</span>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-display text-sm font-semibold text-foreground">
+                              <Highlight text={r.item.name} query={searchQuery} />
+                            </p>
+                            <p className="text-xs text-muted-foreground line-clamp-1">
+                              <Highlight text={r.item.description} query={searchQuery} />
+                            </p>
+                          </div>
+                          <span className="rounded border border-border px-2 py-0.5 text-xs text-muted-foreground">
+                            {pillarName(r.item.pillar)}
+                          </span>
+                          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {subcategoryHits.length > 0 && (
+                  <div>
+                    <h3 className="mb-2 font-display text-sm font-semibold uppercase tracking-wide text-muted-foreground">Konkrete krav ({subcategoryHits.length})</h3>
+                    <div className="grid gap-2">
+                      {subcategoryHits.map((r) => r.kind === "subcategory" && (
+                        <button
+                          key={`${r.parent.id}-${r.item.id}`}
+                          onClick={() => {
+                            setSearchQuery("");
+                            navigate("subcategory", r.parent.pillar, r.parent, r.item);
+                          }}
+                          className="card-hover flex items-center gap-4 rounded-lg border border-border bg-card/60 p-3 text-left"
+                        >
+                          <span className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-bold uppercase ${getSeverityColor(r.item.severity)}`}>
+                            {r.item.severity === "critical" ? "kritisk" : r.item.severity === "high" ? "høj" : r.item.severity === "medium" ? "middel" : "lav"}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-display text-sm font-medium text-foreground">
+                              <Highlight text={r.item.name} query={searchQuery} />
+                            </p>
+                            <p className="text-xs text-muted-foreground line-clamp-1">
+                              {r.parent.icon} {r.parent.name} · <Highlight text={r.item.description} query={searchQuery} />
+                            </p>
+                          </div>
+                          <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}
