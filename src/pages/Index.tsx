@@ -778,6 +778,9 @@ function CategoryView({
         <p className="mt-3 max-w-3xl text-sm text-muted-foreground">{category.description}</p>
       </div>
 
+      {/* Værktøj: AI Act klassificeringsværktøj (kun for hoejrisiko-systemer) */}
+      {category.id === "hoejrisiko-systemer" && <AiActClassifier onNavigate={onNavigate} />}
+
       {/* Underkategorier */}
       <div className="mb-8 grid gap-4">
         {category.subcategories.map((sub) => (
@@ -837,6 +840,262 @@ function CategoryView({
                 <ExternalLink className="h-3 w-3 shrink-0" />
               </a>
             ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Værktøj: AI Act klassificeringsværktøj ──
+function AiActClassifier({
+  onNavigate,
+}: {
+  onNavigate: (v: View, p?: PillarId, c?: Category, s?: Subcategory) => void;
+}) {
+  const [forbudte, setForbudte] = useState<string[]>([]);
+  const [annex3, setAnnex3] = useState<string[]>([]);
+  const [annex1, setAnnex1] = useState(false);
+  const [gpai, setGpai] = useState(false);
+  const [art50, setArt50] = useState<string[]>([]);
+
+  const forbudtList = [
+    { id: "manipulation", label: "Skadelig manipulation (Art. 5(1)(a))" },
+    { id: "vulnerability", label: "Udnyttelse af sårbarheder (Art. 5(1)(b))" },
+    { id: "social-scoring", label: "Social bedømmelse (Art. 5(1)(c))" },
+    { id: "predictive-policing", label: "Risikovurdering for strafbar handling (Art. 5(1)(d))" },
+    { id: "facial-db", label: "Ansigtsgenkendelses-databaser via scraping (Art. 5(1)(e))" },
+    { id: "emotion", label: "Følelsesgenkendelse på arbejde/uddannelse (Art. 5(1)(f))" },
+    { id: "biometric-cat", label: "Biometrisk kategorisering efter følsomme attributter (Art. 5(1)(g))" },
+    { id: "remote-biometric", label: "Real-time biometrisk fjernidentifikation (Art. 5(1)(h))" },
+    { id: "ncii", label: "Generering af NCII / CSAM (\"nudifiers\")" },
+  ];
+
+  const annex3List = [
+    { id: "1", label: "§1 Biometri og følelsesgenkendelse (post-hoc identifikation, kategorisering)" },
+    { id: "2", label: "§2 Sikkerhedskomponenter i kritisk infrastruktur (el/vand/gas/transport)" },
+    { id: "3", label: "§3 Uddannelse og erhvervsuddannelse (adgang, vurdering, snyd-detektion)" },
+    { id: "4", label: "§4 Beskæftigelse og HR (rekruttering, performance, opsigelse)" },
+    { id: "5", label: "§5 Væsentlige tjenester (kreditscoring, forsikringsrisiko, social, akut)" },
+    { id: "6", label: "§6 Retshåndhævelse (politi, anklagemyndighed, bevisvurdering)" },
+    { id: "7", label: "§7 Migration, asyl, grænsekontrol" },
+    { id: "8", label: "§8 Justits og demokratiske processer (domsforhandling, valg)" },
+  ];
+
+  const art50List = [
+    { id: "chatbot", label: "AI-system til menneskelig interaktion (chatbot, voice agent)" },
+    { id: "synth-content", label: "Generativ AI der producerer audio/billede/video/tekst" },
+    { id: "emotion-rec", label: "Følelsesgenkendelse" },
+    { id: "biometric-cat", label: "Biometrisk kategorisering (ikke-følsomme attributter)" },
+    { id: "deepfake", label: "Deepfakes / manipulerede billeder eller video" },
+    { id: "ai-public-text", label: "AI-genereret tekst til offentlig informationsbrug" },
+  ];
+
+  const toggle = (list: string[], setList: (v: string[]) => void, id: string) => {
+    setList(list.includes(id) ? list.filter((x) => x !== id) : [...list, id]);
+  };
+
+  const reset = () => {
+    setForbudte([]);
+    setAnnex3([]);
+    setAnnex1(false);
+    setGpai(false);
+    setArt50([]);
+  };
+
+  // Compute results — highest applicable classification dominates
+  const results: { level: "forbudt" | "hoejrisiko" | "gpai" | "transparens" | "minimal"; lines: string[] }[] = [];
+  if (forbudte.length > 0) {
+    results.push({
+      level: "forbudt",
+      lines: [
+        "Forbudt under EU AI Act Art. 5",
+        `Trigger: ${forbudte.map((id) => forbudtList.find((f) => f.id === id)?.label.split(" (")[0]).join(" · ")}`,
+        "Bøde op til 35 mio. EUR eller 7 % af global omsætning. Ikke afhjælpeligt.",
+      ],
+    });
+  }
+  if (annex3.length > 0) {
+    results.push({
+      level: "hoejrisiko",
+      lines: [
+        `Højrisiko under Annex III (${annex3.map((id) => "§" + id).join(", ")})`,
+        "Art. 9-15 udbyderpligter + Art. 26 deployer-pligter. FRIA-krav for visse deployere (Art. 27).",
+        "Gælder fra 2. december 2027 (efter AI Omnibus-postponement).",
+      ],
+    });
+  }
+  if (annex1) {
+    results.push({
+      level: "hoejrisiko",
+      lines: [
+        "Højrisiko under Annex I (sikkerhedskomponent i reguleret produkt)",
+        "Skal CE-mærkes både efter sektorlov OG AI Act.",
+        "Gælder fra 2. august 2028.",
+      ],
+    });
+  }
+  if (gpai) {
+    results.push({
+      level: "gpai",
+      lines: [
+        "GPAI-udbyder under Art. 53",
+        "Teknisk dokumentation, træningsdata-resumé, copyright-policy.",
+        "I kraft siden 2. august 2025.",
+      ],
+    });
+  }
+  if (art50.length > 0) {
+    results.push({
+      level: "transparens",
+      lines: [
+        `Transparenskrav under Art. 50 (${art50.length} ${art50.length === 1 ? "trigger" : "triggers"})`,
+        "Chatbot-disclosure, AI-mærkning, brugerinformation. Gælder fra 2. august 2026.",
+      ],
+    });
+  }
+  if (results.length === 0) {
+    const anyChecked = forbudte.length + annex3.length + (annex1 ? 1 : 0) + (gpai ? 1 : 0) + art50.length > 0;
+    if (!anyChecked) {
+      // no answers yet
+    } else {
+      results.push({
+        level: "minimal",
+        lines: [
+          "Minimal risiko",
+          "Ingen specifikke AI Act-forpligtelser, men Art. 4 (AI-literacy) og generelle krav om god praksis gælder fortsat.",
+        ],
+      });
+    }
+  }
+
+  const levelColor = (level: string) => {
+    switch (level) {
+      case "forbudt":
+        return "border-danger/40 bg-danger/10 text-danger";
+      case "hoejrisiko":
+        return "border-warning/40 bg-warning/10 text-warning";
+      case "gpai":
+        return "border-primary/40 bg-primary/10 text-primary";
+      case "transparens":
+        return "border-info/40 bg-info/10 text-info";
+      case "minimal":
+        return "border-success/40 bg-success/10 text-success";
+      default:
+        return "border-border bg-card text-foreground";
+    }
+  };
+
+  const Section = ({
+    title,
+    article,
+    items,
+    selected,
+    setSelected,
+  }: {
+    title: string;
+    article: string;
+    items: { id: string; label: string }[];
+    selected: string[];
+    setSelected: (v: string[]) => void;
+  }) => (
+    <div className="mb-4 rounded-lg border border-border bg-card/60 p-4">
+      <div className="mb-2 flex items-baseline justify-between">
+        <h4 className="font-display text-sm font-semibold text-foreground">{title}</h4>
+        <span className="text-[10px] text-muted-foreground">{article}</span>
+      </div>
+      <div className="flex flex-col gap-1.5">
+        {items.map((item) => (
+          <label
+            key={item.id}
+            className="flex cursor-pointer items-start gap-2 rounded p-1.5 text-xs leading-tight hover:bg-secondary/50"
+          >
+            <input
+              type="checkbox"
+              checked={selected.includes(item.id)}
+              onChange={() => toggle(selected, setSelected, item.id)}
+              className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-primary"
+            />
+            <span className="text-foreground/90">{item.label}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="mb-10 rounded-xl border border-primary/30 bg-primary/5 p-6">
+      <div className="mb-1 flex items-center gap-2">
+        <span className="rounded bg-primary px-1.5 py-0.5 text-[10px] font-bold uppercase text-primary-foreground">Værktøj</span>
+        <h3 className="font-display text-lg font-semibold text-foreground">Klassificeringsværktøj — AI Act</h3>
+      </div>
+      <p className="mb-5 text-sm text-muted-foreground">
+        Det enkeltspørgsmål compliance-officers stiller mest: <em>"Er vores system højrisiko?"</em> Sæt flueben ved alt det jeres system gør — værktøjet beregner klassificeringen live. Resultatet vises nederst.
+      </p>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <Section
+          title="Forbudte praksisser"
+          article="Art. 5"
+          items={forbudtList}
+          selected={forbudte}
+          setSelected={setForbudte}
+        />
+        <Section
+          title="Annex III højrisiko-områder"
+          article="Art. 6 + Annex III"
+          items={annex3List}
+          selected={annex3}
+          setSelected={setAnnex3}
+        />
+      </div>
+
+      <div className="mb-4 grid gap-4 md:grid-cols-2">
+        <div className="rounded-lg border border-border bg-card/60 p-4">
+          <div className="mb-2 flex items-baseline justify-between">
+            <h4 className="font-display text-sm font-semibold text-foreground">Annex I / GPAI</h4>
+            <span className="text-[10px] text-muted-foreground">Art. 53</span>
+          </div>
+          <label className="flex cursor-pointer items-start gap-2 rounded p-1.5 text-xs leading-tight hover:bg-secondary/50">
+            <input type="checkbox" checked={annex1} onChange={() => setAnnex1(!annex1)} className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-primary" />
+            <span className="text-foreground/90">AI som sikkerhedskomponent i reguleret produkt (medicinsk udstyr, maskiner, biler, legetøj — Annex I)</span>
+          </label>
+          <label className="mt-2 flex cursor-pointer items-start gap-2 rounded p-1.5 text-xs leading-tight hover:bg-secondary/50">
+            <input type="checkbox" checked={gpai} onChange={() => setGpai(!gpai)} className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-primary" />
+            <span className="text-foreground/90">I udvikler eller markedsfører en general-purpose AI-model (GPAI)</span>
+          </label>
+        </div>
+        <Section
+          title="Gennemsigtighedskrav"
+          article="Art. 50"
+          items={art50List}
+          selected={art50}
+          setSelected={setArt50}
+        />
+      </div>
+
+      {/* Resultat */}
+      <div>
+        <div className="mb-2 flex items-baseline justify-between">
+          <h4 className="font-display text-sm font-semibold uppercase tracking-wide text-foreground">🎯 Resultat</h4>
+          <button onClick={reset} className="text-[11px] text-muted-foreground hover:text-primary">Nulstil</button>
+        </div>
+        {results.length === 0 ? (
+          <div className="rounded-lg border border-dashed border-border bg-card/30 p-4 text-sm text-muted-foreground">
+            Sæt flueben ovenfor for at se klassificeringen.
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {results.map((r, i) => (
+              <div key={i} className={`rounded-lg border p-4 ${levelColor(r.level)}`}>
+                {r.lines.map((line, j) => (
+                  <p key={j} className={j === 0 ? "font-display text-sm font-semibold" : "mt-1 text-xs opacity-90"}>{line}</p>
+                ))}
+              </div>
+            ))}
+            <p className="mt-2 text-[11px] text-muted-foreground">
+              Et system kan ramme flere klassificeringer samtidigt (fx både højrisiko og Art. 50-transparens). Den mest restriktive er styrende, men <em>alle</em> krav skal opfyldes.
+            </p>
           </div>
         )}
       </div>
