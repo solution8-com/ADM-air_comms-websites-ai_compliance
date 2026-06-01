@@ -1,6 +1,7 @@
-import { useState, type FormEvent } from "react";
+import { useState, useMemo, type FormEvent } from "react";
 import logo from "@/assets/logo.png";
 import { ExternalLink, ChevronRight, ChevronDown, ArrowLeft, Search } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LabelList } from "recharts";
 import {
   pillars,
   categories,
@@ -231,7 +232,7 @@ function DashboardView({ onNavigate }: { onNavigate: (v: View, p?: PillarId) => 
       </div>
 
       {/* Statistik */}
-      <div className="mb-10 grid grid-cols-4 gap-4">
+      <div className="mb-6 grid grid-cols-4 gap-4">
         {[
           { label: "Compliance-områder", value: categories.length, color: "text-foreground" },
           { label: "Sporede krav", value: totalItems, color: "text-info" },
@@ -243,6 +244,12 @@ function DashboardView({ onNavigate }: { onNavigate: (v: View, p?: PillarId) => 
             <p className="mt-1 text-xs text-muted-foreground">{stat.label}</p>
           </div>
         ))}
+      </div>
+
+      {/* Visualiseringer: severity-fordeling + kildehyppighed */}
+      <div className="mb-10 grid gap-4 md:grid-cols-2">
+        <SeverityBreakdown />
+        <SourceFrequency />
       </div>
 
       {/* Søjler */}
@@ -377,6 +384,109 @@ function DashboardView({ onNavigate }: { onNavigate: (v: View, p?: PillarId) => 
           </a>
         </div>
       </div>
+    </div>
+  );
+}
+
+// ── Severity Breakdown per pillar (no chart lib needed) ──
+function SeverityBreakdown() {
+  return (
+    <div className="rounded-xl border border-border bg-card p-6">
+      <h3 className="mb-4 font-display text-base font-semibold text-foreground">Severitetsfordeling pr. søjle</h3>
+      <div className="flex flex-col gap-4">
+        {pillars.map((pillar) => {
+          const subs = getCategoriesByPillar(pillar.id).flatMap((c) => c.subcategories);
+          const total = subs.length || 1;
+          const counts = {
+            critical: subs.filter((s) => s.severity === "critical").length,
+            high: subs.filter((s) => s.severity === "high").length,
+            medium: subs.filter((s) => s.severity === "medium").length,
+            low: subs.filter((s) => s.severity === "low").length,
+          };
+          const segs = [
+            { key: "critical", count: counts.critical, cls: "bg-danger", label: "Kritisk" },
+            { key: "high", count: counts.high, cls: "bg-warning", label: "Høj" },
+            { key: "medium", count: counts.medium, cls: "bg-info", label: "Middel" },
+            { key: "low", count: counts.low, cls: "bg-success", label: "Lav" },
+          ];
+          return (
+            <div key={pillar.id}>
+              <div className="mb-1.5 flex items-center justify-between text-xs">
+                <span className="font-medium text-foreground">{pillar.icon} {pillar.name}</span>
+                <span className="text-muted-foreground">{subs.length} emner</span>
+              </div>
+              <div className="flex h-2.5 overflow-hidden rounded">
+                {segs.map((seg) =>
+                  seg.count > 0 ? (
+                    <div
+                      key={seg.key}
+                      className={seg.cls}
+                      style={{ width: `${(seg.count / total) * 100}%` }}
+                      title={`${seg.label}: ${seg.count}`}
+                    />
+                  ) : null
+                )}
+              </div>
+              <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-muted-foreground">
+                {segs.map((seg) => (
+                  <span key={seg.key} className="inline-flex items-center gap-1">
+                    <span className={`inline-block h-2 w-2 rounded-sm ${seg.cls}`} />
+                    {seg.count} {seg.label.toLowerCase()}
+                  </span>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ── Source Frequency (top cited frameworks) ──
+function SourceFrequency() {
+  const data = useMemo(() => {
+    const counts = new Map<SourceType, number>();
+    categories.forEach((c) =>
+      c.subcategories.forEach((s) =>
+        s.sourceLinks.forEach((l) => counts.set(l.source, (counts.get(l.source) ?? 0) + 1))
+      )
+    );
+    return Array.from(counts.entries())
+      .map(([source, count]) => ({ source, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+  }, []);
+
+  return (
+    <div className="rounded-xl border border-border bg-card p-6">
+      <h3 className="mb-4 font-display text-base font-semibold text-foreground">Mest citerede kilder</h3>
+      <ResponsiveContainer width="100%" height={Math.max(data.length * 28, 220)}>
+        <BarChart data={data} layout="vertical" margin={{ top: 0, right: 30, left: 0, bottom: 0 }}>
+          <XAxis type="number" hide />
+          <YAxis
+            type="category"
+            dataKey="source"
+            width={90}
+            tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
+            axisLine={false}
+            tickLine={false}
+          />
+          <Tooltip
+            cursor={{ fill: "hsl(var(--muted) / 0.3)" }}
+            contentStyle={{
+              backgroundColor: "hsl(var(--card))",
+              border: "1px solid hsl(var(--border))",
+              borderRadius: "0.5rem",
+              fontSize: "12px",
+            }}
+            labelStyle={{ color: "hsl(var(--foreground))" }}
+          />
+          <Bar dataKey="count" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]}>
+            <LabelList dataKey="count" position="right" style={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} />
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 }
