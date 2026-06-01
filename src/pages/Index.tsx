@@ -122,7 +122,7 @@ const Index = () => {
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-opacity hover:opacity-90"
               >
-                Book sparring
+                Book et møde
               </a>
             </div>
           </div>
@@ -718,7 +718,7 @@ function NewsletterCTA() {
             rel="noopener noreferrer"
             className="mt-4 inline-block rounded-md bg-primary px-5 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
           >
-            Find en tid hos Jacob
+            Book et møde
           </a>
         </div>
       </div>
