@@ -1,6 +1,6 @@
 # ai-compliance.dk — project status
 
-**Last updated:** 2026-06-01 (post audit-driven refresh)
+**Last updated:** 2026-06-01 (post audit + dashboard viz)
 
 ## At a glance
 
