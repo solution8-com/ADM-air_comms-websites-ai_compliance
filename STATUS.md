@@ -1,6 +1,6 @@
 # ai-compliance.dk — project status
 
-**Last updated:** 2026-06-01
+**Last updated:** 2026-06-01 (post audit-driven refresh)
 
 ## At a glance
 
@@ -36,11 +36,37 @@ npm run dev -- --port 8080   # dev server (this is the standard port for complia
 npm run build            # production build → dist/
 ```
 
+## Audit-driven refresh (2026-06-01)
+
+Content audit revealed several post-build regulatory developments. All shipped via commits c5b22b0 → 94f12c3 → e619950:
+
+- **AI Omnibus (7 May 2026)** — high-risk deadlines deferred to 2 Dec 2027 (Annex III) / 2 Aug 2028 (Annex I). Hero copy, pillar 1 description, Højrisiko description, and EU AI Act source card all updated.
+- **NCII/CSAM** added as 9th forbidden practice (post-Omnibus addition).
+- **GPAI Code of Practice** wording corrected — was "forventet", now reflects 10 July 2025 finalisation + 1 Aug 2025 Commission endorsement.
+- **Council of Europe Framework Convention** added as new subcategory under Tilstødende lovgivning (the previously orphan `COE_FCAI` constant is now actually used). EU ratified 15 May 2026.
+- **ISO/IEC 42005:2025** (AI Impact Assessment, May 2025) added as new subcategory under AI Management System category.
+- **NIS2-loven LOV 434/2025** referenced (in force 1 July 2025, registration deadline was 1 October 2025).
+- **DORA** updated: Finanstilsynet Register-of-Information deadline 31 March 2026 noted (passed); 2026 theme inspection of forsikring/pension forthcoming.
+- **Datatilsynet AI podcast** (Feb 2026) added to konsekvensanalyser sourceLinks.
+- **CEN-CENELEC harmoniserede standarder** description updated: Q4 2026 target after Oct 2025 accelerated delivery decision.
+- **Translation fix:** "konsentforhold" → "samtykke til træningsdata" (typo from earlier).
+- New URL constants added: `ISO_42005`, `NIS2_LOVEN`, `EDPB_EDPS_OMNIBUS`, `DATATILSYNET_PODCAST`, `FINANSTILSYNET_DORA`, `AI_OMNIBUS_AGREEMENT`.
+
 ## Known issues / open items
 
 - [ ] **MailerLite form is shared with sikkerhed + governance.** Topic segmentation in MailerLite has to happen post-hoc by signup date. Fix: create a compliance-specific form in MailerLite and swap the `MAILERLITE_ACTION` constant in `src/pages/Index.tsx`.
 - [ ] **2 moderate npm dependency vulnerabilities** (transitive, low-risk for a static info site). `npm audit fix` when convenient.
 - [ ] **Prerendering not added** — only do this if Google indexing turns out slow. Check `site:ai-compliance.dk` in a few weeks.
+
+## Identified content gaps (next round)
+
+From audit — not yet shipped:
+- [ ] Bødestruktur as its own subcategory (€35M/7%, €15M/3%, €7.5M/1.5% tiers)
+- [ ] GPAI deployer-pligter ved finetuning (downstream crosses 10²⁵ FLOPs)
+- [ ] Sektor-overlay matrix as visualization (sector × regulations)
+- [ ] EU AI Act timeline strip visualization (top of page, "you are here")
+- [ ] DPIA + FRIA decision tree
+- [ ] Penalty tier visual
 
 ## Recent commits
 
