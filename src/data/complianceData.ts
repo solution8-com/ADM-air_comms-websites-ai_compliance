@@ -89,7 +89,7 @@ export const pillars: Pillar[] = [
     name: "Drift & Governance",
     subtitle: "Daglig kontrol og operationalisering",
     description:
-      "De praktiske kontroller, der gør compliance til en løbende baggrundsproces – ikke en periodisk audit. AI-inventar, deployer-pligter, leverandørstyring, AI-literacy.",
+      "De praktiske kontroller, der gør compliance til en løbende baggrundsproces – ikke en periodisk audit. AI-register, deployer-pligter, leverandørstyring, AI-literacy.",
     icon: "🛠️",
     itemCount: 13,
   },
@@ -927,12 +927,12 @@ export const categories: Category[] = [
   // ╚═══════════════════════════════════════════════════════════════════════╝
 
   {
-    id: "ai-inventar",
-    name: "AI-inventar & klassificering",
+    id: "ai-register",
+    name: "AI-register & klassificering",
     pillar: "drift",
     icon: "📚",
     description:
-      "Et opdateret use case-register er fundamentet for alt AI-compliance-arbejde. Uden inventar, ingen risikoklassificering, ingen DPIA, ingen audit-trail.",
+      "Et opdateret use case-register er fundamentet for alt AI-compliance-arbejde. Uden register, ingen risikoklassificering, ingen DPIA, ingen audit-trail.",
     subcategories: [
       {
         id: "use-case-register",
@@ -949,7 +949,7 @@ export const categories: Category[] = [
           { label: "AI Act Art. 26", url: EU_AI_ACT, source: "EU AI Act" },
           { label: "Datatilsynet: Kunstig intelligens", url: DATATILSYNET_AI, source: "Datatilsynet" },
         ],
-        tags: ["inventar", "use case", "register"],
+        tags: ["register", "use case"],
       },
       {
         id: "risikoklassificering",
