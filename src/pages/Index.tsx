@@ -226,7 +226,7 @@ function DashboardView({ onNavigate }: { onNavigate: (v: View, p?: PillarId) => 
           AI Compliance <span className="text-primary text-glow">Overblik</span>
         </h2>
         <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
-          Praktisk overblik over AI-compliance for danske organisationer — opdelt i Lovkrav, Standarder og Drift. Baseret på EU AI Act (Regulation 2024/1689), Digitaliseringsstyrelsens vejledninger, Datatilsynet, ISO/IEC 42001, NIST AI RMF og tilstødende EU-lovgivning. Vigtigste deadline: <span className="text-primary font-medium">2. august 2026</span>, hvor hovedparten af AI Act gælder.
+          Praktisk overblik over AI-compliance for danske organisationer — opdelt i Lovkrav, Standarder og Drift. Baseret på EU AI Act (Regulation 2024/1689), Digitaliseringsstyrelsens vejledninger, Datatilsynet, ISO/IEC 42001, NIST AI RMF og tilstødende EU-lovgivning. <span className="text-primary font-medium">AI Omnibus (7. maj 2026)</span> udskød højrisiko-fristerne til 2. december 2027 (Annex III) og 2. august 2028 (Annex I) — forpligtelserne består, kun timing ændres.
         </p>
       </div>
 
@@ -296,7 +296,7 @@ function DashboardView({ onNavigate }: { onNavigate: (v: View, p?: PillarId) => 
             </div>
             <div className="min-w-0">
               <p className="font-display text-sm font-semibold text-foreground">EU AI Act</p>
-              <p className="mt-1 text-xs text-muted-foreground">Regulation (EU) 2024/1689. Risiko-baseret regulering: forbudte, højrisiko, GPAI, transparens. Hovedparten gælder fra 2. august 2026.</p>
+              <p className="mt-1 text-xs text-muted-foreground">Regulation (EU) 2024/1689. Risiko-baseret regulering: forbudte, højrisiko, GPAI, transparens. Højrisiko-frister udskudt af AI Omnibus til 2. dec 2027 / 2. aug 2028.</p>
             </div>
             <ExternalLink className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
           </a>

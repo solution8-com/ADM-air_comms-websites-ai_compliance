@@ -62,6 +62,12 @@ const NIST_GENAI = "https://www.nist.gov/itl/ai-risk-management-framework/nist-a
 const NIS2 = "https://eur-lex.europa.eu/eli/dir/2022/2555/oj";
 const DORA = "https://eur-lex.europa.eu/eli/reg/2022/2554/oj";
 const COE_FCAI = "https://www.coe.int/en/web/artificial-intelligence/the-framework-convention-on-artificial-intelligence";
+const ISO_42005 = "https://www.iso.org/standard/42005";
+const NIS2_LOVEN = "https://www.retsinformation.dk/eli/lta/2025/434";
+const EDPB_EDPS_OMNIBUS = "https://www.edpb.europa.eu/news/news/2026/edpb-edps-joint-opinion-digital-omnibus_en";
+const DATATILSYNET_PODCAST = "https://www.datatilsynet.dk/regler-og-vejledning/podcast/ai-og-konsekvensanalyser-hvornaar-og-hvordan";
+const FINANSTILSYNET_DORA = "https://www.finanstilsynet.dk/finansielle-temaer/tilsyn-med-ikt-og-datasikkerhed/";
+const AI_OMNIBUS_AGREEMENT = "https://www.consilium.europa.eu/en/press/press-releases/2026/05/07/artificial-intelligence-council-and-parliament-agree-to-simplify-and-streamline-rules/";
 const JTC21 = "https://www.cencenelec.eu/areas-of-work/cen-cenelec-topics/artificial-intelligence/";
 
 // ── Pillars ───────────────────────────────────────────────────────────────
@@ -71,7 +77,7 @@ export const pillars: Pillar[] = [
     name: "Lovkrav & Sanktioner",
     subtitle: "Bindende forpligtelser med bødeansvar",
     description:
-      "De juridiske krav danske virksomheder skal overholde – med bøder ved overtrædelse. Omfatter EU's AI-forordning (forbudte, højrisiko, GPAI, transparens), GDPR-overlap, NIS2, DORA og sektorspecifik regulering.",
+      "De juridiske krav danske virksomheder skal overholde – med bøder ved overtrædelse. Omfatter EU's AI-forordning (forbudte, højrisiko, GPAI, transparens), GDPR-overlap, NIS2, DORA og sektorspecifik regulering. NB: AI Omnibus-aftalen (7. maj 2026) udskyder højrisiko-fristerne til 2. december 2027 (Annex III) og 2. august 2028 (Annex I) — forpligtelserne består, kun timing ændres.",
     icon: "⚖️",
     itemCount: 29,
   },
@@ -245,6 +251,24 @@ export const categories: Category[] = [
         ],
         tags: ["artikel 5", "biometri", "real-time", "offentlig sektor"],
       },
+      {
+        id: "ncii-csam",
+        name: "Generering af NCII og CSAM (\"nudifiers\")",
+        description:
+          "AI Omnibus (7. maj 2026) tilføjede et nyt forbud mod AI-systemer der genererer billedmateriale uden samtykke (NCII) eller børneseksuelt overgrebsmateriale (CSAM). Gælder fra Omnibus' formelle vedtagelse (primo juni 2026).",
+        severity: "critical",
+        actions: [
+          "Audit billed-/video-genereringstjenester for evnen til at producere NCII eller CSAM",
+          "Blokér jailbreak-mønstre der omgår indholdsfiltre på generative billedmodeller",
+          "Etabler proaktiv rapporteringskanal til myndigheder ved opdagelse",
+          "Inkluder dette forbud i Acceptable Use Policy for medarbejder-brug af generativ AI",
+        ],
+        sourceLinks: [
+          { label: "AI Omnibus-aftale (7. maj 2026)", url: AI_OMNIBUS_AGREEMENT, source: "EU AI Act" },
+          { label: "Digst: Forbudte former for AI-praksis", url: DIGST_FORBUDTE, source: "Digst" },
+        ],
+        tags: ["artikel 5", "NCII", "CSAM", "omnibus", "børn"],
+      },
     ],
     sourceLinks: [
       { label: "EU AI Act – Regulation 2024/1689", url: EU_AI_ACT, source: "EU AI Act" },
@@ -258,7 +282,7 @@ export const categories: Category[] = [
     pillar: "lovkrav",
     icon: "⚠️",
     description:
-      "AI-systemer der bruges i kritiske områder (Annex III) eller som sikkerhedskomponenter (Annex I). Bulk af forpligtelser træder i kraft 2. august 2026.",
+      "AI-systemer der bruges i kritiske områder (Annex III) eller som sikkerhedskomponenter (Annex I). Efter AI Omnibus (7. maj 2026) gælder forpligtelserne fra 2. december 2027 (Annex III) og 2. august 2028 (Annex I).",
     subcategories: [
       {
         id: "klassificering",
@@ -452,7 +476,7 @@ export const categories: Category[] = [
         id: "gpai-code-of-practice",
         name: "GPAI Code of Practice",
         description:
-          "Den frivillige adfærdskodeks fra AI Office er de facto compliance-baseline for GPAI-forpligtelser. Forventes at danne grundlag for senere harmoniserede standarder.",
+          "Den frivillige adfærdskodeks fra AI Office blev finaliseret 10. juli 2025 og endosseret af Kommissionen + AI Board 1. august 2025. De facto compliance-baseline for GPAI-forpligtelser indtil harmoniserede standarder publiceres.",
         severity: "medium",
         actions: [
           "Læs Code of Practice for jeres GPAI-leverandørs forpligtelser",
@@ -617,15 +641,17 @@ export const categories: Category[] = [
         id: "nis2",
         name: "NIS2 – cybersikkerhed for væsentlige enheder",
         description:
-          "NIS2-direktivet er transponeret i Danmark via NIS2-loven. AI-systemer i scope af væsentlige/vigtige enheder arver NIS2-cybersikkerhedsforpligtelser, herunder hændelsesrapportering inden for 24/72 timer.",
+          "NIS2-direktivet er transponeret i Danmark via NIS2-loven (LOV nr 434 af 06/05/2025, i kraft 1. juli 2025). Registreringsfristen for væsentlige/vigtige enheder var 1. oktober 2025. AI-systemer i scope arver NIS2-cybersikkerhedsforpligtelser, herunder hændelsesrapportering inden for 24/72 timer.",
         severity: "high",
         actions: [
           "Vurder om jeres organisation er væsentlig eller vigtig enhed under NIS2",
+          "Bekræft registrering hos relevant sektor-tilsynsmyndighed (gerne via Styrelsen for Samfundssikkerhed)",
           "Inkluder AI-systemer i risikostyrings- og hændelsesresponsplaner",
           "Etabler 24-timers early warning til CSIRT ved AI-relaterede hændelser",
         ],
         sourceLinks: [
-          { label: "NIS2-direktivet", url: NIS2, source: "NIS2" },
+          { label: "NIS2-direktivet (EU)", url: NIS2, source: "NIS2" },
+          { label: "NIS2-loven LOV nr 434/2025 (DK)", url: NIS2_LOVEN, source: "Digst" },
         ],
         tags: ["NIS2", "cybersikkerhed", "hændelsesrapportering"],
       },
@@ -633,17 +659,35 @@ export const categories: Category[] = [
         id: "dora",
         name: "DORA – ICT/AI-leverandørrisiko (finans)",
         description:
-          "DORA gælder for finans-/forsikringssektoren siden 17. januar 2025. ICT-third-party-register skal eksplicit dække AI-leverandører. Ofte vigtigere end AI Act for danske banker på kort sigt.",
+          "DORA gælder for finans-/forsikringssektoren siden 17. januar 2025. ICT-third-party-register skal eksplicit dække AI-leverandører. Første indleveringsfrist til Finanstilsynet var 31. marts 2026; temaundersøgelse af forsikring/pension publiceres forår 2026. Ofte vigtigere end AI Act for danske banker på kort sigt.",
         severity: "high",
         actions: [
           "Tilføj AI-leverandører til DORA-third-party-register",
           "Klassificér kritisk/væsentlig AI-tjeneste-afhængighed",
           "Inkluder AI-specifikke krav i ICT-kontrakter (testing, exit-planer, audit-rettigheder)",
+          "Følg Finanstilsynets temaundersøgelser om DORA i 2026",
         ],
         sourceLinks: [
           { label: "DORA – Regulation 2022/2554", url: DORA, source: "DORA" },
+          { label: "Finanstilsynet: DORA-tilsyn", url: FINANSTILSYNET_DORA, source: "Finanstilsynet" },
         ],
         tags: ["DORA", "finans", "leverandørrisiko"],
+      },
+      {
+        id: "coe-convention",
+        name: "Council of Europe Framework Convention on AI",
+        description:
+          "Verdens første bindende internationale AI-traktat (CETS 225). DK underskrev sep 2024; EU ratificerede 15. maj 2026. Lægger menneskerettigheds-/retsstats-lag ovenpå AI Act — mest relevant for offentlig sektor.",
+        severity: "medium",
+        actions: [
+          "Mest relevant for offentlige myndigheder og statslige selskaber",
+          "Vurder use cases der berører ytringsfrihed, demokrati eller rule of law",
+          "Følg national ratifikationsproces (sker normalt via Folketinget efter EU-ratifikation)",
+        ],
+        sourceLinks: [
+          { label: "CoE Framework Convention on AI (CETS 225)", url: COE_FCAI, source: "CoE" },
+        ],
+        tags: ["CoE", "menneskerettigheder", "international", "offentlig sektor"],
       },
       {
         id: "sektorregler",
@@ -695,6 +739,22 @@ export const categories: Category[] = [
           { label: "ISO/IEC 42001:2023", url: ISO_42001, source: "ISO" },
         ],
         tags: ["ISO 42001", "AIMS", "certificering"],
+      },
+      {
+        id: "iso-42005-impact",
+        name: "ISO/IEC 42005:2025 — AI Impact Assessment",
+        description:
+          "Companion-standard til ISO 42001, publiceret maj 2025. Definerer struktureret AI Impact Assessment (AIIA) — relevant for FRIA, DPIA-integration og generelt AI-risikoarbejde.",
+        severity: "medium",
+        actions: [
+          "Brug ISO 42005 som skabelon for AIIA-skabeloner internt",
+          "Map mod AI Act Art. 27 (FRIA) og GDPR Art. 35 (DPIA) for at undgå dobbeltarbejde",
+          "Integrér med ISO 42001-ledelsessystem hvis det er på plads",
+        ],
+        sourceLinks: [
+          { label: "ISO/IEC 42005:2025", url: ISO_42005, source: "ISO" },
+        ],
+        tags: ["ISO 42005", "AIIA", "impact assessment"],
       },
       {
         id: "ai-policy-roller",
@@ -803,7 +863,7 @@ export const categories: Category[] = [
     pillar: "standarder",
     icon: "📊",
     description:
-      "CEN-CENELEC JTC 21 udvikler de harmoniserede standarder, der giver præsumption om overensstemmelse med AI Act. Forventes færdige op til august 2026.",
+      "CEN-CENELEC JTC 21 udvikler de harmoniserede standarder, der giver præsumption om overensstemmelse med AI Act. Accelereret leverance besluttet okt 2025; første publikationer i OJ ventes Q4 2026. AI Omnibus har reduceret hastværket via deadline-udskydelse.",
     subcategories: [
       {
         id: "jtc21-standarder",
@@ -912,6 +972,7 @@ export const categories: Category[] = [
         ],
         sourceLinks: [
           { label: "Datatilsynet: Kunstig intelligens", url: DATATILSYNET_AI, source: "Datatilsynet" },
+          { label: "Datatilsynet podcast: AI og konsekvensanalyser (feb 2026)", url: DATATILSYNET_PODCAST, source: "Datatilsynet" },
         ],
         tags: ["DPIA", "konsekvensanalyse", "Datatilsynet"],
       },
@@ -1071,7 +1132,7 @@ export const categories: Category[] = [
         actions: [
           "Udvikl standardklausul-bibliotek (separat for GPAI vs. højrisiko)",
           "Indarbejd DORA-krav for finanssektor",
-          "Sikr ret til at trække tilbage konsentforhold for træningsdata",
+          "Sikr ret til at trække samtykke tilbage til træningsdata",
         ],
         sourceLinks: [
           { label: "AI Act Art. 25", url: EU_AI_ACT, source: "EU AI Act" },
