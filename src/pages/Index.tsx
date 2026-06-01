@@ -1,6 +1,7 @@
 import { useState, useMemo, useRef, useEffect, type FormEvent } from "react";
 import logo from "@/assets/logo.png";
 import { ExternalLink, ChevronRight, ChevronDown, ArrowLeft, Search } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   pillars,
   categories,
@@ -471,23 +472,136 @@ function DashboardView({ onNavigate }: { onNavigate: (v: View, p?: PillarId) => 
 }
 
 // ── EU AI Act + tilstødende lovgivning — horizontal timeline ──
-function AiActTimeline() {
-  const today = new Date();
-  const events = [
-    { date: "2025-02-02", label: "2. feb 2025", title: "Forbudte praksisser + AI-literacy", note: "Art. 4 + 5 i kraft" },
-    { date: "2025-08-02", label: "2. aug 2025", title: "GPAI + governance + bøder", note: "Kap. V + sanktionsregime" },
-    { date: "2026-03-31", label: "31. mar 2026", title: "DORA Register-of-Information", note: "Finanstilsynet-frist (passeret)" },
-    { date: "2026-05-07", label: "7. maj 2026", title: "AI Omnibus-aftale", note: "Højrisiko-deadlines udskudt" },
-    { date: "2026-08-02", label: "2. aug 2026", title: "Gennemsigtighedskrav (Art. 50)", note: "Deepfake + AI-mærkning" },
-    { date: "2027-12-02", label: "2. dec 2027", title: "Annex III højrisiko", note: "Hovedparten af art. 26-pligter" },
-    { date: "2028-08-02", label: "2. aug 2028", title: "Annex I højrisiko", note: "Indlejrede systemer + GPAI legacy" },
-  ];
+type TimelineEvent = {
+  date: string;
+  label: string;
+  title: string;
+  note: string;
+  detail: string;
+  sources: { label: string; url: string }[];
+};
 
-  // Find where "today" sits on the timeline
-  const firstDate = new Date(events[0].date).getTime();
-  const lastDate = new Date(events[events.length - 1].date).getTime();
-  const totalSpan = lastDate - firstDate;
-  const todayOffset = Math.max(0, Math.min(1, (today.getTime() - firstDate) / totalSpan));
+const TIMELINE_EVENTS: TimelineEvent[] = [
+  {
+    date: "2025-02-02",
+    label: "2. feb 2025",
+    title: "Forbudte praksisser + AI-literacy",
+    note: "Art. 4 + 5 i kraft",
+    detail: "Artikel 5 (forbudte AI-praksisser — social scoring, manipulation, biometrisk fjernidentifikation til retshåndhævelse m.fl.) og Artikel 4 (AI-literacy-krav til alle udbydere og idriftsættere) trådte i kraft som de første dele af AI-forordningen. Overtrædelse af Art. 5 udløser den højeste bødeklasse: op til 35 mio. EUR eller 7 % af global omsætning. AI-literacy-kravet er allerede håndhævet — Datatilsynet og Digst kan bede om dokumentation for at medarbejdere har modtaget træning.",
+    sources: [
+      { label: "EU AI Act Art. 5", url: "https://artificialintelligenceact.eu/article/5/" },
+      { label: "EU AI Act Art. 4", url: "https://artificialintelligenceact.eu/article/4/" },
+      { label: "Digst: Forbudte praksisser", url: "https://digst.dk/tilsyn/ai-forordningen/reglerne-i-ai-forordningen/forbudte-former-for-ai-praksis/" },
+    ],
+  },
+  {
+    date: "2025-08-02",
+    label: "2. aug 2025",
+    title: "GPAI + governance + bøder",
+    note: "Kap. V + sanktionsregime",
+    detail: "Kapitel V (General-Purpose AI) trådte i kraft for nye GPAI-modeller. Omfatter teknisk dokumentation, træningsdata-resumé, copyright-policy. Samtidig blev sanktionsregimet og governance-strukturen (AI Office, AI Board, national tilsyn) operationelt. Den frivillige GPAI Code of Practice blev finaliseret 10. juli 2025 og endosseret af Kommissionen 1. august.",
+    sources: [
+      { label: "EU AI Act Kapitel V (Art. 51-56)", url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj" },
+      { label: "GPAI Code of Practice", url: "https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai" },
+      { label: "Digst: AI-modeller til almen brug", url: "https://digst.dk/tilsyn/ai-forordningen/reglerne-i-ai-forordningen/ai-modeller-til-almen-brug/" },
+    ],
+  },
+  {
+    date: "2026-03-31",
+    label: "31. mar 2026",
+    title: "DORA Register-of-Information",
+    note: "Finanstilsynet-frist (passeret)",
+    detail: "Første indleveringsfrist for finansielle virksomheders DORA Register of Information til Finanstilsynet. Registret skal eksplicit dække alle ICT-third-party-leverandører — herunder AI-leverandører. Forsikrings- og pensionssektor får temainspektion publiceret forår 2026. For danske banker er DORA ofte mere kortsigtet kritisk end AI Act.",
+    sources: [
+      { label: "DORA Regulation 2022/2554", url: "https://eur-lex.europa.eu/eli/reg/2022/2554/oj" },
+      { label: "Finanstilsynet: DORA-tilsyn", url: "https://www.finanstilsynet.dk/finansielle-temaer/tilsyn-med-ikt-og-datasikkerhed/" },
+    ],
+  },
+  {
+    date: "2026-05-07",
+    label: "7. maj 2026",
+    title: "AI Omnibus-aftale",
+    note: "Højrisiko-deadlines udskudt",
+    detail: "EU Council og Parlament nåede politisk aftale om AI Omnibus 7. maj 2026. Højrisiko-fristerne blev udskudt: Annex III standalone-systemer til 2. december 2027 (var aug 2026); Annex I indlejrede systemer til 2. august 2028 (var aug 2027). NCII/CSAM (\"nudifiers\") blev tilføjet som ny forbudt praksis. Formel vedtagelse forventes primo juni 2026. Forpligtelserne består — kun timing ændres.",
+    sources: [
+      { label: "Council of EU: AI Omnibus pressemeddelelse", url: "https://www.consilium.europa.eu/en/press/press-releases/2026/05/07/artificial-intelligence-council-and-parliament-agree-to-simplify-and-streamline-rules/" },
+      { label: "Digst: AI-tilsyn (med Omnibus-banner)", url: "https://digst.dk/tilsyn/ai-forordningen/" },
+    ],
+  },
+  {
+    date: "2026-08-02",
+    label: "2. aug 2026",
+    title: "Gennemsigtighedskrav (Art. 50)",
+    note: "Chatbot + deepfake + AI-mærkning",
+    detail: "Artikel 50 træder i kraft. Krav om: chatbot-disclosure (\"du taler med en AI\"), maskinlæsbar mærkning af AI-genereret indhold (watermarks / C2PA / SynthID), underretning ved følelsesgenkendelse og biometrisk kategorisering, deepfake-disclosure i marketing-content, og mærkning af AI-genereret offentlig tekst (medmindre redaktionelt gennemgået).",
+    sources: [
+      { label: "EU AI Act Art. 50", url: "https://artificialintelligenceact.eu/article/50/" },
+      { label: "Digst: Gennemsigtighedsforpligtelser", url: "https://digst.dk/tilsyn/ai-forordningen/reglerne-i-ai-forordningen/gennemsigtighedsforpligtelser-for-visse-ai-systemer/" },
+    ],
+  },
+  {
+    date: "2027-12-02",
+    label: "2. dec 2027",
+    title: "Annex III højrisiko",
+    note: "Hovedparten af art. 26-pligter",
+    detail: "Annex III højrisiko-systemer (8 områder: biometri/følelsesgenkendelse, kritisk infrastruktur, uddannelse, beskæftigelse, væsentlige tjenester, retshåndhævelse, migration, justits/demokrati) bliver fuldt regulerede. Deployer-pligter under Art. 26 (menneskelig oversight, FRIA hvor relevant, EU-database registrering, hændelsesrapportering) bliver håndhævelige. CE-mærkning, conformity assessment og kvalitetsstyringssystem skal være på plads. Bødeloft €15M / 3 % global omsætning.",
+    sources: [
+      { label: "EU AI Act Art. 26", url: "https://artificialintelligenceact.eu/article/26/" },
+      { label: "EU AI Act Annex III", url: "https://artificialintelligenceact.eu/annex/3/" },
+      { label: "Digst: Højrisiko AI-systemer", url: "https://digst.dk/tilsyn/ai-forordningen/reglerne-i-ai-forordningen/hoejrisiko-ai-systemer/" },
+    ],
+  },
+  {
+    date: "2028-08-02",
+    label: "2. aug 2028",
+    title: "Annex I højrisiko",
+    note: "Indlejrede systemer + GPAI legacy",
+    detail: "Annex I-systemer (AI som sikkerhedskomponenter i regulerede produkter: medicinsk udstyr, maskiner, legetøj, biler, etc.) bliver underlagt AI Act. Også GPAI-modeller markedsført før 2. august 2025 skal være compliant senest denne dato. Annex I-systemer skal CE-mærkes både efter eksisterende produktlovgivning OG AI Act.",
+    sources: [
+      { label: "EU AI Act Annex I", url: "https://artificialintelligenceact.eu/annex/1/" },
+      { label: "EU AI Act Art. 113 (datoer)", url: "https://artificialintelligenceact.eu/article/113/" },
+    ],
+  },
+];
+
+function AiActTimeline() {
+  // Auto-refresh "today" once an hour so the marker doesn't drift on long sessions
+  const [today, setToday] = useState(new Date());
+  useEffect(() => {
+    const interval = setInterval(() => setToday(new Date()), 60 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const [selected, setSelected] = useState<TimelineEvent | null>(null);
+
+  // Compute "today" position on a column-center scale (events are equally spaced)
+  // Each event center sits at (i + 0.5) / N * 100%
+  const events = TIMELINE_EVENTS;
+  const N = events.length;
+  const eventCenter = (i: number) => ((i + 0.5) / N) * 100;
+  const todayTs = today.getTime();
+  const firstTs = new Date(events[0].date).getTime();
+  const lastTs = new Date(events[N - 1].date).getTime();
+  let todayPercent: number;
+  if (todayTs <= firstTs) {
+    todayPercent = eventCenter(0);
+  } else if (todayTs >= lastTs) {
+    todayPercent = eventCenter(N - 1);
+  } else {
+    // Find which two events we're between, then interpolate between their centers
+    let idx = 0;
+    for (let i = 0; i < N - 1; i++) {
+      const a = new Date(events[i].date).getTime();
+      const b = new Date(events[i + 1].date).getTime();
+      if (todayTs >= a && todayTs < b) {
+        idx = i;
+        const frac = (todayTs - a) / (b - a);
+        todayPercent = eventCenter(i) + frac * (eventCenter(i + 1) - eventCenter(i));
+        break;
+      }
+    }
+    todayPercent = todayPercent! ?? eventCenter(idx);
+  }
 
   return (
     <div className="mb-8 rounded-xl border border-border bg-card p-6">
@@ -501,7 +615,7 @@ function AiActTimeline() {
         {/* "Today" marker */}
         <div
           className="absolute top-0 z-10 flex flex-col items-center"
-          style={{ left: `${todayOffset * 100}%`, transform: "translateX(-50%)" }}
+          style={{ left: `${todayPercent}%`, transform: "translateX(-50%)" }}
           aria-label="Du er her"
         >
           <div className="h-6 w-0.5 bg-primary" />
@@ -512,16 +626,54 @@ function AiActTimeline() {
           {events.map((ev) => {
             const past = new Date(ev.date) < today;
             return (
-              <div key={ev.date} className="flex flex-col items-center text-center">
-                <div className={`h-6 w-6 rounded-full border-2 ${past ? "bg-muted border-muted-foreground/40" : "bg-primary border-primary"}`} />
+              <button
+                key={ev.date}
+                onClick={() => setSelected(ev)}
+                className="group flex flex-col items-center rounded-lg p-1 text-center transition-colors hover:bg-secondary/50 focus:outline-none focus:ring-2 focus:ring-primary/40"
+                aria-label={`Detaljer om ${ev.label}: ${ev.title}`}
+              >
+                <div className={`h-6 w-6 rounded-full border-2 transition-transform group-hover:scale-110 ${past ? "bg-muted border-muted-foreground/40" : "bg-primary border-primary"}`} />
                 <p className={`mt-2 text-[10px] font-medium ${past ? "text-muted-foreground" : "text-primary"}`}>{ev.label}</p>
                 <p className={`mt-1 text-[11px] leading-tight ${past ? "text-muted-foreground" : "text-foreground"}`}>{ev.title}</p>
                 <p className="mt-0.5 text-[10px] leading-tight text-muted-foreground/80">{ev.note}</p>
-              </div>
+              </button>
             );
           })}
         </div>
       </div>
+      <p className="mt-4 text-[11px] text-muted-foreground">Klik på en milepæl for detaljer og kildehenvisninger.</p>
+
+      <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
+        <DialogContent className="max-w-lg">
+          {selected && (
+            <>
+              <DialogHeader>
+                <p className="text-xs font-medium uppercase tracking-wide text-primary">{selected.label}</p>
+                <DialogTitle className="font-display">{selected.title}</DialogTitle>
+                <DialogDescription>{selected.note}</DialogDescription>
+              </DialogHeader>
+              <p className="text-sm text-foreground/90 leading-relaxed">{selected.detail}</p>
+              <div>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Kildehenvisninger</p>
+                <div className="grid gap-2">
+                  {selected.sources.map((s) => (
+                    <a
+                      key={s.url}
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 rounded-md border border-border p-2.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
+                    >
+                      <span className="flex-1">{s.label}</span>
+                      <ExternalLink className="h-3 w-3 shrink-0" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
