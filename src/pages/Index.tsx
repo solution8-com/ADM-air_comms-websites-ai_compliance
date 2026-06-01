@@ -236,7 +236,7 @@ function DashboardView({ onNavigate }: { onNavigate: (v: View, p?: PillarId) => 
           { label: "Compliance-områder", value: categories.length, color: "text-foreground" },
           { label: "Sporede krav", value: totalItems, color: "text-info" },
           { label: "Kritiske krav", value: criticalCount, color: "text-danger" },
-          { label: "Kilderammeværker", value: 7, color: "text-primary" },
+          { label: "Kilder", value: 7, color: "text-primary" },
         ].map((stat) => (
           <div key={stat.label} className="rounded-lg border border-border bg-card p-5 border-glow">
             <p className={`font-display text-3xl font-bold ${stat.color}`}>{stat.value}</p>
@@ -281,7 +281,7 @@ function DashboardView({ onNavigate }: { onNavigate: (v: View, p?: PillarId) => 
         })}
       </div>
 
-      {/* Kilderammeværker */}
+      {/* Primære kilder */}
       <div className="mt-10 rounded-xl border border-border bg-card p-6">
         <h3 className="mb-4 font-display text-lg font-semibold text-foreground">Primære kilder</h3>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
