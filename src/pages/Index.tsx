@@ -231,6 +231,9 @@ function DashboardView({ onNavigate }: { onNavigate: (v: View, p?: PillarId) => 
         </p>
       </div>
 
+      {/* EU AI Act + tilstødende lovgivning — tidslinje */}
+      <AiActTimeline />
+
       {/* Statistik */}
       <div className="mb-6 grid grid-cols-4 gap-4">
         {[
@@ -382,6 +385,62 @@ function DashboardView({ onNavigate }: { onNavigate: (v: View, p?: PillarId) => 
             </div>
             <ExternalLink className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
           </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── EU AI Act + tilstødende lovgivning — horizontal timeline ──
+function AiActTimeline() {
+  const today = new Date();
+  const events = [
+    { date: "2025-02-02", label: "2. feb 2025", title: "Forbudte praksisser + AI-literacy", note: "Art. 4 + 5 i kraft" },
+    { date: "2025-08-02", label: "2. aug 2025", title: "GPAI + governance + bøder", note: "Kap. V + sanktionsregime" },
+    { date: "2026-03-31", label: "31. mar 2026", title: "DORA Register-of-Information", note: "Finanstilsynet-frist (passeret)" },
+    { date: "2026-05-07", label: "7. maj 2026", title: "AI Omnibus-aftale", note: "Højrisiko-deadlines udskudt" },
+    { date: "2026-08-02", label: "2. aug 2026", title: "Gennemsigtighedskrav (Art. 50)", note: "Deepfake + AI-mærkning" },
+    { date: "2027-12-02", label: "2. dec 2027", title: "Annex III højrisiko", note: "Hovedparten af art. 26-pligter" },
+    { date: "2028-08-02", label: "2. aug 2028", title: "Annex I højrisiko", note: "Indlejrede systemer + GPAI legacy" },
+  ];
+
+  // Find where "today" sits on the timeline
+  const firstDate = new Date(events[0].date).getTime();
+  const lastDate = new Date(events[events.length - 1].date).getTime();
+  const totalSpan = lastDate - firstDate;
+  const todayOffset = Math.max(0, Math.min(1, (today.getTime() - firstDate) / totalSpan));
+
+  return (
+    <div className="mb-8 rounded-xl border border-border bg-card p-6">
+      <div className="mb-5 flex items-baseline justify-between">
+        <h3 className="font-display text-base font-semibold text-foreground">EU AI Act & tilstødende — tidslinje</h3>
+        <span className="text-xs text-muted-foreground">Du er her: {today.toLocaleDateString("da-DK", { month: "long", year: "numeric" })}</span>
+      </div>
+      <div className="relative">
+        {/* Line */}
+        <div className="absolute left-0 right-0 top-3 h-0.5 bg-border" />
+        {/* "Today" marker */}
+        <div
+          className="absolute top-0 z-10 flex flex-col items-center"
+          style={{ left: `${todayOffset * 100}%`, transform: "translateX(-50%)" }}
+          aria-label="Du er her"
+        >
+          <div className="h-6 w-0.5 bg-primary" />
+          <span className="-mt-px rounded bg-primary px-1.5 py-0.5 text-[9px] font-bold uppercase text-primary-foreground">i dag</span>
+        </div>
+        {/* Events */}
+        <div className="relative grid grid-cols-7 gap-2">
+          {events.map((ev) => {
+            const past = new Date(ev.date) < today;
+            return (
+              <div key={ev.date} className="flex flex-col items-center text-center">
+                <div className={`h-6 w-6 rounded-full border-2 ${past ? "bg-muted border-muted-foreground/40" : "bg-primary border-primary"}`} />
+                <p className={`mt-2 text-[10px] font-medium ${past ? "text-muted-foreground" : "text-primary"}`}>{ev.label}</p>
+                <p className={`mt-1 text-[11px] leading-tight ${past ? "text-muted-foreground" : "text-foreground"}`}>{ev.title}</p>
+                <p className="mt-0.5 text-[10px] leading-tight text-muted-foreground/80">{ev.note}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
