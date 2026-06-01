@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="10" fill="#0b1220"/>
-  <!-- Gray triangle (large, pointing left) -->
-  <polygon points="12,18 36,32 12,46" fill="#9eb1bd"/>
-  <!-- Gray triangle (small, pointing right, top) -->
-  <polygon points="44,12 56,22 44,28" fill="#9eb1bd"/>
-  <!-- Teal accent triangle (brand color, pointing down) -->
-  <polygon points="40,32 52,32 46,50" fill="#29a688"/>
-</svg>
