@@ -107,6 +107,25 @@ const Index = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [params.pillarId, params.categoryId, params.subcategoryId]);
 
+  // Keep the browser tab title in sync with the current route after client-side nav.
+  // Mirrors the per-route titles emitted by scripts/prerender.ts so the title is
+  // never stale after navigating without a full page load.
+  useEffect(() => {
+    const SITE = "AI Compliance";
+    let title: string;
+    if (selectedSubcategory && selectedCategory) {
+      title = `${selectedSubcategory.name} — ${selectedCategory.name} | ${SITE}`;
+    } else if (selectedCategory) {
+      title = `${selectedCategory.name} — ${SITE}`;
+    } else if (selectedPillar) {
+      const p = pillars.find((x) => x.id === selectedPillar);
+      title = p ? `${p.name} — ${SITE}` : SITE;
+    } else {
+      title = "AI Compliance – Praktisk overblik til danske virksomheder | EU AI Act, ISO 42001, NIST";
+    }
+    document.title = title;
+  }, [selectedPillar, selectedCategory, selectedSubcategory]);
+
   // Compatibility navigate function — matches the existing signature so child components
   // don't need refactoring. Translates view+entity tuples into URL paths.
   const navigate = (
