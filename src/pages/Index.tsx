@@ -874,6 +874,85 @@ function SectorRegulationMatrix() {
   );
 }
 
+// ── Værktøj: Bødestruktur (3-tier penalty card for Lovkrav pillar) ──
+function PenaltyTiers() {
+  const tiers = [
+    {
+      amount: "€35 mio. / 7 %",
+      label: "Tier 1 — Forbudte praksisser",
+      articles: ["Art. 5 (alle 8 forbud + NCII)"],
+      examples: ["Social bedømmelse", "Real-time biometrisk fjernidentifikation", "Følelsesgenkendelse på arbejdspladsen", "Skadelig manipulation"],
+      severity: "danger",
+    },
+    {
+      amount: "€15 mio. / 3 %",
+      label: "Tier 2 — De fleste øvrige forpligtelser",
+      articles: ["Art. 16 udbyder-pligter", "Art. 22 EU-repræsentant", "Art. 23–24 importør/distributør", "Art. 26 deployer-pligter", "Art. 50 transparens", "Art. 53–55 GPAI"],
+      examples: ["Manglende teknisk dokumentation", "Manglende menneskelig oversight", "Ingen FRIA før idriftsættelse af højrisiko-AI", "GPAI uden træningsdata-resumé"],
+      severity: "warning",
+    },
+    {
+      amount: "€7,5 mio. / 1,5 %",
+      label: "Tier 3 — Forkerte oplysninger til myndigheder",
+      articles: ["Art. 99(5)"],
+      examples: ["Forkerte oplysninger i konformitetserklæring", "Vildledende data i registrering eller audit", "Manglende samarbejde med markedsovervågning"],
+      severity: "info",
+    },
+  ];
+
+  const tierStyle = (sev: string) => {
+    switch (sev) {
+      case "danger":
+        return "border-danger/40 bg-danger/10";
+      case "warning":
+        return "border-warning/40 bg-warning/10";
+      case "info":
+        return "border-info/40 bg-info/10";
+      default:
+        return "border-border bg-card";
+    }
+  };
+
+  return (
+    <div className="mb-8 rounded-xl border border-primary/30 bg-primary/5 p-6">
+      <div className="mb-1 flex items-center gap-2">
+        <span className="rounded bg-primary px-1.5 py-0.5 text-[10px] font-bold uppercase text-primary-foreground">Værktøj</span>
+        <h3 className="font-display text-lg font-semibold text-foreground">Bødestruktur under AI Act</h3>
+      </div>
+      <p className="mb-5 text-sm text-muted-foreground">
+        Tre niveauer baseret på hvilken bestemmelse der overtrædes. <strong className="text-foreground">Det højeste af</strong> det faste beløb og % af global årlig omsætning gælder. For SMV'er og startups gælder dog det <em>laveste</em> af de to.
+      </p>
+      <div className="grid gap-3 md:grid-cols-3">
+        {tiers.map((tier) => (
+          <div key={tier.label} className={`rounded-lg border p-4 ${tierStyle(tier.severity)}`}>
+            <p className="font-display text-2xl font-bold text-foreground">{tier.amount}</p>
+            <p className="mt-1 text-[11px] uppercase tracking-wide text-muted-foreground">af global omsætning eller fast beløb</p>
+            <p className="mt-3 font-display text-sm font-semibold text-foreground">{tier.label}</p>
+            <p className="mt-3 text-[10px] uppercase tracking-wide text-muted-foreground">Hvilke artikler</p>
+            <ul className="mt-1 flex flex-col gap-0.5">
+              {tier.articles.map((a, i) => (
+                <li key={i} className="text-[11px] text-foreground/90">{a}</li>
+              ))}
+            </ul>
+            <p className="mt-3 text-[10px] uppercase tracking-wide text-muted-foreground">Typiske overtrædelser</p>
+            <ul className="mt-1 flex flex-col gap-0.5">
+              {tier.examples.map((ex, i) => (
+                <li key={i} className="flex items-start gap-1 text-[11px] text-foreground/80">
+                  <span className="mt-1 inline-block h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
+                  <span className="leading-snug">{ex}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 text-[11px] text-muted-foreground">
+        Reference: <a href="https://artificialintelligenceact.eu/article/99/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">EU AI Act Art. 99</a> + recital 168. Sanktionsregimet trådte i kraft 2. august 2025.
+      </p>
+    </div>
+  );
+}
+
 // ── Pillar View ──
 function PillarView({
   pillar,
@@ -903,6 +982,9 @@ function PillarView({
         </div>
         <p className="mt-3 max-w-2xl text-sm text-muted-foreground">{pillarData.description}</p>
       </div>
+
+      {/* Værktøj: Bødestruktur (kun for Lovkrav pillar) */}
+      {pillar === "lovkrav" && <PenaltyTiers />}
 
       <div className="grid gap-4">
         {pillarCats.map((cat) => {
