@@ -976,6 +976,7 @@ function CategoryView({
 
       {/* Værktøj: AI Act klassificeringsværktøj (kun for hoejrisiko-systemer) */}
       {category.id === "hoejrisiko-systemer" && <AiActClassifier onNavigate={onNavigate} />}
+      {category.id === "hoejrisiko-systemer" && <DocumentationMap />}
 
       {/* Underkategorier */}
       <div className="mb-8 grid gap-4">
@@ -1294,6 +1295,170 @@ function AiActClassifier({
             </p>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+// ── Værktøj: Dokumentations-kort (rolle × dokument) ──
+function DocumentationMap() {
+  const roles = [
+    { id: "provider", label: "Provider (Udbyder)", note: "Udvikler/markedsfører systemet" },
+    { id: "deployer", label: "Deployer (Idriftsætter)", note: "Bruger systemet professionelt" },
+    { id: "importer", label: "Importør", note: "Bringer ikke-EU-system ind på EU-marked" },
+    { id: "distributor", label: "Distributør", note: "Videresalg i forsyningskæden" },
+    { id: "eu-rep", label: "EU-repræsentant", note: "Repræsenterer ikke-EU-provider" },
+  ];
+
+  const docs = [
+    { id: "tech-doc", label: "Teknisk dok.", article: "Art. 11 + Annex IV" },
+    { id: "risk-mgmt", label: "Risikostyring", article: "Art. 9" },
+    { id: "qms", label: "QMS", article: "Art. 17" },
+    { id: "model-card", label: "Model card", article: "del af Annex IV" },
+    { id: "conformity", label: "CE-erklæring", article: "Art. 47" },
+    { id: "instructions", label: "Brugsanvisning", article: "Art. 13" },
+    { id: "fria", label: "FRIA", article: "Art. 27" },
+    { id: "dpia", label: "DPIA", article: "GDPR Art. 35" },
+    { id: "logs", label: "Auto-logs", article: "Art. 12" },
+    { id: "incident", label: "Hændelses-rapport", article: "Art. 73" },
+    { id: "pmm", label: "Post-market monitoring", article: "Art. 72" },
+    { id: "registry", label: "EU-database registrering", article: "Art. 49 + 71" },
+  ];
+
+  // r/c/v/n: required, conditional, voluntary, n/a
+  type Cell = "r" | "c" | "v" | "n";
+  const cells: Record<string, Record<string, Cell>> = {
+    provider: { "tech-doc": "r", "risk-mgmt": "r", qms: "r", "model-card": "r", conformity: "r", instructions: "r", fria: "n", dpia: "c", logs: "r", incident: "r", pmm: "r", registry: "r" },
+    deployer: { "tech-doc": "n", "risk-mgmt": "c", qms: "n", "model-card": "n", conformity: "n", instructions: "c", fria: "r", dpia: "r", logs: "r", incident: "r", pmm: "c", registry: "c" },
+    importer: { "tech-doc": "r", "risk-mgmt": "n", qms: "n", "model-card": "n", conformity: "r", instructions: "r", fria: "n", dpia: "n", logs: "n", incident: "c", pmm: "n", registry: "c" },
+    distributor: { "tech-doc": "c", "risk-mgmt": "n", qms: "n", "model-card": "n", conformity: "c", instructions: "c", fria: "n", dpia: "n", logs: "n", incident: "c", pmm: "n", registry: "n" },
+    "eu-rep": { "tech-doc": "c", "risk-mgmt": "n", qms: "n", "model-card": "c", conformity: "c", instructions: "n", fria: "n", dpia: "n", logs: "c", incident: "r", pmm: "c", registry: "c" },
+  };
+
+  const notes: Record<string, Record<string, string>> = {
+    provider: {
+      "tech-doc": "Skal udarbejdes før markedsføring + opbevares 10 år (Art. 18)",
+      "risk-mgmt": "Etablér og vedligehold gennem hele livscyklussen",
+      qms: "Kvalitetsstyringssystem dækkende design, udvikling, drift",
+      "model-card": "Del af teknisk dokumentation; opdatér ved retraining",
+      conformity: "EU-overensstemmelseserklæring + CE-mærke før markedsføring",
+      instructions: "Skriftlig brugsanvisning leveres til deployer",
+      dpia: "Kun ved persondata-træning",
+      logs: "Skal designe systemet til at producere logs",
+      incident: "Rapportér alvorlige hændelser inden 15 dage til markedsovervågning",
+      pmm: "Etablér plan; indsaml drift-data",
+      registry: "Provider registrerer system i EU-database før markedsføring",
+    },
+    deployer: {
+      "risk-mgmt": "Integrér i egen risikostyring",
+      instructions: "Skal følge provider's instruktioner",
+      fria: "Krav for offentlige myndigheder + visse private (banker, forsikring) ved højrisiko",
+      dpia: "Hvis persondata behandles (GDPR Art. 35)",
+      logs: "Opbevar 6 mdr. minimum (Art. 26(6))",
+      incident: "Underret provider + myndighed ved alvorlig hændelse",
+      pmm: "Rapportér observerede problemer tilbage til provider",
+      registry: "Offentlige myndigheder registrerer egen brug",
+    },
+    importer: {
+      "tech-doc": "Verificér at provider har udarbejdet og at den følger med",
+      conformity: "Verificér CE-mærke + erklæring inden import",
+      instructions: "Sikr at de følger med produktet ved videresalg",
+      incident: "Viderebring til provider og myndighed",
+      registry: "Sikr provider har registreret",
+    },
+    distributor: {
+      "tech-doc": "Verificér CE-mærke før videresalg",
+      conformity: "Spot-check at CE er gyldigt",
+      instructions: "Sikr at de er ved produktet",
+      incident: "Viderebring til provider + myndighed",
+    },
+    "eu-rep": {
+      "tech-doc": "Skal kunne fremvise teknisk dokumentation til myndighed",
+      "model-card": "Skal kunne fremvise på anmodning",
+      conformity: "Holde kopi tilgængelig for myndigheder",
+      logs: "Tilgang til logs hvis myndighed beder om det",
+      incident: "Kontaktpunkt for hændelsesrapporter til EU-myndigheder",
+      pmm: "Adgang til post-market data",
+      registry: "Skal være registreret som repræsentant",
+    },
+  };
+
+  const renderCell = (val: Cell) => {
+    switch (val) {
+      case "r":
+        return { symbol: "✓", className: "bg-danger/15 text-danger border-danger/30", label: "Krav" };
+      case "c":
+        return { symbol: "⚠", className: "bg-warning/15 text-warning border-warning/30", label: "Betinget" };
+      case "v":
+        return { symbol: "○", className: "bg-info/15 text-info border-info/30", label: "Anbefalet" };
+      case "n":
+        return { symbol: "—", className: "bg-muted/20 text-muted-foreground/60 border-border/40", label: "N/A" };
+    }
+  };
+
+  return (
+    <div className="mb-8 rounded-xl border border-primary/30 bg-primary/5 p-6">
+      <div className="mb-1 flex items-center gap-2">
+        <span className="rounded bg-primary px-1.5 py-0.5 text-[10px] font-bold uppercase text-primary-foreground">Værktøj</span>
+        <h3 className="font-display text-lg font-semibold text-foreground">Dokumentations-kort: rolle × krav</h3>
+      </div>
+      <p className="mb-5 text-sm text-muted-foreground">
+        Hvilke dokumenter skal jeg producere? Hold musen over en celle for præcis henvisning. Klassificeringen er for <strong className="text-foreground">højrisiko-systemer under AI Act</strong> — minimal-risiko har færre formelle dokumentkrav.
+      </p>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs">
+          <thead>
+            <tr>
+              <th className="sticky left-0 z-10 w-[22%] bg-card p-2 text-left align-bottom font-display text-xs font-semibold uppercase tracking-wide text-muted-foreground">Rolle</th>
+              {docs.map((d) => (
+                <th key={d.id} className="p-1.5 text-center align-bottom">
+                  <p className="font-display text-[10px] font-semibold leading-tight text-foreground">{d.label}</p>
+                  <p className="mt-0.5 text-[9px] font-normal leading-tight text-muted-foreground">{d.article}</p>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {roles.map((r) => (
+              <tr key={r.id} className="border-t border-border/40">
+                <th className="sticky left-0 z-10 bg-card/80 p-3 text-left align-top">
+                  <p className="font-display text-[12px] font-semibold text-foreground">{r.label}</p>
+                  <p className="mt-0.5 text-[10px] font-normal leading-tight text-muted-foreground">{r.note}</p>
+                </th>
+                {docs.map((d) => {
+                  const val = cells[r.id][d.id];
+                  const cell = renderCell(val);
+                  return (
+                    <td key={d.id} className="p-1 align-middle">
+                      <div
+                        className={`mx-auto flex h-7 w-7 items-center justify-center rounded border font-display text-xs font-bold ${cell.className}`}
+                        title={`${cell.label}: ${notes[r.id]?.[d.id] ?? ""}`}
+                      >
+                        {cell.symbol}
+                      </div>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="mt-4 grid grid-cols-2 gap-1.5 text-[10px] md:grid-cols-4">
+        {[
+          { v: "r" as Cell, label: "Krav — direkte forpligtelse" },
+          { v: "c" as Cell, label: "Betinget — kun visse use cases" },
+          { v: "v" as Cell, label: "Anbefalet — best practice" },
+          { v: "n" as Cell, label: "Ikke gældende for rollen" },
+        ].map((legend) => {
+          const cell = renderCell(legend.v);
+          return (
+            <span key={legend.v} className="inline-flex items-center gap-1.5">
+              <span className={`inline-flex h-4 w-4 items-center justify-center rounded border font-display text-[9px] font-bold ${cell.className}`}>{cell.symbol}</span>
+              <span className="text-muted-foreground">{legend.label}</span>
+            </span>
+          );
+        })}
       </div>
     </div>
   );
