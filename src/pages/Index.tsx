@@ -320,6 +320,9 @@ function DashboardView({ onNavigate }: { onNavigate: (v: View, p?: PillarId) => 
       {/* EU AI Act + tilstødende lovgivning — tidslinje */}
       <AiActTimeline />
 
+      {/* Værktøj: Sektor × regulering matrix */}
+      <SectorRegulationMatrix />
+
       {/* Statistik */}
       <div className="mb-6 grid grid-cols-4 gap-4">
         {[
@@ -674,6 +677,199 @@ function AiActTimeline() {
           )}
         </DialogContent>
       </Dialog>
+    </div>
+  );
+}
+
+// ── Værktøj: Sektor × regulering matrix ──
+type Applicability = "required" | "conditional" | "voluntary" | "n/a";
+
+function SectorRegulationMatrix() {
+  const sectors = [
+    { id: "finans", icon: "🏦", label: "Finans, forsikring, pension", sub: "Banker, realkredit, forsikring, pension" },
+    { id: "sundhed", icon: "🏥", label: "Sundhed", sub: "Hospitaler, klinikker, medicinsk udstyr" },
+    { id: "offentlig", icon: "🏛️", label: "Offentlig sektor", sub: "Stat, regioner, kommuner, myndigheder" },
+    { id: "hr", icon: "👔", label: "HR & rekruttering", sub: "Ansættelse, performance, opsigelse" },
+    { id: "uddannelse", icon: "🎓", label: "Uddannelse", sub: "Skoler, universiteter, edtech" },
+    { id: "detail", icon: "🛒", label: "Detail / e-commerce", sub: "Marketing, kundeservice, prising" },
+    { id: "industri", icon: "🏭", label: "Industri / produktion", sub: "Maskinstyring, kvalitetskontrol, robotter" },
+    { id: "advokat", icon: "⚖️", label: "Advokatbranchen", sub: "Juridiske platforme, AI-assistance" },
+  ];
+
+  const regs = [
+    { id: "ai-act", label: "EU AI Act" },
+    { id: "gdpr", label: "GDPR" },
+    { id: "nis2", label: "NIS2" },
+    { id: "dora", label: "DORA" },
+    { id: "iso42001", label: "ISO 42001" },
+    { id: "sektor", label: "Sektorlov" },
+    { id: "fria", label: "FRIA (Art. 27)" },
+  ];
+
+  // cells[sectorId][regId] = applicability
+  const cells: Record<string, Record<string, Applicability>> = {
+    finans: { "ai-act": "required", gdpr: "required", nis2: "required", dora: "required", iso42001: "voluntary", sektor: "required", fria: "conditional" },
+    sundhed: { "ai-act": "conditional", gdpr: "required", nis2: "conditional", dora: "n/a", iso42001: "voluntary", sektor: "required", fria: "conditional" },
+    offentlig: { "ai-act": "required", gdpr: "required", nis2: "conditional", dora: "n/a", iso42001: "voluntary", sektor: "required", fria: "required" },
+    hr: { "ai-act": "required", gdpr: "required", nis2: "n/a", dora: "n/a", iso42001: "voluntary", sektor: "required", fria: "conditional" },
+    uddannelse: { "ai-act": "required", gdpr: "required", nis2: "n/a", dora: "n/a", iso42001: "voluntary", sektor: "required", fria: "conditional" },
+    detail: { "ai-act": "conditional", gdpr: "required", nis2: "n/a", dora: "n/a", iso42001: "voluntary", sektor: "conditional", fria: "n/a" },
+    industri: { "ai-act": "conditional", gdpr: "conditional", nis2: "conditional", dora: "n/a", iso42001: "voluntary", sektor: "conditional", fria: "n/a" },
+    advokat: { "ai-act": "conditional", gdpr: "required", nis2: "n/a", dora: "n/a", iso42001: "voluntary", sektor: "required", fria: "n/a" },
+  };
+
+  // Brief context notes per cell (shown on hover via title)
+  const notes: Record<string, Record<string, string>> = {
+    finans: {
+      "ai-act": "Annex III §5 (kreditscoring, forsikringsrisiko, social) er højrisiko. Plus Art. 5 forbud.",
+      gdpr: "Standard GDPR + GDPR Art. 22 for automatiserede beslutninger om kunder.",
+      nis2: "Banker og forsikring er typisk væsentlige enheder under NIS2-loven.",
+      dora: "DORA gælder for alle finansielle enheder siden 17. jan 2025. ICT-third-party-register obligatorisk.",
+      iso42001: "Frivillig — men forventet markedsstandard. Finanstilsynet kan reference den i tilsyn.",
+      sektor: "Finansiel Virksomhedslov, Solvency II, EBA Guidelines on outsourcing, ECB SREP.",
+      fria: "Krav for banker/forsikring der bruger højrisiko-AI under Art. 27.",
+    },
+    sundhed: {
+      "ai-act": "AI som medicinsk udstyr går via MDR + AI Act overlap. Klassisk MDR-vejledning gælder først.",
+      gdpr: "Særlige kategorier (sundhedsdata) — DPIA næsten altid krævet.",
+      nis2: "Hospitaler under NIS2 hvis væsentlige enheder; mindre klinikker som regel ikke.",
+      dora: "Ikke direkte — men leverandører til finansielle clients kan blive ramt indirekte.",
+      iso42001: "Frivillig — vinder traction i medtech.",
+      sektor: "MDR (Regulation 2017/745), sundhedsloven, lægemiddelloven, autorisationsloven.",
+      fria: "Ved højrisiko-AI brugt af offentlige hospitaler/regioner.",
+    },
+    offentlig: {
+      "ai-act": "Alle højrisiko-anvendelser. Offentlige myndigheder har skærpede pligter (EU-database registrering selv ved ikke-højrisiko).",
+      gdpr: "Standard + særskilt offentlig myndigheds-grundlag.",
+      nis2: "Kritisk infrastruktur og kommuner — varierer.",
+      dora: "Ikke gældende.",
+      iso42001: "Frivillig — Digst opfordrer.",
+      sektor: "Forvaltningsloven, offentlighedsloven, persondatabeskyttelsesloven (DK supplement).",
+      fria: "OBLIGATORISK for alle offentlige myndigheder ved højrisiko-AI (Art. 27(1)(a)).",
+    },
+    hr: {
+      "ai-act": "Annex III §4 — beskæftigelse, performance, opsigelse er højrisiko.",
+      gdpr: "Standard + medarbejdersamtykke-problematik. GDPR Art. 88 medarbejdersamtykke.",
+      nis2: "Ikke gældende.",
+      dora: "Ikke gældende.",
+      iso42001: "Frivillig.",
+      sektor: "Ligebehandlingsloven (køn, alder, race), funktionærloven, persondatatilsynets vejledning.",
+      fria: "Visse offentlige arbejdsgivere — ellers normalt ikke krav under Art. 27.",
+    },
+    uddannelse: {
+      "ai-act": "Annex III §3 — adgang, vurdering, snyddetektion er højrisiko.",
+      gdpr: "Standard. Mindreårige under 13 = forældresamtykke.",
+      nis2: "Ikke direkte.",
+      dora: "Ikke gældende.",
+      iso42001: "Frivillig.",
+      sektor: "Folkeskoleloven, eksamensbekendtgørelser, universitetsloven, STIL/UVM AI-vejledning (maj 2025).",
+      fria: "Offentlige uddannelsesinstitutioner — ja. Privatskoler — som regel ikke.",
+    },
+    detail: {
+      "ai-act": "Art. 5 manipulation-forbud + Art. 50 transparens (chatbots, deepfakes i marketing).",
+      gdpr: "Standard. Cookie-samtykke, profilering, customer scoring.",
+      nis2: "Ikke gældende.",
+      dora: "Ikke gældende.",
+      iso42001: "Frivillig.",
+      sektor: "Markedsføringsloven, forbrugerloven, forbrugerombudsmandens vejledning om AI i markedsføring.",
+      fria: "Ikke direkte gældende.",
+    },
+    industri: {
+      "ai-act": "Annex I hvis AI er sikkerhedskomponent i reguleret produkt (maskiner, biler). Ellers minimal.",
+      gdpr: "Begrænset — primært HR-applikationer på arbejdspladsen.",
+      nis2: "Visse industrier (energi, vand) er væsentlige enheder.",
+      dora: "Ikke gældende.",
+      iso42001: "Frivillig.",
+      sektor: "Maskindirektivet 2006/42/EC + ny 2023/1230, produktansvarsloven.",
+      fria: "Ikke direkte.",
+    },
+    advokat: {
+      "ai-act": "AI-assistance i juridisk arbejde: hvis det kvalificerer som højrisiko (sjældent), Art. 50 hvis chatbot.",
+      gdpr: "Standard + tavshedspligt. Stor opmærksomhed på AI-genereret juridisk rådgivning.",
+      nis2: "Ikke gældende.",
+      dora: "Ikke gældende.",
+      iso42001: "Frivillig.",
+      sektor: "Retsplejeloven, Advokatsamfundets etiske regler (særligt vedr. AI-genereret materiale i retten).",
+      fria: "Ikke direkte.",
+    },
+  };
+
+  const renderCell = (val: Applicability) => {
+    switch (val) {
+      case "required":
+        return { symbol: "✓", className: "bg-danger/15 text-danger border-danger/30", label: "Krav" };
+      case "conditional":
+        return { symbol: "⚠", className: "bg-warning/15 text-warning border-warning/30", label: "Betinget" };
+      case "voluntary":
+        return { symbol: "○", className: "bg-info/15 text-info border-info/30", label: "Frivillig" };
+      case "n/a":
+        return { symbol: "—", className: "bg-muted/20 text-muted-foreground/60 border-border/40", label: "N/A" };
+    }
+  };
+
+  return (
+    <div className="mb-8 rounded-xl border border-primary/30 bg-primary/5 p-6">
+      <div className="mb-1 flex items-center gap-2">
+        <span className="rounded bg-primary px-1.5 py-0.5 text-[10px] font-bold uppercase text-primary-foreground">Værktøj</span>
+        <h3 className="font-display text-lg font-semibold text-foreground">Sektor × regulering — hvad gælder for mig?</h3>
+      </div>
+      <p className="mb-5 text-sm text-muted-foreground">
+        Vælg jeres sektor — værktøjet viser hvilke lovgivninger der gælder, og hvilke der er betingede. Hold musen over en celle for præcise grunde og kilder. <strong className="text-foreground">Bemærk:</strong> dette er en pejling, ikke juridisk rådgivning — sektorspecifik analyse vil næsten altid være nødvendig.
+      </p>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs">
+          <thead>
+            <tr>
+              <th className="sticky left-0 z-10 w-[28%] bg-card p-2 text-left align-bottom font-display text-xs font-semibold uppercase tracking-wide text-muted-foreground">Sektor</th>
+              {regs.map((r) => (
+                <th key={r.id} className="p-2 text-center align-bottom">
+                  <p className="font-display text-[11px] font-semibold text-foreground">{r.label}</p>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {sectors.map((s) => (
+              <tr key={s.id} className="border-t border-border/40">
+                <th className="sticky left-0 z-10 bg-card/80 p-3 text-left align-top">
+                  <p className="font-display text-[12px] font-semibold text-foreground">{s.icon} {s.label}</p>
+                  <p className="mt-0.5 text-[10px] font-normal text-muted-foreground">{s.sub}</p>
+                </th>
+                {regs.map((r) => {
+                  const val = cells[s.id][r.id];
+                  const cell = renderCell(val);
+                  return (
+                    <td key={r.id} className="p-1.5 align-middle">
+                      <div
+                        className={`mx-auto flex h-8 w-8 items-center justify-center rounded border font-display text-sm font-bold ${cell.className}`}
+                        title={`${cell.label}: ${notes[s.id]?.[r.id] ?? ""}`}
+                      >
+                        {cell.symbol}
+                      </div>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="mt-4 grid grid-cols-2 gap-1.5 text-[10px] md:grid-cols-4">
+        {[
+          { val: "required" as Applicability, label: "Krav — direkte gældende" },
+          { val: "conditional" as Applicability, label: "Betinget — afhænger af use case" },
+          { val: "voluntary" as Applicability, label: "Frivillig — best practice" },
+          { val: "n/a" as Applicability, label: "Ikke gældende" },
+        ].map((legend) => {
+          const cell = renderCell(legend.val);
+          return (
+            <span key={legend.val} className="inline-flex items-center gap-1.5">
+              <span className={`inline-flex h-4 w-4 items-center justify-center rounded border font-display text-[9px] font-bold ${cell.className}`}>{cell.symbol}</span>
+              <span className="text-muted-foreground">{legend.label}</span>
+            </span>
+          );
+        })}
+      </div>
     </div>
   );
 }
