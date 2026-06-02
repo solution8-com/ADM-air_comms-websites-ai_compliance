@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useEffect, type FormEvent } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import { ExternalLink, ChevronRight, ChevronDown, ArrowLeft, Search } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -61,28 +62,78 @@ function Highlight({ text, query }: { text: string; query: string }) {
 }
 
 const Index = () => {
-  const [view, setView] = useState<View>("dashboard");
-  const [selectedPillar, setSelectedPillar] = useState<PillarId | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-  const [selectedSubcategory, setSelectedSubcategory] = useState<Subcategory | null>(null);
+  const params = useParams<{ pillarId?: string; categoryId?: string; subcategoryId?: string }>();
+  const routerNavigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Derive selected entities from URL params
+  const selectedPillar: PillarId | null = useMemo(() => {
+    if (!params.pillarId) return null;
+    const pillar = pillars.find((p) => p.id === params.pillarId);
+    return pillar ? (pillar.id as PillarId) : null;
+  }, [params.pillarId]);
+
+  const selectedCategory: Category | null = useMemo(() => {
+    if (!params.categoryId || !selectedPillar) return null;
+    return categories.find((c) => c.id === params.categoryId && c.pillar === selectedPillar) ?? null;
+  }, [params.categoryId, selectedPillar]);
+
+  const selectedSubcategory: Subcategory | null = useMemo(() => {
+    if (!params.subcategoryId || !selectedCategory) return null;
+    return selectedCategory.subcategories.find((s) => s.id === params.subcategoryId) ?? null;
+  }, [params.subcategoryId, selectedCategory]);
+
+  const view: View = selectedSubcategory
+    ? "subcategory"
+    : selectedCategory
+    ? "category"
+    : selectedPillar
+    ? "pillar"
+    : "dashboard";
+
+  // Redirect to nearest valid parent if a URL segment is invalid
+  useEffect(() => {
+    if (params.pillarId && !selectedPillar) {
+      routerNavigate("/", { replace: true });
+    } else if (params.categoryId && selectedPillar && !selectedCategory) {
+      routerNavigate(`/${selectedPillar}`, { replace: true });
+    } else if (params.subcategoryId && selectedCategory && !selectedSubcategory) {
+      routerNavigate(`/${selectedPillar}/${selectedCategory.id}`, { replace: true });
+    }
+  }, [params.pillarId, params.categoryId, params.subcategoryId, selectedPillar, selectedCategory, selectedSubcategory, routerNavigate]);
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [params.pillarId, params.categoryId, params.subcategoryId]);
+
+  // Compatibility navigate function — matches the existing signature so child components
+  // don't need refactoring. Translates view+entity tuples into URL paths.
   const navigate = (
     newView: View,
     pillar?: PillarId,
     category?: Category,
     subcategory?: Subcategory
   ) => {
-    setView(newView);
-    if (pillar !== undefined) setSelectedPillar(pillar);
-    if (category !== undefined) setSelectedCategory(category);
-    if (subcategory !== undefined) setSelectedSubcategory(subcategory);
+    if (newView === "dashboard") {
+      routerNavigate("/");
+    } else if (newView === "pillar" && pillar) {
+      routerNavigate(`/${pillar}`);
+    } else if (newView === "category" && pillar && category) {
+      routerNavigate(`/${pillar}/${category.id}`);
+    } else if (newView === "subcategory" && pillar && category && subcategory) {
+      routerNavigate(`/${pillar}/${category.id}/${subcategory.id}`);
+    }
   };
 
   const goBack = () => {
-    if (view === "subcategory") navigate("category");
-    else if (view === "category") navigate("pillar");
-    else if (view === "pillar") navigate("dashboard");
+    if (view === "subcategory" && selectedPillar && selectedCategory) {
+      routerNavigate(`/${selectedPillar}/${selectedCategory.id}`);
+    } else if (view === "category" && selectedPillar) {
+      routerNavigate(`/${selectedPillar}`);
+    } else if (view === "pillar") {
+      routerNavigate("/");
+    }
   };
 
   const searchInputRef = useRef<HTMLInputElement>(null);
