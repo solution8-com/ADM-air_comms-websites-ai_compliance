@@ -495,6 +495,11 @@ function DashboardView({ onNavigate }: { onNavigate: (v: View, p?: PillarId) => 
         })}
       </div>
 
+      <InlineNewsletterPrompt
+        hook="Få et månedligt overblik på 5 minutter"
+        topic="EU AI Act-implementering, vejledninger fra Digst og Datatilsynet, og praktiske compliance-greb"
+      />
+
       {/* Primære kilder */}
       <div className="mt-10 rounded-xl border border-border bg-card p-6">
         <h3 className="mb-4 font-display text-lg font-semibold text-foreground">Primære kilder</h3>
@@ -1771,6 +1776,70 @@ function SubcategoryView({
 
 // ── Newsletter + main CTA strip ──
 const MAILERLITE_ACTION = "https://assets.mailerlite.com/jsonp/1571946/forms/189012812467536974/subscribe";
+
+function InlineNewsletterPrompt({ hook, topic }: { hook: string; topic: string }) {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("loading");
+    try {
+      const formData = new FormData();
+      formData.append("fields[email]", email);
+      formData.append("ml-submit", "1");
+      formData.append("anticsrf", "true");
+      await fetch(MAILERLITE_ACTION, {
+        method: "POST",
+        body: formData,
+        mode: "no-cors",
+      });
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <section className="my-10 rounded-xl border border-primary/20 bg-primary/5 p-5 md:p-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="md:max-w-md">
+          <h3 className="font-display text-base font-semibold text-foreground">📬 {hook}</h3>
+          <p className="mt-1 text-xs text-muted-foreground">Månedlig opdatering om {topic}. Ingen spam, afmeld når som helst.</p>
+        </div>
+        {status === "success" ? (
+          <div className="rounded-md border border-success/30 bg-success/10 px-4 py-2 text-sm text-success">
+            ✓ Tilmeldt — tjek din indbakke
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2 sm:flex-row md:w-auto md:max-w-sm">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="din@email.dk"
+              disabled={status === "loading"}
+              className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary disabled:opacity-60"
+            />
+            <button
+              type="submit"
+              disabled={status === "loading"}
+              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
+            >
+              {status === "loading" ? "Tilmelder…" : "Tilmeld"}
+            </button>
+          </form>
+        )}
+      </div>
+      {status === "error" && (
+        <p className="mt-2 text-xs text-danger">Noget gik galt. Prøv igen om lidt.</p>
+      )}
+    </section>
+  );
+}
 
 function NewsletterCTA() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
