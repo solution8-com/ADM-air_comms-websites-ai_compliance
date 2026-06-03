@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef, useEffect, type FormEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
-import { ExternalLink, ChevronRight, ChevronDown, ArrowLeft, Search } from "lucide-react";
+import { ExternalLink, ChevronRight, ChevronDown, Search } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   pillars,
@@ -39,6 +39,57 @@ const getSourceBadgeClass = (source: SourceType): string => {
 };
 
 const pillarName = (id: PillarId) => pillars.find((p) => p.id === id)?.name ?? id;
+
+function Breadcrumbs({
+  pillar,
+  category,
+  subcategory,
+  onHome,
+  onPillar,
+  onCategory,
+}: {
+  pillar?: { id: PillarId; name: string };
+  category?: { id: string; name: string };
+  subcategory?: { id: string; name: string };
+  onHome: () => void;
+  onPillar?: () => void;
+  onCategory?: () => void;
+}) {
+  const sep = (
+    <span aria-hidden="true" className="text-muted-foreground/40">›</span>
+  );
+  return (
+    <nav aria-label="Brødkrummer" className="mb-6 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+      <button onClick={onHome} className="hover:text-primary transition-colors">Overblik</button>
+      {pillar && (
+        <>
+          {sep}
+          {category ? (
+            <button onClick={onPillar} className="hover:text-primary transition-colors">{pillar.name}</button>
+          ) : (
+            <span className="text-foreground font-medium" aria-current="page">{pillar.name}</span>
+          )}
+        </>
+      )}
+      {category && (
+        <>
+          {sep}
+          {subcategory ? (
+            <button onClick={onCategory} className="hover:text-primary transition-colors">{category.name}</button>
+          ) : (
+            <span className="text-foreground font-medium" aria-current="page">{category.name}</span>
+          )}
+        </>
+      )}
+      {subcategory && (
+        <>
+          {sep}
+          <span className="text-foreground font-medium" aria-current="page">{subcategory.name}</span>
+        </>
+      )}
+    </nav>
+  );
+}
 
 type SearchResult =
   | { kind: "category"; item: Category }
@@ -337,7 +388,7 @@ const Index = () => {
           <SubcategoryView
             subcategory={selectedSubcategory}
             category={selectedCategory}
-            onBack={goBack}
+            onNavigate={navigate}
           />
         )}
       </main>
@@ -1038,9 +1089,10 @@ function PillarView({
 
   return (
     <div className="fade-in">
-      <button onClick={onBack} className="mb-6 flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors">
-        <ArrowLeft className="h-4 w-4" /> Tilbage til overblik
-      </button>
+      <Breadcrumbs
+        pillar={{ id: pillarData.id, name: pillarData.name }}
+        onHome={onBack}
+      />
 
       <div className="mb-8">
         <div className="flex items-center gap-3">
@@ -1109,18 +1161,18 @@ function CategoryView({
 
   return (
     <div className="fade-in">
-      <button onClick={onBack} className="mb-6 flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors">
-        <ArrowLeft className="h-4 w-4" /> Tilbage
-      </button>
+      <Breadcrumbs
+        pillar={{ id: category.pillar, name: pillarName(category.pillar) }}
+        category={{ id: category.id, name: category.name }}
+        onHome={() => onNavigate("dashboard")}
+        onPillar={() => onNavigate("pillar", category.pillar)}
+      />
 
       <div className="mb-8">
         <div className="flex items-center gap-3">
           <span className="text-3xl">{category.icon}</span>
           <div>
             <h2 className="font-display text-2xl font-bold text-foreground">{category.name}</h2>
-            <span className="rounded bg-secondary px-2 py-0.5 text-xs text-muted-foreground">
-              {pillarName(category.pillar)}
-            </span>
           </div>
         </div>
         <p className="mt-3 max-w-3xl text-sm text-muted-foreground">{category.description}</p>
@@ -1620,17 +1672,22 @@ function DocumentationMap() {
 function SubcategoryView({
   subcategory,
   category,
-  onBack,
+  onNavigate,
 }: {
   subcategory: Subcategory;
   category: Category;
-  onBack: () => void;
+  onNavigate: (v: View, p?: PillarId, c?: Category, s?: Subcategory) => void;
 }) {
   return (
     <div className="fade-in max-w-3xl">
-      <button onClick={onBack} className="mb-6 flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors">
-        <ArrowLeft className="h-4 w-4" /> Tilbage til {category.name}
-      </button>
+      <Breadcrumbs
+        pillar={{ id: category.pillar, name: pillarName(category.pillar) }}
+        category={{ id: category.id, name: category.name }}
+        subcategory={{ id: subcategory.id, name: subcategory.name }}
+        onHome={() => onNavigate("dashboard")}
+        onPillar={() => onNavigate("pillar", category.pillar)}
+        onCategory={() => onNavigate("category", category.pillar, category)}
+      />
 
       {/* Header */}
       <div className={`mb-8 rounded-xl border p-6 ${getSeverityBg(subcategory.severity)}`}>
