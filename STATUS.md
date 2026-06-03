@@ -1,6 +1,26 @@
 # ai-compliance.dk — project status
 
-**Last updated:** 2026-06-01 (post audit + viz + search upgrade)
+**Last updated:** 2026-06-03 — tool-URL refactor shipped (UX sprint 2/3); compliance is the pattern site for sikkerhed + governance.
+
+## Tool-URL refactor (UX sprint 2/3) — shipped 2026-06-03
+
+The 4 dashboard/pillar/category "marquee" tools are now promoted to canonical, prerendered, shareable URLs at `/vaerktoejer/<slug>`:
+
+| Slug | Tool | Was inline on |
+|---|---|---|
+| `ai-act-tidslinje` | AI Act-tidslinje | dashboard |
+| `sektor-matrix` | Sektor × regulering-matrix | dashboard |
+| `boedestruktur` | Bødestruktur (€35M/€15M/€7,5M) | Lovkrav pillar |
+| `dokumentations-kort` | Dokumentationskort | Højrisiko-systemer category |
+
+- `AiActClassifier` stays **inline** on `/lovkrav/hoejrisiko-systemer/` — it answers the category's own question.
+- Inline rendering replaced by `<ToolTeaserCard>` (icon + pitch + "Åbn værktøj →"). New `<ToolsIndex>` at `/vaerktoejer`, `<ToolPage>` at `/vaerktoejer/<slug>`. "Værktøjer" link added to header nav.
+- Tool metadata lives in `complianceData.ts` (`toolsMeta`) so `Index.tsx` and `scripts/prerender.ts` share one source; `Index.tsx` maps each slug → React component via `TOOL_COMPONENTS`.
+- `App.tsx`: literal `/vaerktoejer` + `/vaerktoejer/:toolId` routes added above `/:pillarId`. Invalid slug redirects to `/vaerktoejer`.
+- Prerender emits `/vaerktoejer/` (priority 0.8) + 4 tool pages (0.7) with per-tool title/description/canonical/og. Build: 80 routes + sitemap (81 URLs). Verified via headless-Chrome hydration check (teasers + tool pages + index all render).
+- **Pending:** port pattern to sikkerhed (4 tools) + governance (5 tools). Per-tool OG images deferred (Phase 3).
+
+
 
 ## At a glance
 

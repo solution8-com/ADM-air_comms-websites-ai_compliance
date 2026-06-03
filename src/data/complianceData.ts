@@ -1335,3 +1335,50 @@ export const getSeverityBg = (severity: Severity): string => {
 export const getCategoriesByPillar = (pillar: PillarId): Category[] => {
   return categories.filter((c) => c.pillar === pillar);
 };
+
+// ── Værktøjer: metadata for canonical /vaerktoejer/<slug> URLs ──
+// Component-free so it can be imported by both the SPA (Index.tsx) and the
+// prerender script (scripts/prerender.ts). Index.tsx maps each slug to its
+// React component; the prerender script emits per-tool meta + sitemap entries.
+export interface ToolMeta {
+  slug: string;
+  title: string;
+  shortPitch: string; // 1 sentence for the teaser card
+  description: string; // 2-3 sentences for meta tags + tool-page lede
+  icon: string;
+}
+
+export const toolsMeta: ToolMeta[] = [
+  {
+    slug: "ai-act-tidslinje",
+    title: "AI Act-tidslinje",
+    shortPitch: "Interaktiv tidslinje over alle EU AI Act-frister med dansk kontekst og kildelinks.",
+    description:
+      "Interaktiv tidslinje over EU AI Act og tilstødende dansk lovgivning — fra forbudte praksisser (feb 2025) til Annex I-højrisiko (aug 2028), inkl. AI Omnibus-udskydelserne. Klik hver milepæl for detaljer og kilder.",
+    icon: "🗓️",
+  },
+  {
+    slug: "sektor-matrix",
+    title: "Sektor × regulering-matrix",
+    shortPitch: "Se hvilke EU- og danske regler der rammer din sektor — 8 sektorer × 7 regelsæt.",
+    description:
+      "Matrix over 8 danske sektorer × 7 regelsæt (EU AI Act, GDPR, DORA, NIS2, ISO 42001, sektorlov, FRIA) med præcise danske hooks i hver celle. Find på sekunder hvilke krav der gælder for netop din branche.",
+    icon: "🗂️",
+  },
+  {
+    slug: "boedestruktur",
+    title: "Bødestruktur",
+    shortPitch: "EU AI Act's tre bødeklasser — €35M / €15M / €7,5M — med udløsende artikler og eksempler.",
+    description:
+      "Overblik over EU AI Act's tre bødeklasser (op til €35M / €15M / €7,5M eller en procent af global omsætning) med de udløsende artikler og konkrete eksempler på overtrædelser i hver klasse.",
+    icon: "⚖️",
+  },
+  {
+    slug: "dokumentations-kort",
+    title: "Dokumentationskort",
+    shortPitch: "Hvem ejer hvilke compliance-dokumenter? 5 roller × 12 dokumenter for højrisiko-systemer.",
+    description:
+      "Matrix over 5 roller × 12 dokumenter for højrisiko AI-systemer under EU AI Act — teknisk dokumentation, risikostyring, logging, FRIA, CE-erklæring m.m. Se hvem der ejer hvad i dokumentationspakken.",
+    icon: "🗺️",
+  },
+];

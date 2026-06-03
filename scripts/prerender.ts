@@ -11,7 +11,7 @@
  */
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
-import { pillars, categories } from "../src/data/complianceData";
+import { pillars, categories, toolsMeta } from "../src/data/complianceData";
 
 const SITE_ORIGIN = "https://ai-compliance.dk";
 const SITE_NAME = "AI Compliance";
@@ -87,6 +87,28 @@ type SitemapEntry = { loc: string; priority: string };
 const sitemap: SitemapEntry[] = [{ loc: `${SITE_ORIGIN}/`, priority: "1.0" }];
 
 let count = 0;
+
+// Værktøjs-oversigt + per-tool sider (canonical /vaerktoejer/<slug>)
+const toolsCanonical = `${SITE_ORIGIN}/vaerktoejer/`;
+generatePage("vaerktoejer", {
+  title: `Værktøjer — interaktive AI Act-værktøjer | ${SITE_NAME}`,
+  description:
+    "Interaktive værktøjer til EU AI Act-compliance: AI Act-tidslinje, sektor × regulering-matrix, bødestruktur og dokumentationskort. Del direkte på LinkedIn eller i mail.",
+  canonical: toolsCanonical,
+});
+sitemap.push({ loc: toolsCanonical, priority: "0.8" });
+count++;
+
+for (const tool of toolsMeta) {
+  const toolCanonical = `${SITE_ORIGIN}/vaerktoejer/${tool.slug}/`;
+  generatePage(`vaerktoejer/${tool.slug}`, {
+    title: `${tool.title} — Værktøj | ${SITE_NAME}`,
+    description: tool.description,
+    canonical: toolCanonical,
+  });
+  sitemap.push({ loc: toolCanonical, priority: "0.7" });
+  count++;
+}
 
 // Pillar pages
 for (const pillar of pillars) {
