@@ -68,6 +68,13 @@ const EDPB_EDPS_OMNIBUS = "https://www.edpb.europa.eu/news/news/2026/edpb-edps-j
 const DATATILSYNET_PODCAST = "https://www.datatilsynet.dk/regler-og-vejledning/podcast/ai-og-konsekvensanalyser-hvornaar-og-hvordan";
 const FINANSTILSYNET_DORA = "https://www.finanstilsynet.dk/finansielle-temaer/tilsyn-med-ikt-og-datasikkerhed/";
 const AI_OMNIBUS_AGREEMENT = "https://www.consilium.europa.eu/en/press/press-releases/2026/05/07/artificial-intelligence-council-and-parliament-agree-to-simplify-and-streamline-rules/";
+
+// 2026-06-03 content additions
+const GPAI_GUIDELINES = "https://digital-strategy.ec.europa.eu/en/library/guidelines-scope-obligations-providers-general-purpose-ai-models-under-ai-act";
+const GPAI_COP = "https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai";
+const ART_25_AI_ACT = "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-25";
+const EDPB_OP28_PDF = "https://www.edpb.europa.eu/system/files/2024-12/edpb_opinion_202428_ai-models_en.pdf";
+const EDPB_OMNIBUS_PDF = "https://www.edpb.europa.eu/system/files/2026-01/edpb_edps_jointopinion_202601_proposal_ai-omnibus_en.pdf";
 const JTC21 = "https://www.cencenelec.eu/areas-of-work/cen-cenelec-topics/artificial-intelligence/";
 
 // ── Pillars ───────────────────────────────────────────────────────────────
@@ -79,7 +86,7 @@ export const pillars: Pillar[] = [
     description:
       "De juridiske krav danske virksomheder skal overholde – med bøder ved overtrædelse. Omfatter EU's AI-forordning (forbudte, højrisiko, GPAI, transparens), GDPR-overlap, NIS2, DORA og sektorspecifik regulering. NB: AI Omnibus-aftalen (7. maj 2026) udskyder højrisiko-fristerne til 2. december 2027 (Annex III) og 2. august 2028 (Annex I) — forpligtelserne består, kun timing ændres.",
     icon: "⚖️",
-    itemCount: 29,
+    itemCount: 31,
   },
   {
     id: "standarder",
@@ -488,10 +495,34 @@ export const categories: Category[] = [
         ],
         tags: ["GPAI", "Code of Practice", "soft law"],
       },
+      {
+        id: "gpai-deployer-finetuning",
+        name: "Deployer-til-provider ved finetuning (Art. 25)",
+        description:
+          "Når en dansk organisation finetuner eller på anden måde modificerer en GPAI-model (Llama, Mistral, GPT-OSS) til eget brug, kan I retsligt blive 'provider' under Art. 25 og arve GPAI-provider-forpligtelserne i Art. 53. Kommissionens GPAI Guidelines (juli 2025) sætter en vejledende — men ikke-bindende — compute-tærskel: hvis træningscompute overstiger ~1/3 af base-modellens, tæller det som 'significant modification'.",
+        severity: "high",
+        actions: [
+          "Kør compute-ratio-test før hver finetune: dokumentér om træningscompute > ~1/3 af base-modellens (eller 1/3 af 10²³ FLOPs som fallback) — Kommissionens vejledende tærskel for 'significant modification'",
+          "Dokumentér intent-skift: hvis finetuning flytter et ikke-højrisiko GPAI-system ind i en højrisiko-use case (Annex III), bliver deployer reklassificeret som provider af et højrisiko-system uanset compute (Art. 25(1)(c))",
+          "Hvis reklassificeret som provider: publicér et offentligt sammendrag af træningsdata (Art. 53(1)(d)) via AI Office's officielle template — gælder finetuning-datasættet, ikke base-modellen",
+          "Vedligehold Art. 53(1)(a)-(b) teknisk dokumentation for modifikationen plus en copyright-policy (Art. 53(1)(c))",
+          "Vurder systemic-risk-tærsklen (10²⁵ FLOPs kumulativt): hvis overskredet, gælder Code of Practice Kapitel 3 (Safety & Security) — model-evaluations, incident reporting, cybersikkerhed",
+          "Underskriv eller formelt afvis GPAI Code of Practice og dokumentér beslutningen — ikke-signatærer møder tungere individuel granskning fra AI Office fra 2. august 2026",
+          "Opdater kontrakter med upstream-modelleverandør (Art. 25(4)) for at sikre adgang til information jeres downstream-compliance kræver",
+        ],
+        sourceLinks: [
+          { label: "EU Kommissionen: GPAI Guidelines (juli 2025)", url: GPAI_GUIDELINES, source: "EU AI Act" },
+          { label: "GPAI Code of Practice (final juli 2025)", url: GPAI_COP, source: "EU AI Act" },
+          { label: "AI Act Art. 25 (Service Desk)", url: ART_25_AI_ACT, source: "EU AI Act" },
+          { label: "Digst: AI-modeller til almen brug", url: DIGST_GPAI, source: "Digst" },
+        ],
+        tags: ["GPAI", "finetuning", "Art. 25", "deployer-to-provider", "compute-threshold"],
+      },
     ],
     sourceLinks: [
       { label: "Digst: AI-modeller til almen brug", url: DIGST_GPAI, source: "Digst" },
       { label: "EU AI Office", url: AI_OFFICE, source: "EU AI Act" },
+      { label: "EU Kommissionen: GPAI Guidelines (juli 2025)", url: GPAI_GUIDELINES, source: "EU AI Act" },
     ],
   },
 
@@ -705,10 +736,32 @@ export const categories: Category[] = [
         ],
         tags: ["sektorregler", "MDR", "finans", "ansættelse"],
       },
+      {
+        id: "edpb-omnibus-opinion",
+        name: "EDPB-EDPS Joint Opinion 1/2026 & Datatilsynet AI-sandkasse",
+        description:
+          "Samspillet mellem GDPR og AI Act forbliver juridisk omstridt. EDPB-EDPS Joint Opinion 1/2026 (januar 2026) tog stilling til Digital Omnibus on AI. Forventede joint guidelines fra EDPB og Kommissionen i 2026. Datatilsynet har ikke publiceret GPAI-specifik vejledning men tilbyder en regulatorisk AI-sandkasse sammen med Digitaliseringsstyrelsen for at afklare dual GDPR+AI Act-klassificering før deployment.",
+        severity: "high",
+        actions: [
+          "Læs EDPB-EDPS Joint Opinion 1/2026 for myndighedernes position på Omnibus-forenklinger — særligt om hvilke GDPR-beskyttelser man IKKE må svække",
+          "Track de kommende EDPB-Kommissionen joint guidelines om GDPR/AI Act-samspil (annonceret 2026) og EDPB web-scraping guidelines før I finaliserer vendor-kontrakter",
+          "For højrisiko- eller usikre use cases: ansøg om Datatilsynets/Digitaliseringsstyrelsens AI-sandkasse for at få afklaret dual GDPR+AI Act-klassificering før deployment",
+          "Forstå at Datatilsynet pr. juni 2026 IKKE har publiceret GPAI-specifik vejledning — de defererer til EDPB-instrumenter; vær varsom med at antage andet",
+          "Følg EDPB-position om legitime interesser som retsgrundlag for AI-træning — Op. 28/2024 var ikke endegyldig, og 2026-opinioner kan justere kursen",
+        ],
+        sourceLinks: [
+          { label: "EDPB-EDPS Joint Opinion 1/2026 (Omnibus AI, PDF)", url: EDPB_OMNIBUS_PDF, source: "GDPR/EDPB" },
+          { label: "EDPB Opinion 28/2024 (PDF)", url: EDPB_OP28_PDF, source: "GDPR/EDPB" },
+          { label: "EDPB-EDPS Joint Opinion (newsside)", url: EDPB_EDPS_OMNIBUS, source: "GDPR/EDPB" },
+          { label: "Datatilsynets regulatoriske AI-sandkasse", url: DATATILSYNET_SANDKASSE, source: "Datatilsynet" },
+        ],
+        tags: ["EDPB", "EDPS", "Joint Opinion", "AI-sandkasse", "GDPR", "Omnibus"],
+      },
     ],
     sourceLinks: [
       { label: "Datatilsynet: Kunstig intelligens", url: DATATILSYNET_AI, source: "Datatilsynet" },
       { label: "EDPB Opinion 28/2024", url: EDPB_OP_28, source: "GDPR/EDPB" },
+      { label: "EDPB-EDPS Joint Opinion 1/2026 (AI Omnibus)", url: EDPB_OMNIBUS_PDF, source: "GDPR/EDPB" },
     ],
   },
 
