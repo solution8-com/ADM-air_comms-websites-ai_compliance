@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef, useEffect, type FormEvent } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import logo from "@/assets/logo.png";
-import { ExternalLink, ChevronRight, ChevronDown, Search, Wrench, ArrowLeft } from "lucide-react";
+import { ExternalLink, ChevronRight, ChevronDown, Search, Wrench, ArrowLeft, Download, Copy } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   pillars,
@@ -2089,11 +2089,48 @@ function ToolsIndex({ onHome, onOpenTool }: { onHome: () => void; onOpenTool: (s
 // ── Værktøjs-side (/vaerktoejer/<slug>) ──
 function ToolPage({ tool, onHome, onTools }: { tool: ToolConfig; onHome: () => void; onTools: () => void }) {
   const ToolComponent = tool.Component;
+  const captureRef = useRef<HTMLDivElement>(null);
+  const [copied, setCopied] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch { /* clipboard unavailable */ }
+  };
+
+  const downloadPng = async () => {
+    if (!captureRef.current) return;
+    setBusy(true);
+    try {
+      const { toPng } = await import("html-to-image"); // lazy → own chunk, not in main bundle
+      const bg = getComputedStyle(document.body).backgroundColor;
+      const opts = { backgroundColor: bg, pixelRatio: 2, cacheBust: true };
+      let dataUrl: string;
+      try {
+        dataUrl = await toPng(captureRef.current, opts);
+      } catch {
+        // Fallback if web-font embedding is blocked (CORS): system font, still a valid image
+        dataUrl = await toPng(captureRef.current, { ...opts, skipFonts: true });
+      }
+      const a = document.createElement("a");
+      a.href = dataUrl;
+      a.download = `ai-compliance-${tool.slug}.png`;
+      a.click();
+    } catch { /* capture failed */ }
+    setBusy(false);
+  };
+
+  const actionBtn =
+    "inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary disabled:opacity-60";
+
   return (
     <div className="fade-in">
       <Breadcrumbs tool={{ name: tool.title }} onHome={onHome} onTools={onTools} />
 
-      <div className="mb-8">
+      <div className="mb-6">
         <div className="flex items-center gap-3">
           <span className="text-3xl">{tool.icon}</span>
           <h1 className="font-display text-2xl font-bold text-foreground">
@@ -2101,9 +2138,19 @@ function ToolPage({ tool, onHome, onTools }: { tool: ToolConfig; onHome: () => v
           </h1>
         </div>
         <p className="mt-3 max-w-3xl text-sm text-muted-foreground">{tool.description}</p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <button onClick={downloadPng} disabled={busy} className={actionBtn}>
+            <Download className="h-3.5 w-3.5" /> {busy ? "Genererer…" : "Download PNG"}
+          </button>
+          <button onClick={copyLink} className={actionBtn}>
+            <Copy className="h-3.5 w-3.5" /> {copied ? "Kopieret ✓" : "Kopiér link"}
+          </button>
+        </div>
       </div>
 
-      <ToolComponent />
+      <div ref={captureRef} className="rounded-xl">
+        <ToolComponent />
+      </div>
 
       <button
         onClick={onTools}
