@@ -1427,25 +1427,39 @@ function AiActClassifier({
     setArt50([]);
   };
 
-  // Compute results — highest applicable classification dominates
-  const results: { level: "forbudt" | "hoejrisiko" | "gpai" | "transparens" | "minimal"; lines: string[] }[] = [];
+  // Compute results — highest applicable classification dominates. Each result
+  // carries clickable legal sources so the verdict is citable (Mette/DPO use case).
+  const AIA = "https://artificialintelligenceact.eu";
+  const shortName = (label?: string) => label?.split(" (")[0] ?? "";
+  const results: {
+    level: "forbudt" | "hoejrisiko" | "gpai" | "transparens" | "minimal";
+    lines: string[];
+    sources: { label: string; url: string }[];
+  }[] = [];
   if (forbudte.length > 0) {
     results.push({
       level: "forbudt",
       lines: [
-        "Forbudt under EU AI Act Art. 5",
-        `Trigger: ${forbudte.map((id) => forbudtList.find((f) => f.id === id)?.label.split(" (")[0]).join(" · ")}`,
+        "Forbudt under EU AI Act Art. 5 — må ikke markedsføres eller tages i brug",
+        `Udløst af: ${forbudte.map((id) => shortName(forbudtList.find((f) => f.id === id)?.label)).join(" · ")}`,
         "Bøde op til 35 mio. EUR eller 7 % af global omsætning. Ikke afhjælpeligt.",
       ],
+      sources: [{ label: "AI Act Art. 5", url: `${AIA}/article/5/` }],
     });
   }
   if (annex3.length > 0) {
     results.push({
       level: "hoejrisiko",
       lines: [
-        `Højrisiko under Annex III (${annex3.map((id) => "§" + id).join(", ")})`,
-        "Art. 9-15 udbyderpligter + Art. 26 deployer-pligter. FRIA-krav for visse deployere (Art. 27).",
-        "Gælder fra 2. december 2027 (efter AI Omnibus-postponement).",
+        `Højrisiko under Annex III — pkt. ${annex3.join(", ")}`,
+        `Område(r): ${annex3.map((id) => shortName(annex3List.find((a) => a.id === id)?.label)).join(" · ")}`,
+        "Udbyderpligter Art. 8-17 (risikostyring, datastyring, teknisk dokumentation, logging, menneskeligt tilsyn, CE-mærkning). Idriftsætterpligter Art. 26. FRIA kan være krævet (Art. 27).",
+        "Gælder fra 2. december 2027 (efter AI Omnibus-udskydelsen).",
+      ],
+      sources: [
+        { label: "Annex III", url: `${AIA}/annex/3/` },
+        { label: "Art. 6", url: `${AIA}/article/6/` },
+        { label: "Art. 26", url: `${AIA}/article/26/` },
       ],
     });
   }
@@ -1457,6 +1471,10 @@ function AiActClassifier({
         "Skal CE-mærkes både efter sektorlov OG AI Act.",
         "Gælder fra 2. august 2028.",
       ],
+      sources: [
+        { label: "Annex I", url: `${AIA}/annex/1/` },
+        { label: "Art. 113", url: `${AIA}/article/113/` },
+      ],
     });
   }
   if (gpai) {
@@ -1467,15 +1485,17 @@ function AiActClassifier({
         "Teknisk dokumentation, træningsdata-resumé, copyright-policy.",
         "I kraft siden 2. august 2025.",
       ],
+      sources: [{ label: "Art. 53", url: `${AIA}/article/53/` }],
     });
   }
   if (art50.length > 0) {
     results.push({
       level: "transparens",
       lines: [
-        `Transparenskrav under Art. 50 (${art50.length} ${art50.length === 1 ? "trigger" : "triggers"})`,
-        "Chatbot-disclosure, AI-mærkning, brugerinformation. Gælder fra 2. august 2026.",
+        `Transparenskrav under Art. 50 (${art50.length} ${art50.length === 1 ? "udløser" : "udløsere"})`,
+        "Chatbot-disclosure, maskinlæsbar AI-mærkning, brugerinformation. Gælder fra 2. august 2026.",
       ],
+      sources: [{ label: "Art. 50", url: `${AIA}/article/50/` }],
     });
   }
   if (results.length === 0) {
@@ -1489,6 +1509,7 @@ function AiActClassifier({
           "Minimal risiko",
           "Ingen specifikke AI Act-forpligtelser, men Art. 4 (AI-literacy) og generelle krav om god praksis gælder fortsat.",
         ],
+        sources: [{ label: "Art. 4", url: `${AIA}/article/4/` }],
       });
     }
   }
@@ -1615,10 +1636,26 @@ function AiActClassifier({
                 {r.lines.map((line, j) => (
                   <p key={j} className={j === 0 ? "font-display text-sm font-semibold" : "mt-1 text-xs opacity-90"}>{line}</p>
                 ))}
+                {r.sources.length > 0 && (
+                  <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                    <span className="text-[10px] uppercase tracking-wide opacity-70">Retsgrundlag:</span>
+                    {r.sources.map((s) => (
+                      <a
+                        key={s.url}
+                        href={s.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 rounded border border-current/40 px-1.5 py-0.5 text-[10px] font-medium hover:underline"
+                      >
+                        {s.label} <ExternalLink className="h-2.5 w-2.5" />
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
             <p className="mt-2 text-[11px] text-muted-foreground">
-              Et system kan ramme flere klassificeringer samtidigt (fx både højrisiko og Art. 50-transparens). Den mest restriktive er styrende, men <em>alle</em> krav skal opfyldes.
+              Et system kan ramme flere klassificeringer samtidigt (fx både højrisiko og Art. 50-transparens). Den mest restriktive er styrende, men <em>alle</em> krav skal opfyldes. Klassificeringen med retsgrundlag-links er en kvalificeret pejling til intern brug — ikke juridisk rådgivning.
             </p>
           </div>
         )}
