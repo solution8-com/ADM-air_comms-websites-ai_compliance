@@ -10,6 +10,7 @@ import {
   getSeverityColor,
   getSeverityBg,
   toolsMeta,
+  type Severity,
   type PillarId,
   type Category,
   type Subcategory,
@@ -1302,6 +1303,11 @@ function CategoryView({
   onOpenTool: (slug: string) => void;
 }) {
   const [expandedSource, setExpandedSource] = useState(false);
+  const [sevFilter, setSevFilter] = useState<"all" | Severity>("all");
+  const sevOrder: Severity[] = ["critical", "high", "medium", "low"];
+  const sevText: Record<string, string> = { all: "Alle", critical: "Kritisk", high: "Høj", medium: "Middel", low: "Lav" };
+  const sevCount = (s: Severity) => category.subcategories.filter((x) => x.severity === s).length;
+  const shownSubs = sevFilter === "all" ? category.subcategories : category.subcategories.filter((s) => s.severity === sevFilter);
 
   return (
     <div className="fade-in">
@@ -1331,9 +1337,29 @@ function CategoryView({
         </div>
       )}
 
+      {/* Severity-filter-chips */}
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        {(["all", ...sevOrder] as ("all" | Severity)[]).map((key) => {
+          const count = key === "all" ? category.subcategories.length : sevCount(key as Severity);
+          if (count === 0) return null;
+          const active = sevFilter === key;
+          return (
+            <button
+              key={key}
+              onClick={() => setSevFilter(key)}
+              className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+                active ? "border-primary bg-primary/15 text-primary" : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
+              }`}
+            >
+              {sevText[key]} <span className="opacity-60">{count}</span>
+            </button>
+          );
+        })}
+      </div>
+
       {/* Underkategorier */}
       <div className="mb-8 grid gap-4">
-        {category.subcategories.map((sub) => (
+        {shownSubs.map((sub) => (
           <button
             key={sub.id}
             onClick={() => onNavigate("subcategory", category.pillar, category, sub)}
