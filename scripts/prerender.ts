@@ -36,7 +36,7 @@ const truncate = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1).tri
 
 function generatePage(
   routePath: string,
-  meta: { title: string; description: string; canonical: string; breadcrumb?: Crumb[] }
+  meta: { title: string; description: string; canonical: string; breadcrumb?: Crumb[]; ogImage?: string }
 ) {
   const outDir = join(DIST, routePath);
   mkdirSync(outDir, { recursive: true });
@@ -83,6 +83,12 @@ function generatePage(
     /<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/?>/,
     `<meta name="twitter:description" content="${d}" />`
   );
+  // Per-route OG image (tool pages get their own image; others keep site default)
+  if (meta.ogImage) {
+    const oi = esc(meta.ogImage);
+    html = html.replace(/<meta\s+property="og:image"\s+content="[^"]*"\s*\/?>/, `<meta property="og:image" content="${oi}" />`);
+    html = html.replace(/<meta\s+name="twitter:image"\s+content="[^"]*"\s*\/?>/, `<meta name="twitter:image" content="${oi}" />`);
+  }
 
   // BreadcrumbList structured data → Google breadcrumb rich results. Lives in
   // <head> so it's read without executing the SPA's client-side JS.
@@ -130,6 +136,7 @@ for (const tool of toolsMeta) {
     description: tool.description,
     canonical: toolCanonical,
     breadcrumb: [ROOT_CRUMB, { name: "Værktøjer", url: toolsCanonical }, { name: tool.title, url: toolCanonical }],
+    ogImage: `${SITE_ORIGIN}/og-tool-${tool.slug}.png?v=1`,
   });
   sitemap.push({ loc: toolCanonical, priority: "0.7" });
   count++;
