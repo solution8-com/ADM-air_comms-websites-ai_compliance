@@ -1368,7 +1368,7 @@ export const toolsMeta: ToolMeta[] = [
   {
     slug: "boedestruktur",
     title: "Bødestruktur",
-    shortPitch: "EU AI Act's tre bødeklasser — €35M / €15M / €7,5M — med udløsende artikler og eksempler.",
+    shortPitch: "EU AI Act's tre bødeklasser — €35M / €15M / €7,5M eller op til 7 % af global omsætning — med udløsende artikler og eksempler.",
     description:
       "Overblik over EU AI Act's tre bødeklasser (op til €35M / €15M / €7,5M eller en procent af global omsætning) med de udløsende artikler og konkrete eksempler på overtrædelser i hver klasse.",
     icon: "⚖️",
