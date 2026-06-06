@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://ai-compliance.dk/sitemap.xml
+Sitemap: https://www.ai-compliance.dk/sitemap.xml

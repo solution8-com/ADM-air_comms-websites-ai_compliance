@@ -13,7 +13,7 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { pillars, categories, toolsMeta } from "../src/data/complianceData";
 
-const SITE_ORIGIN = "https://ai-compliance.dk";
+const SITE_ORIGIN = "https://www.ai-compliance.dk";
 const SITE_NAME = "AI Compliance";
 const DIST = "dist";
 
