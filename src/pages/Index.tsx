@@ -1969,7 +1969,7 @@ function InlineNewsletterPrompt({ hook, topic }: { hook: string; topic: string }
     try {
       const formData = new FormData();
       formData.append("fields[email]", email);
-      formData.append("fields[source]", "ai-compliance.dk"); // hidden — segments signups by site in MailerLite
+      formData.append("fields[source_website]", "ai-compliance.dk"); // hidden — segments signups by site in MailerLite
       formData.append("ml-submit", "1");
       formData.append("anticsrf", "true");
       await fetch(MAILERLITE_ACTION, {
@@ -2034,7 +2034,7 @@ function NewsletterCTA({ showBooking = true }: { showBooking?: boolean }) {
     try {
       const formData = new FormData();
       formData.append("fields[email]", email);
-      formData.append("fields[source]", "ai-compliance.dk"); // hidden — segments signups by site in MailerLite
+      formData.append("fields[source_website]", "ai-compliance.dk"); // hidden — segments signups by site in MailerLite
       formData.append("ml-submit", "1");
       formData.append("anticsrf", "true");
       await fetch(MAILERLITE_ACTION, {
