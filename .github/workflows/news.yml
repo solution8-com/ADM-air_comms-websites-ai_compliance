@@ -1,0 +1,37 @@
+name: Refresh news feed
+
+on:
+  schedule:
+    # Weekly, Mondays 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    name: Fetch news and commit
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npx tsx scripts/fetch-news.ts
+
+      - name: Commit refreshed news.json
+        run: |
+          git config user.name "news-bot"
+          git config user.email "actions@github.com"
+          if git diff --quiet -- public/news.json; then
+            echo "No news changes."
+          else
+            git add public/news.json
+            git commit -m "chore(news): weekly feed refresh"
+            git push
+          fi

@@ -734,7 +734,59 @@ function DashboardView({
           </a>
         </div>
       </div>
+
+      <NewsFeed />
     </div>
+  );
+}
+
+// ── Nyheds-feed (læser public/news.json, genereret ugentligt af scripts/fetch-news.ts) ──
+type NewsData = { generatedAt: string; items: { title: string; link: string; source: string; date: string }[] };
+
+function NewsFeed() {
+  const [data, setData] = useState<NewsData | null>(null);
+  useEffect(() => {
+    fetch("/news.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setData(d))
+      .catch(() => setData(null));
+  }, []);
+  if (!data || !data.items?.length) return null;
+  const fmt = (iso: string) => {
+    if (!iso) return "";
+    try {
+      return new Date(iso).toLocaleDateString("da-DK", { day: "numeric", month: "short", year: "numeric" });
+    } catch {
+      return "";
+    }
+  };
+  return (
+    <section aria-labelledby="news-heading" className="mt-10 rounded-xl border border-border bg-card p-6">
+      <div className="mb-4 flex items-baseline justify-between">
+        <h2 id="news-heading" className="font-display text-lg font-semibold text-foreground">📰 Nyheder &amp; opdateringer</h2>
+        <span className="text-[11px] text-muted-foreground">Opdateret {fmt(data.generatedAt)}</span>
+      </div>
+      <div className="grid gap-2">
+        {data.items.map((it) => (
+          <a
+            key={it.link}
+            href={it.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="card-hover flex items-start gap-3 rounded-lg border border-border bg-card/60 p-3 text-left"
+          >
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium text-foreground">{it.title}</p>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">
+                {it.source}{it.date ? ` · ${fmt(it.date)}` : ""}
+              </p>
+            </div>
+            <ExternalLink className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+          </a>
+        ))}
+      </div>
+      <p className="mt-3 text-[11px] text-muted-foreground">Kuraterede nyheder fra autoritative kilder — opdateres ugentligt.</p>
+    </section>
   );
 }
 
