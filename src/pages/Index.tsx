@@ -520,22 +520,22 @@ const Index = () => {
         <div className="container mx-auto px-6 text-center text-xs text-muted-foreground">
           <p>
             Compliance-data baseret på{" "}
-            <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">EU AI Act (2024/1689)</a>,{" "}
-            <a href="https://digst.dk/tilsyn/ai-forordningen/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Digitaliseringsstyrelsen</a>,{" "}
-            <a href="https://www.datatilsynet.dk/regler-og-vejledning/kunstig-intelligens" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Datatilsynet</a>,{" "}
-            <a href="https://www.iso.org/standard/81230.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">ISO/IEC 42001</a> og{" "}
-            <a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">NIST AI RMF</a>.
+            <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">EU AI Act (2024/1689)</a>,{" "}
+            <a href="https://digst.dk/tilsyn/ai-forordningen/" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">Digitaliseringsstyrelsen</a>,{" "}
+            <a href="https://www.datatilsynet.dk/regler-og-vejledning/kunstig-intelligens" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">Datatilsynet</a>,{" "}
+            <a href="https://www.iso.org/standard/81230.html" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">ISO/IEC 42001</a> og{" "}
+            <a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">NIST AI RMF</a>.
           </p>
           <p className="mt-3">
             En oversigt fra{" "}
-            <a href="https://ai-raadgivning.dk" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">AI Rådgivning</a>{" "}
+            <a href="https://ai-raadgivning.dk" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">AI Rådgivning</a>{" "}
             — opdateret maj 2026.
           </p>
           <p className="mt-3 text-muted-foreground/80">
             Søsteroverblik:{" "}
-            <a href="https://www.ai-sikkerhed.dk" className="text-primary hover:underline">AI Sikkerhed</a>
+            <a href="https://www.ai-sikkerhed.dk" className="text-primary underline underline-offset-2">AI Sikkerhed</a>
             {" · "}
-            <a href="https://www.ai-governance.dk" className="text-primary hover:underline">AI Governance</a>
+            <a href="https://www.ai-governance.dk" className="text-primary underline underline-offset-2">AI Governance</a>
           </p>
         </div>
       </footer>
@@ -614,7 +614,7 @@ function DashboardView({
               <div className="mb-4 flex items-center justify-between">
                 <span className="text-3xl">{pillar.icon}</span>
                 {criticals > 0 && (
-                  <span className="risk-pulse rounded-full bg-danger/15 px-2.5 py-0.5 text-xs font-medium text-danger">
+                  <span className="rounded-full bg-danger/15 px-2.5 py-0.5 text-xs font-medium text-danger">
                     {criticals} kritiske
                   </span>
                 )}
@@ -622,7 +622,7 @@ function DashboardView({
               <h3 className="font-display text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
                 {pillar.name}
               </h3>
-              <p className="mt-0.5 text-xs font-medium text-primary/70">{pillar.subtitle}</p>
+              <p className="mt-0.5 text-xs font-medium text-primary">{pillar.subtitle}</p>
               <p className="mt-3 text-sm text-muted-foreground line-clamp-3">{pillar.description}</p>
               <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
                 <span>{pillarCats.length} områder</span>
@@ -1263,7 +1263,7 @@ function PenaltyTiers() {
         ))}
       </div>
       <p className="mt-4 text-[11px] text-muted-foreground">
-        Reference: <a href="https://artificialintelligenceact.eu/article/99/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">EU AI Act Art. 99</a> + recital 168. Sanktionsregimet trådte i kraft 2. august 2025.
+        Reference: <a href="https://artificialintelligenceact.eu/article/99/" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">EU AI Act Art. 99</a> + recital 168. Sanktionsregimet trådte i kraft 2. august 2025.
       </p>
     </div>
   );
@@ -1296,7 +1296,7 @@ function PillarView({
           <span className="text-3xl">{pillarData.icon}</span>
           <div>
             <h1 className="font-display text-2xl font-bold text-foreground">{pillarData.name}</h1>
-            <p className="text-sm text-primary/70">{pillarData.subtitle}</p>
+            <p className="text-sm text-primary">{pillarData.subtitle}</p>
           </div>
         </div>
         <p className="mt-3 max-w-2xl text-sm text-muted-foreground">{pillarData.description}</p>
