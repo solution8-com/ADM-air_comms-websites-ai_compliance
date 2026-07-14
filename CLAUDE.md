@@ -1,9 +1,12 @@
 # ai-compliance.dk - standing session note
 
-**PENDING REBRAND to SOLUTION8 (noted 2026-07-10).** This site still runs the old AI Rådgivning
-identity (per-site accent colours, Outfit/Inter, triangle motif). The organisation rebranded to
-SOLUTION8 with the SIGNAL visual system in 2026. The next major work on this site is the rebrand -
-do not deepen the old identity in the meantime.
+**SIGNAL REBRAND - foundation slice DONE (2026-07-14), on branch `signal-rebrand`, pending Jacob's
+review before merge to `main`/deploy.** This site now runs the SOLUTION8 SIGNAL identity: black/white/red
+palette (Sort/Hvid/Signalrød + greys), Archivo + IBM Plex Mono (self-hosted), the "AI"-red wordmark, and
+the shared solution8.ai footer. Per-site accent colours (the old teal/orange/blue) are retired. Functional
+model/data-viz colours inside the tools (risk tiers, status, maturity) are RETAINED by design - SIGNAL
+governs brand chrome, not functional colour. Remaining slice (not yet done): deeper content/tone pass and
+imagery. Brand source of truth: `~/projects/personal/solution8/brand/QUICKREF.md`.
 
 Before any visual or copy work:
 1. Read `~/projects/personal/solution8/brand/QUICKREF.md` - the SIGNAL digest (palette, red
