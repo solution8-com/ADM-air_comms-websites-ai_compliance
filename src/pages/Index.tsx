@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef, useEffect, type FormEvent } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import logo from "@/assets/logo.png";
 import { ExternalLink, ChevronRight, ChevronDown, Search, Wrench, ArrowLeft, Download, Copy } from "lucide-react";
+import { SiteWordmark } from "@/components/SiteWordmark";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   pillars,
@@ -326,7 +326,7 @@ const Index = () => {
             onClick={() => navigate("dashboard")}
             className="flex items-center gap-2 transition-opacity hover:opacity-80"
           >
-            <img src={logo} alt="AI Compliance" className="h-14" />
+            <SiteWordmark />
           </button>
 
           <div className="flex items-center gap-4">
