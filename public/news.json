@@ -1,6 +1,30 @@
 {
-  "generatedAt": "2026-07-06T09:54:30.891Z",
+  "generatedAt": "2026-07-14T02:59:27.765Z",
   "items": [
+    {
+      "title": "AI Challenge Competition Info Webinar",
+      "link": "https://digital-strategy.ec.europa.eu/en/events/ai-challenge-competition-info-webinar",
+      "source": "EU-Kommissionen",
+      "date": "2026-07-09T10:39:47.000Z"
+    },
+    {
+      "title": "Commission Opinion on the assessment of the Code of Practice on Transparency of AI-generated content",
+      "link": "https://digital-strategy.ec.europa.eu/en/library/commission-opinion-assessment-code-practice-transparency-ai-generated-content",
+      "source": "EU-Kommissionen",
+      "date": "2026-07-09T07:03:00.000Z"
+    },
+    {
+      "title": "The Scientific Panel of Independent Experts: What Is It And How Does It Work?",
+      "link": "https://artificialintelligenceact.eu/scientific-panel/?utm_source=rss&utm_medium=rss&utm_campaign=scientific-panel",
+      "source": "AI Act",
+      "date": "2026-07-07T16:53:11.000Z"
+    },
+    {
+      "title": "EU Action Plan on Cybersecurity and Artificial Intelligence",
+      "link": "https://digital-strategy.ec.europa.eu/en/library/eu-action-plan-cybersecurity-and-artificial-intelligence",
+      "source": "EU-Kommissionen",
+      "date": "2026-07-07T07:56:00.000Z"
+    },
     {
       "title": "The Advisory Forum: What Is It And How Does It Work?",
       "link": "https://artificialintelligenceact.eu/the-advisory-forum-what-is-it-and-how-does-it-work/?utm_source=rss&utm_medium=rss&utm_campaign=the-advisory-forum-what-is-it-and-how-does-it-work",
@@ -24,30 +48,6 @@
       "link": "https://artificialintelligenceact.eu/what-the-act-means-for-staffing-businesses/?utm_source=rss&utm_medium=rss&utm_campaign=what-the-act-means-for-staffing-businesses",
       "source": "AI Act",
       "date": "2026-03-17T18:42:52.000Z"
-    },
-    {
-      "title": "Modifying AI Under the EU AI Act: Lessons from Practice on Classification and Compliance",
-      "link": "https://artificialintelligenceact.eu/modifying-ai-under-the-eu-ai-act/?utm_source=rss&utm_medium=rss&utm_campaign=modifying-ai-under-the-eu-ai-act",
-      "source": "AI Act",
-      "date": "2025-11-05T21:41:50.000Z"
-    },
-    {
-      "title": "Whistleblowing and the EU AI Act",
-      "link": "https://artificialintelligenceact.eu/whistleblowing-and-the-eu-ai-act/?utm_source=rss&utm_medium=rss&utm_campaign=whistleblowing-and-the-eu-ai-act",
-      "source": "AI Act",
-      "date": "2025-08-11T09:31:20.000Z"
-    },
-    {
-      "title": "Overview of Guidelines for GPAI Models",
-      "link": "https://artificialintelligenceact.eu/gpai-guidelines-overview/?utm_source=rss&utm_medium=rss&utm_campaign=gpai-guidelines-overview",
-      "source": "AI Act",
-      "date": "2025-07-30T17:46:55.000Z"
-    },
-    {
-      "title": "Overview of the Code of Practice",
-      "link": "https://artificialintelligenceact.eu/code-of-practice-overview/?utm_source=rss&utm_medium=rss&utm_campaign=code-of-practice-overview",
-      "source": "AI Act",
-      "date": "2025-07-30T17:45:06.000Z"
     }
   ]
 }
