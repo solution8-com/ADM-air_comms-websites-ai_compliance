@@ -2003,7 +2003,7 @@ function SubcategoryView({
       <div className="mt-8 rounded-xl border border-primary/30 bg-primary/5 p-6 text-center">
         <h3 className="font-display text-lg font-semibold text-foreground">Brug for sparring på dette?</h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          Book et 30-min sparringsmøde med AI Rådgivning — vi hjælper danske organisationer i mål med AI-compliance før august 2026.
+          Book et 30-min sparringsmøde med SOLUTION8 - vi hjælper danske organisationer i mål med AI-compliance før august 2026.
         </p>
         <a
           href={CALENDLY_URL}
