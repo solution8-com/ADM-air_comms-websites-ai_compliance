@@ -84,7 +84,7 @@ export const pillars: Pillar[] = [
     name: "Lovkrav & Sanktioner",
     subtitle: "Bindende forpligtelser med bødeansvar",
     description:
-      "De juridiske krav danske virksomheder skal overholde – med bøder ved overtrædelse. Omfatter EU's AI-forordning (forbudte, højrisiko, GPAI, transparens), GDPR-overlap, NIS2, DORA og sektorspecifik regulering. NB: AI Omnibus-aftalen (7. maj 2026) udskyder højrisiko-fristerne til 2. december 2027 (Annex III) og 2. august 2028 (Annex I) — forpligtelserne består, kun timing ændres.",
+      "De juridiske krav danske virksomheder skal overholde - med bøder ved overtrædelse. Omfatter EU's AI-forordning (forbudte, højrisiko, GPAI, transparens), GDPR-overlap, NIS2, DORA og sektorspecifik regulering. NB: AI Omnibus-aftalen (7. maj 2026) udskyder højrisiko-fristerne til 2. december 2027 (Annex III) og 2. august 2028 (Annex I) - forpligtelserne består, kun timing ændres.",
     icon: "⚖️",
     itemCount: 31,
   },
@@ -102,7 +102,7 @@ export const pillars: Pillar[] = [
     name: "Drift & Governance",
     subtitle: "Daglig kontrol og operationalisering",
     description:
-      "De praktiske kontroller, der gør compliance til en løbende baggrundsproces – ikke en periodisk audit. AI-register, deployer-pligter, leverandørstyring, AI-literacy.",
+      "De praktiske kontroller, der gør compliance til en løbende baggrundsproces - ikke en periodisk audit. AI-register, deployer-pligter, leverandørstyring, AI-literacy.",
     icon: "🛠️",
     itemCount: 13,
   },
@@ -143,7 +143,7 @@ export const categories: Category[] = [
         id: "udnyttelse-saarbarheder",
         name: "Udnyttelse af særlige sårbarheder",
         description:
-          "Forbud mod AI der udnytter sårbarheder hos bestemte grupper – baseret på alder, handicap eller specifik social/økonomisk situation – til at forvride deres adfærd og forårsage skade.",
+          "Forbud mod AI der udnytter sårbarheder hos bestemte grupper - baseret på alder, handicap eller specifik social/økonomisk situation - til at forvride deres adfærd og forårsage skade.",
         severity: "critical",
         actions: [
           "Identificér målgruppe-segmentering der retter sig mod udsatte grupper",
@@ -211,7 +211,7 @@ export const categories: Category[] = [
         id: "foelelsesgenkendelse",
         name: "Udledning af følelser på arbejde & uddannelse",
         description:
-          "Forbud mod AI-systemer der udleder følelser hos personer på arbejdspladsen eller i uddannelsesinstitutioner – med undtagelse af medicinske/sikkerhedsformål.",
+          "Forbud mod AI-systemer der udleder følelser hos personer på arbejdspladsen eller i uddannelsesinstitutioner - med undtagelse af medicinske/sikkerhedsformål.",
         severity: "critical",
         actions: [
           "Audit eksisterende HR-tech og uddannelsesplatforme for følelsesgenkendelse",
@@ -245,12 +245,12 @@ export const categories: Category[] = [
         id: "biometrisk-fjernidentifikation",
         name: "Real-time biometrisk fjernidentifikation",
         description:
-          "Forbud mod brug af real-time biometriske fjernidentifikationssystemer i offentligt tilgængelige rum til retshåndhævelse – med snævre undtagelser (alvorlige forbrydelser, terror, forsvundne personer).",
+          "Forbud mod brug af real-time biometriske fjernidentifikationssystemer i offentligt tilgængelige rum til retshåndhævelse - med snævre undtagelser (alvorlige forbrydelser, terror, forsvundne personer).",
         severity: "critical",
         actions: [
           "Relevant primært for offentlige myndigheder og leverandører hertil",
           "Privatsektor: undgå CCTV/access-systemer der laver real-time identifikation",
-          "Post-hoc identifikation klassificeres som høj-risiko – ikke forbudt",
+          "Post-hoc identifikation klassificeres som høj-risiko - ikke forbudt",
         ],
         sourceLinks: [
           { label: "AI Act Art. 5(1)(h)", url: EU_AI_ACT, source: "EU AI Act" },
@@ -278,7 +278,7 @@ export const categories: Category[] = [
       },
     ],
     sourceLinks: [
-      { label: "EU AI Act – Regulation 2024/1689", url: EU_AI_ACT, source: "EU AI Act" },
+      { label: "EU AI Act - Regulation 2024/1689", url: EU_AI_ACT, source: "EU AI Act" },
       { label: "Digst: Forbudte former for AI-praksis", url: DIGST_FORBUDTE, source: "Digst" },
     ],
   },
@@ -299,7 +299,7 @@ export const categories: Category[] = [
         severity: "critical",
         actions: [
           "Gennemfør Annex III-mapping for alle AI use cases i organisationen",
-          "Dokumenter klassificeringsbeslutninger – også negative (\"ikke højrisiko fordi…\")",
+          "Dokumenter klassificeringsbeslutninger - også negative (\"ikke højrisiko fordi…\")",
           "Genvurder ved hver væsentlig ændring eller ny use case",
         ],
         sourceLinks: [
@@ -375,7 +375,7 @@ export const categories: Category[] = [
           "Plan for CE-mærkning og EU-overensstemmelseserklæring",
         ],
         sourceLinks: [
-          { label: "AI Act Art. 43 + Annex VI–VII", url: EU_AI_ACT, source: "EU AI Act" },
+          { label: "AI Act Art. 43 + Annex VI - VII", url: EU_AI_ACT, source: "EU AI Act" },
           { label: "Digst: Højrisiko AI-systemer", url: DIGST_HOEJRISIKO, source: "Digst" },
         ],
         tags: ["CE-mærkning", "overensstemmelse", "QMS"],
@@ -404,7 +404,7 @@ export const categories: Category[] = [
         severity: "high",
         actions: [
           "Identificér om jeres organisation falder under FRIA-kravet (Art. 27)",
-          "Definér FRIA-process – ofte i samspil med DPIA",
+          "Definér FRIA-process - ofte i samspil med DPIA",
           "Notificér markedsovervågningsmyndigheden efter gennemførsel",
           "Genvurder ved væsentlige ændringer i brug",
         ],
@@ -416,7 +416,7 @@ export const categories: Category[] = [
       },
     ],
     sourceLinks: [
-      { label: "EU AI Act – Kapitel III om højrisiko-systemer", url: EU_AI_ACT, source: "EU AI Act" },
+      { label: "EU AI Act - Kapitel III om højrisiko-systemer", url: EU_AI_ACT, source: "EU AI Act" },
       { label: "Digst: Højrisiko AI-systemer", url: DIGST_HOEJRISIKO, source: "Digst" },
     ],
   },
@@ -441,7 +441,7 @@ export const categories: Category[] = [
           "Etabler kontraktkrav om opdateret dokumentation",
         ],
         sourceLinks: [
-          { label: "AI Act Art. 53 + Annex XI–XII", url: EU_AI_ACT, source: "EU AI Act" },
+          { label: "AI Act Art. 53 + Annex XI - XII", url: EU_AI_ACT, source: "EU AI Act" },
           { label: "Digst: AI-modeller til almen brug", url: DIGST_GPAI, source: "Digst" },
         ],
         tags: ["GPAI", "dokumentation", "transparens"],
@@ -450,7 +450,7 @@ export const categories: Category[] = [
         id: "gpai-copyright",
         name: "Copyright-compliance policy",
         description:
-          "GPAI-udbydere skal have politik for overholdelse af EU's ophavsretsdirektiv – herunder respekt for rettighedshavere der har gjort opt-out gældende (TDM-undtagelsen).",
+          "GPAI-udbydere skal have politik for overholdelse af EU's ophavsretsdirektiv - herunder respekt for rettighedshavere der har gjort opt-out gældende (TDM-undtagelsen).",
         severity: "high",
         actions: [
           "Tjek udbydernes copyright-politik som del af leverandørudvælgelse",
@@ -469,7 +469,7 @@ export const categories: Category[] = [
           "Modeller over en computetærskel klassificeres som systemic risk og udløser yderligere krav om model-evaluering, adversarial testing, incident reporting og cybersikkerhed.",
         severity: "medium",
         actions: [
-          "Mest relevant for udbydere af frontier-modeller – ikke deployere",
+          "Mest relevant for udbydere af frontier-modeller - ikke deployere",
           "Som deployer: forstå om jeres LLM-leverandør er klassificeret som systemic risk",
           "Følg AI Office's klassifikationer og Code of Practice-signaler",
         ],
@@ -488,7 +488,7 @@ export const categories: Category[] = [
         actions: [
           "Læs Code of Practice for jeres GPAI-leverandørs forpligtelser",
           "Brug den som benchmark for kontraktkrav",
-          "Forvent at standarder følger – planlæg fleksibilitet i compliance-arkitekturen",
+          "Forvent at standarder følger - planlæg fleksibilitet i compliance-arkitekturen",
         ],
         sourceLinks: [
           { label: "EU AI Office", url: AI_OFFICE, source: "EU AI Act" },
@@ -499,15 +499,15 @@ export const categories: Category[] = [
         id: "gpai-deployer-finetuning",
         name: "Deployer-til-provider ved finetuning (Art. 25)",
         description:
-          "Når en dansk organisation finetuner eller på anden måde modificerer en GPAI-model (Llama, Mistral, GPT-OSS) til eget brug, kan I retsligt blive 'provider' under Art. 25 og arve GPAI-provider-forpligtelserne i Art. 53. Kommissionens GPAI Guidelines (juli 2025) sætter en vejledende — men ikke-bindende — compute-tærskel: hvis træningscompute overstiger ~1/3 af base-modellens, tæller det som 'significant modification'.",
+          "Når en dansk organisation finetuner eller på anden måde modificerer en GPAI-model (Llama, Mistral, GPT-OSS) til eget brug, kan I retsligt blive 'provider' under Art. 25 og arve GPAI-provider-forpligtelserne i Art. 53. Kommissionens GPAI Guidelines (juli 2025) sætter en vejledende - men ikke-bindende - compute-tærskel: hvis træningscompute overstiger ~1/3 af base-modellens, tæller det som 'significant modification'.",
         severity: "high",
         actions: [
-          "Kør compute-ratio-test før hver finetune: dokumentér om træningscompute > ~1/3 af base-modellens (eller 1/3 af 10²³ FLOPs som fallback) — Kommissionens vejledende tærskel for 'significant modification'",
+          "Kør compute-ratio-test før hver finetune: dokumentér om træningscompute > ~1/3 af base-modellens (eller 1/3 af 10²³ FLOPs som fallback) - Kommissionens vejledende tærskel for 'significant modification'",
           "Dokumentér intent-skift: hvis finetuning flytter et ikke-højrisiko GPAI-system ind i en højrisiko-use case (Annex III), bliver deployer reklassificeret som provider af et højrisiko-system uanset compute (Art. 25(1)(c))",
-          "Hvis reklassificeret som provider: publicér et offentligt sammendrag af træningsdata (Art. 53(1)(d)) via AI Office's officielle template — gælder finetuning-datasættet, ikke base-modellen",
+          "Hvis reklassificeret som provider: publicér et offentligt sammendrag af træningsdata (Art. 53(1)(d)) via AI Office's officielle template - gælder finetuning-datasættet, ikke base-modellen",
           "Vedligehold Art. 53(1)(a)-(b) teknisk dokumentation for modifikationen plus en copyright-policy (Art. 53(1)(c))",
-          "Vurder systemic-risk-tærsklen (10²⁵ FLOPs kumulativt): hvis overskredet, gælder Code of Practice Kapitel 3 (Safety & Security) — model-evaluations, incident reporting, cybersikkerhed",
-          "Underskriv eller formelt afvis GPAI Code of Practice og dokumentér beslutningen — ikke-signatærer møder tungere individuel granskning fra AI Office fra 2. august 2026",
+          "Vurder systemic-risk-tærsklen (10²⁵ FLOPs kumulativt): hvis overskredet, gælder Code of Practice Kapitel 3 (Safety & Security) - model-evaluations, incident reporting, cybersikkerhed",
+          "Underskriv eller formelt afvis GPAI Code of Practice og dokumentér beslutningen - ikke-signatærer møder tungere individuel granskning fra AI Office fra 2. august 2026",
           "Opdater kontrakter med upstream-modelleverandør (Art. 25(4)) for at sikre adgang til information jeres downstream-compliance kræver",
         ],
         sourceLinks: [
@@ -532,13 +532,13 @@ export const categories: Category[] = [
     pillar: "lovkrav",
     icon: "💬",
     description:
-      "Krav om at brugere ved hvornår de interagerer med AI, og hvornår indhold er kunstigt genereret. Gælder fra 2. august 2026 for både udbydere og idriftsættere – uafhængigt af om systemet er højrisiko.",
+      "Krav om at brugere ved hvornår de interagerer med AI, og hvornår indhold er kunstigt genereret. Gælder fra 2. august 2026 for både udbydere og idriftsættere - uafhængigt af om systemet er højrisiko.",
     subcategories: [
       {
         id: "chatbot-oplysning",
         name: "Chatbot-oplysningspligt",
         description:
-          "Udbydere skal sikre at AI-systemer beregnet til menneskelig interaktion designes så personer informeres ved første interaktion om, at de taler med en AI – medmindre det er åbenlyst.",
+          "Udbydere skal sikre at AI-systemer beregnet til menneskelig interaktion designes så personer informeres ved første interaktion om, at de taler med en AI - medmindre det er åbenlyst.",
         severity: "high",
         actions: [
           "Tilføj synlig AI-disclaimer ved chatbot-start (\"Du taler med en AI-assistent\")",
@@ -555,7 +555,7 @@ export const categories: Category[] = [
         id: "mark-ai-genereret-indhold",
         name: "Mærkning af AI-genereret indhold (maskinlæsbart)",
         description:
-          "Udbydere af generativ AI skal sikre at output (syntetisk lyd, billede, video, tekst) mærkes i maskinlæsbart format og kan identificeres som kunstigt genereret – fx via watermarks eller metadata.",
+          "Udbydere af generativ AI skal sikre at output (syntetisk lyd, billede, video, tekst) mærkes i maskinlæsbart format og kan identificeres som kunstigt genereret - fx via watermarks eller metadata.",
         severity: "high",
         actions: [
           "Aktiver model-leverandørens watermarking-funktioner (C2PA, SynthID, etc.)",
@@ -606,7 +606,7 @@ export const categories: Category[] = [
         id: "deepfake-maerkning",
         name: "Deepfake-mærkning",
         description:
-          "Idriftsættere skal oplyse at indhold er AI-genereret eller -manipuleret når deepfake-billeder, lyd eller video distribueres – undtagen ved åbenlyst kunstnerisk eller satirisk brug.",
+          "Idriftsættere skal oplyse at indhold er AI-genereret eller -manipuleret når deepfake-billeder, lyd eller video distribueres - undtagen ved åbenlyst kunstnerisk eller satirisk brug.",
         severity: "high",
         actions: [
           "Mærk al AI-genereret marketing-content med tydelig deklaration",
@@ -623,7 +623,7 @@ export const categories: Category[] = [
         id: "ai-tekst-offentlig",
         name: "AI-genereret offentlig tekst",
         description:
-          "AI-genereret tekst der offentliggøres med det formål at informere offentligheden om emner af offentlig interesse, skal mærkes som kunstigt genereret – medmindre den er redaktionelt gennemgået med menneskelig redaktionel ansvarlighed.",
+          "AI-genereret tekst der offentliggøres med det formål at informere offentligheden om emner af offentlig interesse, skal mærkes som kunstigt genereret - medmindre den er redaktionelt gennemgået med menneskelig redaktionel ansvarlighed.",
         severity: "high",
         actions: [
           "Identificér AI-pipelines der producerer offentligt indhold (PR, nyhedsbreve)",
@@ -649,17 +649,17 @@ export const categories: Category[] = [
     pillar: "lovkrav",
     icon: "📋",
     description:
-      "AI-forordningen står ikke alene. GDPR, NIS2, DORA og sektorspecifikke regler overlapper og udfylder hinanden – og udløser ofte de største bøder i 2026.",
+      "AI-forordningen står ikke alene. GDPR, NIS2, DORA og sektorspecifikke regler overlapper og udfylder hinanden - og udløser ofte de største bøder i 2026.",
     subcategories: [
       {
         id: "gdpr-ai",
-        name: "GDPR – retsgrundlag, DPIA & EDPB Op. 28/2024",
+        name: "GDPR - retsgrundlag, DPIA & EDPB Op. 28/2024",
         description:
           "GDPR gælder fuldt for AI der behandler persondata. EDPB's udtalelse 28/2024 har sat ramme for lovligt retsgrundlag, anonymitet af trænede modeller og konsekvenser af ulovligt indsamlede træningsdata.",
         severity: "critical",
         actions: [
           "Identificer retsgrundlag (typisk legitim interesse + balancetest) for AI-træning og -brug",
-          "Gennemfør DPIA før højrisiko-databehandling – Datatilsynet har skabeloner",
+          "Gennemfør DPIA før højrisiko-databehandling - Datatilsynet har skabeloner",
           "Vurder om trænede modeller anses som personoplysninger pr. EDPB Op. 28/2024",
         ],
         sourceLinks: [
@@ -670,7 +670,7 @@ export const categories: Category[] = [
       },
       {
         id: "nis2",
-        name: "NIS2 – cybersikkerhed for væsentlige enheder",
+        name: "NIS2 - cybersikkerhed for væsentlige enheder",
         description:
           "NIS2-direktivet er transponeret i Danmark via NIS2-loven (LOV nr 434 af 06/05/2025, i kraft 1. juli 2025). Registreringsfristen for væsentlige/vigtige enheder var 1. oktober 2025. AI-systemer i scope arver NIS2-cybersikkerhedsforpligtelser, herunder hændelsesrapportering inden for 24/72 timer.",
         severity: "high",
@@ -688,7 +688,7 @@ export const categories: Category[] = [
       },
       {
         id: "dora",
-        name: "DORA – ICT/AI-leverandørrisiko (finans)",
+        name: "DORA - ICT/AI-leverandørrisiko (finans)",
         description:
           "DORA gælder for finans-/forsikringssektoren siden 17. januar 2025. ICT-third-party-register skal eksplicit dække AI-leverandører. Første indleveringsfrist til Finanstilsynet var 31. marts 2026; temaundersøgelse af forsikring/pension publiceres forår 2026. Ofte vigtigere end AI Act for danske banker på kort sigt.",
         severity: "high",
@@ -699,7 +699,7 @@ export const categories: Category[] = [
           "Følg Finanstilsynets temaundersøgelser om DORA i 2026",
         ],
         sourceLinks: [
-          { label: "DORA – Regulation 2022/2554", url: DORA, source: "DORA" },
+          { label: "DORA - Regulation 2022/2554", url: DORA, source: "DORA" },
           { label: "Finanstilsynet: DORA-tilsyn", url: FINANSTILSYNET_DORA, source: "Finanstilsynet" },
         ],
         tags: ["DORA", "finans", "leverandørrisiko"],
@@ -708,7 +708,7 @@ export const categories: Category[] = [
         id: "coe-convention",
         name: "Council of Europe Framework Convention on AI",
         description:
-          "Verdens første bindende internationale AI-traktat (CETS 225). DK underskrev sep 2024; EU ratificerede 15. maj 2026. Lægger menneskerettigheds-/retsstats-lag ovenpå AI Act — mest relevant for offentlig sektor.",
+          "Verdens første bindende internationale AI-traktat (CETS 225). DK underskrev sep 2024; EU ratificerede 15. maj 2026. Lægger menneskerettigheds-/retsstats-lag ovenpå AI Act - mest relevant for offentlig sektor.",
         severity: "medium",
         actions: [
           "Mest relevant for offentlige myndigheder og statslige selskaber",
@@ -722,14 +722,14 @@ export const categories: Category[] = [
       },
       {
         id: "sektorregler",
-        name: "Sektorregler – MDR, finans, ansættelse, undervisning",
+        name: "Sektorregler - MDR, finans, ansættelse, undervisning",
         description:
-          "Sektorlovgivning udfylder AI Act. Medicinsk udstyr (MDR), kreditscoring (EBA-retningslinjer), ansættelse (ligebehandlingsloven), uddannelse – hver med egne dokumentations- og diskriminationskrav.",
+          "Sektorlovgivning udfylder AI Act. Medicinsk udstyr (MDR), kreditscoring (EBA-retningslinjer), ansættelse (ligebehandlingsloven), uddannelse - hver med egne dokumentations- og diskriminationskrav.",
         severity: "high",
         actions: [
-          "Map AI use cases mod relevant sektorlovgivning – ikke kun AI Act",
+          "Map AI use cases mod relevant sektorlovgivning - ikke kun AI Act",
           "Konsulter sektor-tilsynsmyndighed (Lægemiddelstyrelsen, Finanstilsynet osv.)",
-          "Forstå at AI Act er minimumsstandard – sektorregler kan være strengere",
+          "Forstå at AI Act er minimumsstandard - sektorregler kan være strengere",
         ],
         sourceLinks: [
           { label: "Digst: Reglerne i AI-forordningen", url: DIGST_REGLER, source: "Digst" },
@@ -743,11 +743,11 @@ export const categories: Category[] = [
           "Samspillet mellem GDPR og AI Act forbliver juridisk omstridt. EDPB-EDPS Joint Opinion 1/2026 (januar 2026) tog stilling til Digital Omnibus on AI. Forventede joint guidelines fra EDPB og Kommissionen i 2026. Datatilsynet har ikke publiceret GPAI-specifik vejledning men tilbyder en regulatorisk AI-sandkasse sammen med Digitaliseringsstyrelsen for at afklare dual GDPR+AI Act-klassificering før deployment.",
         severity: "high",
         actions: [
-          "Læs EDPB-EDPS Joint Opinion 1/2026 for myndighedernes position på Omnibus-forenklinger — særligt om hvilke GDPR-beskyttelser man IKKE må svække",
+          "Læs EDPB-EDPS Joint Opinion 1/2026 for myndighedernes position på Omnibus-forenklinger - særligt om hvilke GDPR-beskyttelser man IKKE må svække",
           "Track de kommende EDPB-Kommissionen joint guidelines om GDPR/AI Act-samspil (annonceret 2026) og EDPB web-scraping guidelines før I finaliserer vendor-kontrakter",
           "For højrisiko- eller usikre use cases: ansøg om Datatilsynets/Digitaliseringsstyrelsens AI-sandkasse for at få afklaret dual GDPR+AI Act-klassificering før deployment",
-          "Forstå at Datatilsynet pr. juni 2026 IKKE har publiceret GPAI-specifik vejledning — de defererer til EDPB-instrumenter; vær varsom med at antage andet",
-          "Følg EDPB-position om legitime interesser som retsgrundlag for AI-træning — Op. 28/2024 var ikke endegyldig, og 2026-opinioner kan justere kursen",
+          "Forstå at Datatilsynet pr. juni 2026 IKKE har publiceret GPAI-specifik vejledning - de defererer til EDPB-instrumenter; vær varsom med at antage andet",
+          "Følg EDPB-position om legitime interesser som retsgrundlag for AI-træning - Op. 28/2024 var ikke endegyldig, og 2026-opinioner kan justere kursen",
         ],
         sourceLinks: [
           { label: "EDPB-EDPS Joint Opinion 1/2026 (Omnibus AI, PDF)", url: EDPB_OMNIBUS_PDF, source: "GDPR/EDPB" },
@@ -775,7 +775,7 @@ export const categories: Category[] = [
     pillar: "standarder",
     icon: "🏛️",
     description:
-      "ISO/IEC 42001 er den certificerbare standard for AI Management Systems. Forventes at blive de facto compliance-bevis over for tilsyn og kunder – på linje med ISO 27001 for informationssikkerhed.",
+      "ISO/IEC 42001 er den certificerbare standard for AI Management Systems. Forventes at blive de facto compliance-bevis over for tilsyn og kunder - på linje med ISO 27001 for informationssikkerhed.",
     subcategories: [
       {
         id: "iso-42001-certificering",
@@ -795,9 +795,9 @@ export const categories: Category[] = [
       },
       {
         id: "iso-42005-impact",
-        name: "ISO/IEC 42005:2025 — AI Impact Assessment",
+        name: "ISO/IEC 42005:2025 - AI Impact Assessment",
         description:
-          "Companion-standard til ISO 42001, publiceret maj 2025. Definerer struktureret AI Impact Assessment (AIIA) — relevant for FRIA, DPIA-integration og generelt AI-risikoarbejde.",
+          "Companion-standard til ISO 42001, publiceret maj 2025. Definerer struktureret AI Impact Assessment (AIIA) - relevant for FRIA, DPIA-integration og generelt AI-risikoarbejde.",
         severity: "medium",
         actions: [
           "Brug ISO 42005 som skabelon for AIIA-skabeloner internt",
@@ -854,13 +854,13 @@ export const categories: Category[] = [
     pillar: "standarder",
     icon: "🎯",
     description:
-      "NIST AI Risk Management Framework er det førende operationelle rammeværk under ISO 42001. Govern–Map–Measure–Manage. GenAI-profilen (NIST AI 600-1) tilføjer 200+ kontroller for generative systemer.",
+      "NIST AI Risk Management Framework er det førende operationelle rammeværk under ISO 42001. Govern - Map - Measure - Manage. GenAI-profilen (NIST AI 600-1) tilføjer 200+ kontroller for generative systemer.",
     subcategories: [
       {
         id: "nist-rmf-core",
-        name: "NIST AI RMF: Govern–Map–Measure–Manage",
+        name: "NIST AI RMF: Govern - Map - Measure - Manage",
         description:
-          "Det centrale NIST-rammeværk for AI-risikostyring – frivilligt men de facto-baseline. Etablerer roller og processer for hele AI-livscyklussen.",
+          "Det centrale NIST-rammeværk for AI-risikostyring - frivilligt men de facto-baseline. Etablerer roller og processer for hele AI-livscyklussen.",
         severity: "high",
         actions: [
           "Map jeres AI use cases til de fire kernefunktioner",
@@ -876,7 +876,7 @@ export const categories: Category[] = [
         id: "nist-genai-profile",
         name: "GenAI-specifikke kontroller (NIST AI 600-1)",
         description:
-          "NIST's Generative AI Profile tilføjer 200+ specifikke risici og kontroller for LLM-baserede systemer – herunder hallucination, prompt injection, data leakage, IP-risici.",
+          "NIST's Generative AI Profile tilføjer 200+ specifikke risici og kontroller for LLM-baserede systemer - herunder hallucination, prompt injection, data leakage, IP-risici.",
         severity: "high",
         actions: [
           "Brug GenAI-profilen som tjekliste for LLM-implementeringer",
@@ -892,7 +892,7 @@ export const categories: Category[] = [
         id: "iso-23894",
         name: "ISO/IEC 23894 risikoguide (supplerende)",
         description:
-          "ISO 23894 er den AI-specifikke supplerende risikostandard. Dækker samme område som NIST RMF men i ISO-format – nyttig hvis I i forvejen er ISO-tunge.",
+          "ISO 23894 er den AI-specifikke supplerende risikostandard. Dækker samme område som NIST RMF men i ISO-format - nyttig hvis I i forvejen er ISO-tunge.",
         severity: "low",
         actions: [
           "Vælg ét primært risikorammeværk (typisk NIST AI RMF)",
@@ -938,7 +938,7 @@ export const categories: Category[] = [
         id: "praesumption",
         name: "Præsumption om overensstemmelse",
         description:
-          "Overholdelse af harmoniserede standarder giver formodning om AI Act-overensstemmelse – den letteste compliance-vej for højrisiko-systemer.",
+          "Overholdelse af harmoniserede standarder giver formodning om AI Act-overensstemmelse - den letteste compliance-vej for højrisiko-systemer.",
         severity: "medium",
         actions: [
           "Inkorporer harmoniserede standarder i jeres conformity assessment",
@@ -1052,7 +1052,7 @@ export const categories: Category[] = [
         id: "use-case-register",
         name: "Use case-register",
         description:
-          "Central registrering af alle AI use cases i organisationen – med ejer, formål, datakilder, leverandører, status og risikoklassificering.",
+          "Central registrering af alle AI use cases i organisationen - med ejer, formål, datakilder, leverandører, status og risikoklassificering.",
         severity: "critical",
         actions: [
           "Etabler obligatorisk registreringsproces for nye AI use cases",
@@ -1110,7 +1110,7 @@ export const categories: Category[] = [
     pillar: "drift",
     icon: "👁️",
     description:
-      "Som deployer (den der bruger AI-systemet, ikke nødvendigvis udvikler) har I selvstændige forpligtelser under AI Act Art. 26 – ofte overset i danske implementeringer.",
+      "Som deployer (den der bruger AI-systemet, ikke nødvendigvis udvikler) har I selvstændige forpligtelser under AI Act Art. 26 - ofte overset i danske implementeringer.",
     subcategories: [
       {
         id: "human-oversight",
@@ -1149,7 +1149,7 @@ export const categories: Category[] = [
         id: "dpia-fria-integration",
         name: "DPIA + FRIA-integration",
         description:
-          "GDPR-DPIA og AI Act-FRIA dækker overlappende men ikke identiske områder. Mest effektivt at køre dem som én integreret proces – men dokumentere udfald separat.",
+          "GDPR-DPIA og AI Act-FRIA dækker overlappende men ikke identiske områder. Mest effektivt at køre dem som én integreret proces - men dokumentere udfald separat.",
         severity: "high",
         actions: [
           "Etabler integreret DPIA+FRIA-skabelon",
@@ -1174,7 +1174,7 @@ export const categories: Category[] = [
     pillar: "drift",
     icon: "🤝",
     description:
-      "I køber sjældent AI fra en EU-baseret udbyder. Leverandørstyringen – kontrakter, due diligence, EU-repræsentation – er der hvor compliance enten bliver virkelig eller falder fra hinanden.",
+      "I køber sjældent AI fra en EU-baseret udbyder. Leverandørstyringen - kontrakter, due diligence, EU-repræsentation - er der hvor compliance enten bliver virkelig eller falder fra hinanden.",
     subcategories: [
       {
         id: "ai-kontraktklausuler",
@@ -1238,18 +1238,18 @@ export const categories: Category[] = [
     pillar: "drift",
     icon: "🎓",
     description:
-      "AI-literacy-kravet (Art. 4) er allerede håndhævet siden 2. februar 2025 – og det billigste tilsynsmål for myndighederne. Plus serious incident reporting hvis noget går galt.",
+      "AI-literacy-kravet (Art. 4) er allerede håndhævet siden 2. februar 2025 - og det billigste tilsynsmål for myndighederne. Plus serious incident reporting hvis noget går galt.",
     subcategories: [
       {
         id: "ai-literacy",
         name: "AI-literacy program (Art. 4)",
         description:
-          "Alle udbydere og deployere skal sikre tilstrækkelig AI-literacy hos medarbejdere der arbejder med AI-systemer. I kraft 2. februar 2025 – ofte overset.",
+          "Alle udbydere og deployere skal sikre tilstrækkelig AI-literacy hos medarbejdere der arbejder med AI-systemer. I kraft 2. februar 2025 - ofte overset.",
         severity: "high",
         actions: [
           "Definér AI-literacy-baseline pr. rolle (bruger, ejer, udvikler, ledelse)",
           "Indfør obligatorisk introduktion til AI for nye medarbejdere",
-          "Dokumentér deltagelse – tilsyn vil bede om det",
+          "Dokumentér deltagelse - tilsyn vil bede om det",
         ],
         sourceLinks: [
           { label: "AI Act Art. 4 (i kraft 2. feb 2025)", url: EU_AI_ACT, source: "EU AI Act" },
@@ -1260,7 +1260,7 @@ export const categories: Category[] = [
         id: "serious-incident",
         name: "Serious incident reporting",
         description:
-          "Udbydere af højrisiko-systemer skal rapportere alvorlige hændelser til markedsovervågningsmyndigheden uden unødigt ophold – og senest 15 dage. Defineret i AI Act Art. 73.",
+          "Udbydere af højrisiko-systemer skal rapportere alvorlige hændelser til markedsovervågningsmyndigheden uden unødigt ophold - og senest 15 dage. Defineret i AI Act Art. 73.",
         severity: "high",
         actions: [
           "Etabler intern hændelseskategorisering der inkluderer AI-specifikke typer",
@@ -1354,13 +1354,13 @@ export const toolsMeta: ToolMeta[] = [
     title: "AI Act-tidslinje",
     shortPitch: "Interaktiv tidslinje over alle EU AI Act-frister med dansk kontekst og kildelinks.",
     description:
-      "Interaktiv tidslinje over EU AI Act og tilstødende dansk lovgivning — fra forbudte praksisser (feb 2025) til Annex I-højrisiko (aug 2028), inkl. AI Omnibus-udskydelserne. Klik hver milepæl for detaljer og kilder.",
+      "Interaktiv tidslinje over EU AI Act og tilstødende dansk lovgivning - fra forbudte praksisser (feb 2025) til Annex I-højrisiko (aug 2028), inkl. AI Omnibus-udskydelserne. Klik hver milepæl for detaljer og kilder.",
     icon: "🗓️",
   },
   {
     slug: "sektor-matrix",
     title: "Sektor × regulering-matrix",
-    shortPitch: "Se hvilke EU- og danske regler der rammer din sektor — 8 sektorer × 7 regelsæt.",
+    shortPitch: "Se hvilke EU- og danske regler der rammer din sektor - 8 sektorer × 7 regelsæt.",
     description:
       "Matrix over 8 danske sektorer × 7 regelsæt (EU AI Act, GDPR, DORA, NIS2, ISO 42001, sektorlov, FRIA) med præcise danske hooks i hver celle. Find på sekunder hvilke krav der gælder for netop din branche.",
     icon: "🗂️",
@@ -1368,7 +1368,7 @@ export const toolsMeta: ToolMeta[] = [
   {
     slug: "boedestruktur",
     title: "Bødestruktur",
-    shortPitch: "EU AI Act's tre bødeklasser — €35M / €15M / €7,5M eller op til 7 % af global omsætning — med udløsende artikler og eksempler.",
+    shortPitch: "EU AI Act's tre bødeklasser - €35M / €15M / €7,5M eller op til 7 % af global omsætning - med udløsende artikler og eksempler.",
     description:
       "Overblik over EU AI Act's tre bødeklasser (op til €35M / €15M / €7,5M eller en procent af global omsætning) med de udløsende artikler og konkrete eksempler på overtrædelser i hver klasse.",
     icon: "⚖️",
@@ -1378,7 +1378,7 @@ export const toolsMeta: ToolMeta[] = [
     title: "Dokumentationskort",
     shortPitch: "Hvem ejer hvilke compliance-dokumenter? 5 roller × 12 dokumenter for højrisiko-systemer.",
     description:
-      "Matrix over 5 roller × 12 dokumenter for højrisiko AI-systemer under EU AI Act — teknisk dokumentation, risikostyring, logging, FRIA, CE-erklæring m.m. Se hvem der ejer hvad i dokumentationspakken.",
+      "Matrix over 5 roller × 12 dokumenter for højrisiko AI-systemer under EU AI Act - teknisk dokumentation, risikostyring, logging, FRIA, CE-erklæring m.m. Se hvem der ejer hvad i dokumentationspakken.",
     icon: "🗺️",
   },
 ];

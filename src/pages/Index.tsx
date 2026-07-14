@@ -234,23 +234,23 @@ const Index = () => {
     const SITE = "AI Compliance";
     let title: string;
     if (isToolsRoute && selectedTool) {
-      title = `${selectedTool.title} — Værktøj | ${SITE}`;
+      title = `${selectedTool.title} - Værktøj | ${SITE}`;
     } else if (isToolsRoute) {
-      title = `Værktøjer — interaktive AI Act-værktøjer | ${SITE}`;
+      title = `Værktøjer - interaktive AI Act-værktøjer | ${SITE}`;
     } else if (selectedSubcategory && selectedCategory) {
-      title = `${selectedSubcategory.name} — ${selectedCategory.name} | ${SITE}`;
+      title = `${selectedSubcategory.name} - ${selectedCategory.name} | ${SITE}`;
     } else if (selectedCategory) {
-      title = `${selectedCategory.name} — ${SITE}`;
+      title = `${selectedCategory.name} - ${SITE}`;
     } else if (selectedPillar) {
       const p = pillars.find((x) => x.id === selectedPillar);
-      title = p ? `${p.name} — ${SITE}` : SITE;
+      title = p ? `${p.name} - ${SITE}` : SITE;
     } else {
-      title = "AI Compliance – Praktisk overblik til danske virksomheder | EU AI Act, ISO 42001, NIST";
+      title = "AI Compliance - Praktisk overblik til danske virksomheder | EU AI Act, ISO 42001, NIST";
     }
     document.title = title;
   }, [selectedPillar, selectedCategory, selectedSubcategory, isToolsRoute, selectedTool]);
 
-  // Compatibility navigate function — matches the existing signature so child components
+  // Compatibility navigate function - matches the existing signature so child components
   // don't need refactoring. Translates view+entity tuples into URL paths.
   const navigate = (
     newView: View,
@@ -511,7 +511,7 @@ const Index = () => {
         )}
       </main>
 
-      {/* Newsletter + CTA strip — hide the booking column on subcategory pages,
+      {/* Newsletter + CTA strip - hide the booking column on subcategory pages,
           which already have their own contextual "Book sparring" card (avoids
           two stacked Book CTAs). Newsletter stays everywhere. */}
       <NewsletterCTA showBooking={view !== "subcategory"} />
@@ -544,11 +544,11 @@ function DashboardView({
           AI Compliance <span className="text-primary text-glow">Overblik</span>
         </h1>
         <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
-          Praktisk overblik over AI-compliance for danske organisationer — opdelt i Lovkrav, Standarder og Drift. Baseret på EU AI Act (Regulation 2024/1689), Digitaliseringsstyrelsens vejledninger, Datatilsynet, ISO/IEC 42001, NIST AI RMF og tilstødende EU-lovgivning. <span className="text-primary font-medium">AI Omnibus (7. maj 2026)</span> udskød højrisiko-fristerne til 2. december 2027 (Annex III) og 2. august 2028 (Annex I) — forpligtelserne består, kun timing ændres.
+          Praktisk overblik over AI-compliance for danske organisationer - opdelt i Lovkrav, Standarder og Drift. Baseret på EU AI Act (Regulation 2024/1689), Digitaliseringsstyrelsens vejledninger, Datatilsynet, ISO/IEC 42001, NIST AI RMF og tilstødende EU-lovgivning. <span className="text-primary font-medium">AI Omnibus (7. maj 2026)</span> udskød højrisiko-fristerne til 2. december 2027 (Annex III) og 2. august 2028 (Annex I) - forpligtelserne består, kun timing ændres.
         </p>
       </div>
 
-      {/* Værktøjer-sektion — alle sitets værktøjer, synlige fra dashboardet */}
+      {/* Værktøjer-sektion - alle sitets værktøjer, synlige fra dashboardet */}
       <section aria-labelledby="vaerktoejer-heading" className="mb-8">
         <div className="mb-3 flex items-baseline justify-between">
           <h2 id="vaerktoejer-heading" className="font-display text-lg font-semibold text-foreground">Interaktive værktøjer</h2>
@@ -692,7 +692,7 @@ function DashboardView({
             </div>
             <div className="min-w-0">
               <p className="font-display text-sm font-semibold text-foreground">NIST AI RMF</p>
-              <p className="mt-1 text-xs text-muted-foreground">Govern–Map–Measure–Manage. GenAI-profil (NIST AI 600-1) tilføjer 200+ kontroller for LLM-systemer.</p>
+              <p className="mt-1 text-xs text-muted-foreground">Govern - Map - Measure - Manage. GenAI-profil (NIST AI 600-1) tilføjer 200+ kontroller for LLM-systemer.</p>
             </div>
             <ExternalLink className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
           </a>
@@ -764,12 +764,12 @@ function NewsFeed() {
           </a>
         ))}
       </div>
-      <p className="mt-3 text-[11px] text-muted-foreground">Kuraterede nyheder fra autoritative kilder — opdateres ugentligt.</p>
+      <p className="mt-3 text-[11px] text-muted-foreground">Kuraterede nyheder fra autoritative kilder - opdateres ugentligt.</p>
     </section>
   );
 }
 
-// ── EU AI Act + tilstødende lovgivning — horizontal timeline ──
+// ── EU AI Act + tilstødende lovgivning - horizontal timeline ──
 type TimelineEvent = {
   date: string;
   label: string;
@@ -785,7 +785,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     label: "2. feb 2025",
     title: "Forbudte praksisser + AI-literacy",
     note: "Art. 4 + 5 i kraft",
-    detail: "Artikel 5 (forbudte AI-praksisser — social scoring, manipulation, biometrisk fjernidentifikation til retshåndhævelse m.fl.) og Artikel 4 (AI-literacy-krav til alle udbydere og idriftsættere) trådte i kraft som de første dele af AI-forordningen. Overtrædelse af Art. 5 udløser den højeste bødeklasse: op til 35 mio. EUR eller 7 % af global omsætning. AI-literacy-kravet er allerede håndhævet — Datatilsynet og Digst kan bede om dokumentation for at medarbejdere har modtaget træning.",
+    detail: "Artikel 5 (forbudte AI-praksisser - social scoring, manipulation, biometrisk fjernidentifikation til retshåndhævelse m.fl.) og Artikel 4 (AI-literacy-krav til alle udbydere og idriftsættere) trådte i kraft som de første dele af AI-forordningen. Overtrædelse af Art. 5 udløser den højeste bødeklasse: op til 35 mio. EUR eller 7 % af global omsætning. AI-literacy-kravet er allerede håndhævet - Datatilsynet og Digst kan bede om dokumentation for at medarbejdere har modtaget træning.",
     sources: [
       { label: "EU AI Act Art. 5", url: "https://artificialintelligenceact.eu/article/5/" },
       { label: "EU AI Act Art. 4", url: "https://artificialintelligenceact.eu/article/4/" },
@@ -809,7 +809,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     label: "31. mar 2026",
     title: "DORA Register-of-Information",
     note: "Finanstilsynet-frist (passeret)",
-    detail: "Første indleveringsfrist for finansielle virksomheders DORA Register of Information til Finanstilsynet. Registret skal eksplicit dække alle ICT-third-party-leverandører — herunder AI-leverandører. Forsikrings- og pensionssektor får temainspektion publiceret forår 2026. For danske banker er DORA ofte mere kortsigtet kritisk end AI Act.",
+    detail: "Første indleveringsfrist for finansielle virksomheders DORA Register of Information til Finanstilsynet. Registret skal eksplicit dække alle ICT-third-party-leverandører - herunder AI-leverandører. Forsikrings- og pensionssektor får temainspektion publiceret forår 2026. For danske banker er DORA ofte mere kortsigtet kritisk end AI Act.",
     sources: [
       { label: "DORA Regulation 2022/2554", url: "https://eur-lex.europa.eu/eli/reg/2022/2554/oj" },
       { label: "Finanstilsynet: DORA-tilsyn", url: "https://www.finanstilsynet.dk/finansielle-temaer/tilsyn-med-ikt-og-datasikkerhed/" },
@@ -820,7 +820,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     label: "7. maj 2026",
     title: "AI Omnibus-aftale",
     note: "Højrisiko-deadlines udskudt",
-    detail: "EU Council og Parlament nåede politisk aftale om AI Omnibus 7. maj 2026. Højrisiko-fristerne blev udskudt: Annex III standalone-systemer til 2. december 2027 (var aug 2026); Annex I indlejrede systemer til 2. august 2028 (var aug 2027). NCII/CSAM (\"nudifiers\") blev tilføjet som ny forbudt praksis. Formel vedtagelse forventes primo juni 2026. Forpligtelserne består — kun timing ændres.",
+    detail: "EU Council og Parlament nåede politisk aftale om AI Omnibus 7. maj 2026. Højrisiko-fristerne blev udskudt: Annex III standalone-systemer til 2. december 2027 (var aug 2026); Annex I indlejrede systemer til 2. august 2028 (var aug 2027). NCII/CSAM (\"nudifiers\") blev tilføjet som ny forbudt praksis. Formel vedtagelse forventes primo juni 2026. Forpligtelserne består - kun timing ændres.",
     sources: [
       { label: "Council of EU: AI Omnibus pressemeddelelse", url: "https://www.consilium.europa.eu/en/press/press-releases/2026/05/07/artificial-intelligence-council-and-parliament-agree-to-simplify-and-streamline-rules/" },
       { label: "Digst: AI-tilsyn (med Omnibus-banner)", url: "https://digst.dk/tilsyn/ai-forordningen/" },
@@ -904,7 +904,7 @@ function AiActTimeline() {
   return (
     <div className="mb-8 rounded-xl border border-border bg-card p-6">
       <div className="mb-5 flex items-baseline justify-between">
-        <h3 className="font-display text-base font-semibold text-foreground">EU AI Act & tilstødende — tidslinje</h3>
+        <h3 className="font-display text-base font-semibold text-foreground">EU AI Act & tilstødende - tidslinje</h3>
         <span className="text-xs text-muted-foreground">Du er her: {today.toLocaleDateString("da-DK", { month: "long", year: "numeric" })}</span>
       </div>
       <div className="relative">
@@ -1020,45 +1020,45 @@ function SectorRegulationMatrix() {
       gdpr: "Standard GDPR + GDPR Art. 22 for automatiserede beslutninger om kunder.",
       nis2: "Banker og forsikring er typisk væsentlige enheder under NIS2-loven.",
       dora: "DORA gælder for alle finansielle enheder siden 17. jan 2025. ICT-third-party-register obligatorisk.",
-      iso42001: "Frivillig — men forventet markedsstandard. Finanstilsynet kan reference den i tilsyn.",
+      iso42001: "Frivillig - men forventet markedsstandard. Finanstilsynet kan reference den i tilsyn.",
       sektor: "Finansiel Virksomhedslov, Solvency II, EBA Guidelines on outsourcing, ECB SREP.",
       fria: "Krav for banker/forsikring der bruger højrisiko-AI under Art. 27.",
     },
     sundhed: {
       "ai-act": "AI som medicinsk udstyr går via MDR + AI Act overlap. Klassisk MDR-vejledning gælder først.",
-      gdpr: "Særlige kategorier (sundhedsdata) — DPIA næsten altid krævet.",
+      gdpr: "Særlige kategorier (sundhedsdata) - DPIA næsten altid krævet.",
       nis2: "Hospitaler under NIS2 hvis væsentlige enheder; mindre klinikker som regel ikke.",
-      dora: "Ikke direkte — men leverandører til finansielle clients kan blive ramt indirekte.",
-      iso42001: "Frivillig — vinder traction i medtech.",
+      dora: "Ikke direkte - men leverandører til finansielle clients kan blive ramt indirekte.",
+      iso42001: "Frivillig - vinder traction i medtech.",
       sektor: "MDR (Regulation 2017/745), sundhedsloven, lægemiddelloven, autorisationsloven.",
       fria: "Ved højrisiko-AI brugt af offentlige hospitaler/regioner.",
     },
     offentlig: {
       "ai-act": "Alle højrisiko-anvendelser. Offentlige myndigheder har skærpede pligter (EU-database registrering selv ved ikke-højrisiko).",
       gdpr: "Standard + særskilt offentlig myndigheds-grundlag.",
-      nis2: "Kritisk infrastruktur og kommuner — varierer.",
+      nis2: "Kritisk infrastruktur og kommuner - varierer.",
       dora: "Ikke gældende.",
-      iso42001: "Frivillig — Digst opfordrer.",
+      iso42001: "Frivillig - Digst opfordrer.",
       sektor: "Forvaltningsloven, offentlighedsloven, persondatabeskyttelsesloven (DK supplement).",
       fria: "OBLIGATORISK for alle offentlige myndigheder ved højrisiko-AI (Art. 27(1)(a)).",
     },
     hr: {
-      "ai-act": "Annex III §4 — beskæftigelse, performance, opsigelse er højrisiko.",
+      "ai-act": "Annex III §4 - beskæftigelse, performance, opsigelse er højrisiko.",
       gdpr: "Standard + medarbejdersamtykke-problematik. GDPR Art. 88 medarbejdersamtykke.",
       nis2: "Ikke gældende.",
       dora: "Ikke gældende.",
       iso42001: "Frivillig.",
       sektor: "Ligebehandlingsloven (køn, alder, race), funktionærloven, persondatatilsynets vejledning.",
-      fria: "Visse offentlige arbejdsgivere — ellers normalt ikke krav under Art. 27.",
+      fria: "Visse offentlige arbejdsgivere - ellers normalt ikke krav under Art. 27.",
     },
     uddannelse: {
-      "ai-act": "Annex III §3 — adgang, vurdering, snyddetektion er højrisiko.",
+      "ai-act": "Annex III §3 - adgang, vurdering, snyddetektion er højrisiko.",
       gdpr: "Standard. Mindreårige under 13 = forældresamtykke.",
       nis2: "Ikke direkte.",
       dora: "Ikke gældende.",
       iso42001: "Frivillig.",
       sektor: "Folkeskoleloven, eksamensbekendtgørelser, universitetsloven, STIL/UVM AI-vejledning (maj 2025).",
-      fria: "Offentlige uddannelsesinstitutioner — ja. Privatskoler — som regel ikke.",
+      fria: "Offentlige uddannelsesinstitutioner - ja. Privatskoler - som regel ikke.",
     },
     detail: {
       "ai-act": "Art. 5 manipulation-forbud + Art. 50 transparens (chatbots, deepfakes i marketing).",
@@ -1071,7 +1071,7 @@ function SectorRegulationMatrix() {
     },
     industri: {
       "ai-act": "Annex I hvis AI er sikkerhedskomponent i reguleret produkt (maskiner, biler). Ellers minimal.",
-      gdpr: "Begrænset — primært HR-applikationer på arbejdspladsen.",
+      gdpr: "Begrænset - primært HR-applikationer på arbejdspladsen.",
       nis2: "Visse industrier (energi, vand) er væsentlige enheder.",
       dora: "Ikke gældende.",
       iso42001: "Frivillig.",
@@ -1098,7 +1098,7 @@ function SectorRegulationMatrix() {
       case "voluntary":
         return { symbol: "○", className: "bg-info/15 text-info border-info/30", label: "Frivillig" };
       case "n/a":
-        return { symbol: "—", className: "bg-muted/20 text-muted-foreground/60 border-border/40", label: "N/A" };
+        return { symbol: " - ", className: "bg-muted/20 text-muted-foreground/60 border-border/40", label: "N/A" };
     }
   };
 
@@ -1106,10 +1106,10 @@ function SectorRegulationMatrix() {
     <div className="mb-8 rounded-xl border border-primary/30 bg-primary/5 p-6">
       <div className="mb-1 flex items-center gap-2">
         <span className="rounded bg-primary px-1.5 py-0.5 text-[10px] font-bold uppercase text-primary-foreground">Værktøj</span>
-        <h3 className="font-display text-lg font-semibold text-foreground">Sektor × regulering — hvad gælder for mig?</h3>
+        <h3 className="font-display text-lg font-semibold text-foreground">Sektor × regulering - hvad gælder for mig?</h3>
       </div>
       <p className="mb-5 text-sm text-muted-foreground">
-        Vælg jeres sektor — værktøjet viser hvilke lovgivninger der gælder, og hvilke der er betingede. Hold musen over en celle for præcise grunde og kilder. <strong className="text-foreground">Bemærk:</strong> dette er en pejling, ikke juridisk rådgivning — sektorspecifik analyse vil næsten altid være nødvendig.
+        Vælg jeres sektor - værktøjet viser hvilke lovgivninger der gælder, og hvilke der er betingede. Hold musen over en celle for præcise grunde og kilder. <strong className="text-foreground">Bemærk:</strong> dette er en pejling, ikke juridisk rådgivning - sektorspecifik analyse vil næsten altid være nødvendig.
       </p>
       <div className="overflow-x-auto">
         <table className="w-full text-xs">
@@ -1151,9 +1151,9 @@ function SectorRegulationMatrix() {
       </div>
       <div className="mt-4 grid grid-cols-2 gap-1.5 text-[10px] md:grid-cols-4">
         {[
-          { val: "required" as Applicability, label: "Krav — direkte gældende" },
-          { val: "conditional" as Applicability, label: "Betinget — afhænger af use case" },
-          { val: "voluntary" as Applicability, label: "Frivillig — best practice" },
+          { val: "required" as Applicability, label: "Krav - direkte gældende" },
+          { val: "conditional" as Applicability, label: "Betinget - afhænger af use case" },
+          { val: "voluntary" as Applicability, label: "Frivillig - best practice" },
           { val: "n/a" as Applicability, label: "Ikke gældende" },
         ].map((legend) => {
           const cell = renderCell(legend.val);
@@ -1174,21 +1174,21 @@ function PenaltyTiers() {
   const tiers = [
     {
       amount: "€35 mio. / 7 %",
-      label: "Tier 1 — Forbudte praksisser",
+      label: "Tier 1 - Forbudte praksisser",
       articles: ["Art. 5 (alle 8 forbud + NCII)"],
       examples: ["Social bedømmelse", "Real-time biometrisk fjernidentifikation", "Følelsesgenkendelse på arbejdspladsen", "Skadelig manipulation"],
       severity: "danger",
     },
     {
       amount: "€15 mio. / 3 %",
-      label: "Tier 2 — De fleste øvrige forpligtelser",
-      articles: ["Art. 16 udbyder-pligter", "Art. 22 EU-repræsentant", "Art. 23–24 importør/distributør", "Art. 26 deployer-pligter", "Art. 50 transparens", "Art. 53–55 GPAI"],
+      label: "Tier 2 - De fleste øvrige forpligtelser",
+      articles: ["Art. 16 udbyder-pligter", "Art. 22 EU-repræsentant", "Art. 23 - 24 importør/distributør", "Art. 26 deployer-pligter", "Art. 50 transparens", "Art. 53 - 55 GPAI"],
       examples: ["Manglende teknisk dokumentation", "Manglende menneskelig oversight", "Ingen FRIA før idriftsættelse af højrisiko-AI", "GPAI uden træningsdata-resumé"],
       severity: "warning",
     },
     {
       amount: "€7,5 mio. / 1,5 %",
-      label: "Tier 3 — Forkerte oplysninger til myndigheder",
+      label: "Tier 3 - Forkerte oplysninger til myndigheder",
       articles: ["Art. 99(5)"],
       examples: ["Forkerte oplysninger i konformitetserklæring", "Vildledende data i registrering eller audit", "Manglende samarbejde med markedsovervågning"],
       severity: "info",
@@ -1365,7 +1365,7 @@ function CategoryView({
         <p className="mt-3 max-w-3xl text-sm text-muted-foreground">{category.description}</p>
       </div>
 
-      {/* Værktøj: AI Act klassificeringsværktøj (kun for hoejrisiko-systemer) —
+      {/* Værktøj: AI Act klassificeringsværktøj (kun for hoejrisiko-systemer) - 
           bevidst inline: det ER svaret på kategoriens spørgsmål. */}
       {category.id === "hoejrisiko-systemer" && <AiActClassifier onNavigate={onNavigate} />}
       {category.id === "hoejrisiko-systemer" && (
@@ -1516,7 +1516,7 @@ function AiActClassifier({
     setArt50([]);
   };
 
-  // Compute results — highest applicable classification dominates. Each result
+  // Compute results - highest applicable classification dominates. Each result
   // carries clickable legal sources so the verdict is citable (Mette/DPO use case).
   const AIA = "https://artificialintelligenceact.eu";
   const shortName = (label?: string) => label?.split(" (")[0] ?? "";
@@ -1529,7 +1529,7 @@ function AiActClassifier({
     results.push({
       level: "forbudt",
       lines: [
-        "Forbudt under EU AI Act Art. 5 — må ikke markedsføres eller tages i brug",
+        "Forbudt under EU AI Act Art. 5 - må ikke markedsføres eller tages i brug",
         `Udløst af: ${forbudte.map((id) => shortName(forbudtList.find((f) => f.id === id)?.label)).join(" · ")}`,
         "Bøde op til 35 mio. EUR eller 7 % af global omsætning. Ikke afhjælpeligt.",
       ],
@@ -1540,7 +1540,7 @@ function AiActClassifier({
     results.push({
       level: "hoejrisiko",
       lines: [
-        `Højrisiko under Annex III — pkt. ${annex3.join(", ")}`,
+        `Højrisiko under Annex III - pkt. ${annex3.join(", ")}`,
         `Område(r): ${annex3.map((id) => shortName(annex3List.find((a) => a.id === id)?.label)).join(" · ")}`,
         "Udbyderpligter Art. 8-17 (risikostyring, datastyring, teknisk dokumentation, logging, menneskeligt tilsyn, CE-mærkning). Idriftsætterpligter Art. 26. FRIA kan være krævet (Art. 27).",
         "Gælder fra 2. december 2027 (efter AI Omnibus-udskydelsen).",
@@ -1661,10 +1661,10 @@ function AiActClassifier({
     <div className="mb-10 rounded-xl border border-primary/30 bg-primary/5 p-6">
       <div className="mb-1 flex items-center gap-2">
         <span className="rounded bg-primary px-1.5 py-0.5 text-[10px] font-bold uppercase text-primary-foreground">Værktøj</span>
-        <h3 className="font-display text-lg font-semibold text-foreground">Klassificeringsværktøj — AI Act</h3>
+        <h3 className="font-display text-lg font-semibold text-foreground">Klassificeringsværktøj - AI Act</h3>
       </div>
       <p className="mb-5 text-sm text-muted-foreground">
-        Det enkeltspørgsmål compliance-officers stiller mest: <em>"Er vores system højrisiko?"</em> Sæt flueben ved alt det jeres system gør — værktøjet beregner klassificeringen live. Resultatet vises nederst.
+        Det enkeltspørgsmål compliance-officers stiller mest: <em>"Er vores system højrisiko?"</em> Sæt flueben ved alt det jeres system gør - værktøjet beregner klassificeringen live. Resultatet vises nederst.
       </p>
 
       <div className="grid gap-4 md:grid-cols-2">
@@ -1692,7 +1692,7 @@ function AiActClassifier({
           </div>
           <label className="flex cursor-pointer items-start gap-2 rounded p-1.5 text-xs leading-tight hover:bg-secondary/50">
             <input type="checkbox" checked={annex1} onChange={() => setAnnex1(!annex1)} className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-primary" />
-            <span className="text-foreground/90">AI som sikkerhedskomponent i reguleret produkt (medicinsk udstyr, maskiner, biler, legetøj — Annex I)</span>
+            <span className="text-foreground/90">AI som sikkerhedskomponent i reguleret produkt (medicinsk udstyr, maskiner, biler, legetøj - Annex I)</span>
           </label>
           <label className="mt-2 flex cursor-pointer items-start gap-2 rounded p-1.5 text-xs leading-tight hover:bg-secondary/50">
             <input type="checkbox" checked={gpai} onChange={() => setGpai(!gpai)} className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-primary" />
@@ -1744,7 +1744,7 @@ function AiActClassifier({
               </div>
             ))}
             <p className="mt-2 text-[11px] text-muted-foreground">
-              Et system kan ramme flere klassificeringer samtidigt (fx både højrisiko og Art. 50-transparens). Den mest restriktive er styrende, men <em>alle</em> krav skal opfyldes. Klassificeringen med retsgrundlag-links er en kvalificeret pejling til intern brug — ikke juridisk rådgivning.
+              Et system kan ramme flere klassificeringer samtidigt (fx både højrisiko og Art. 50-transparens). Den mest restriktive er styrende, men <em>alle</em> krav skal opfyldes. Klassificeringen med retsgrundlag-links er en kvalificeret pejling til intern brug - ikke juridisk rådgivning.
             </p>
           </div>
         )}
@@ -1845,7 +1845,7 @@ function DocumentationMap() {
       case "v":
         return { symbol: "○", className: "bg-info/15 text-info border-info/30", label: "Anbefalet" };
       case "n":
-        return { symbol: "—", className: "bg-muted/20 text-muted-foreground/60 border-border/40", label: "N/A" };
+        return { symbol: " - ", className: "bg-muted/20 text-muted-foreground/60 border-border/40", label: "N/A" };
     }
   };
 
@@ -1856,7 +1856,7 @@ function DocumentationMap() {
         <h3 className="font-display text-lg font-semibold text-foreground">Dokumentations-kort: rolle × krav</h3>
       </div>
       <p className="mb-5 text-sm text-muted-foreground">
-        Hvilke dokumenter skal jeg producere? Hold musen over en celle for præcis henvisning. Klassificeringen er for <strong className="text-foreground">højrisiko-systemer under AI Act</strong> — minimal-risiko har færre formelle dokumentkrav.
+        Hvilke dokumenter skal jeg producere? Hold musen over en celle for præcis henvisning. Klassificeringen er for <strong className="text-foreground">højrisiko-systemer under AI Act</strong> - minimal-risiko har færre formelle dokumentkrav.
       </p>
       <div className="overflow-x-auto">
         <table className="w-full text-xs">
@@ -1899,9 +1899,9 @@ function DocumentationMap() {
       </div>
       <div className="mt-4 grid grid-cols-2 gap-1.5 text-[10px] md:grid-cols-4">
         {[
-          { v: "r" as Cell, label: "Krav — direkte forpligtelse" },
-          { v: "c" as Cell, label: "Betinget — kun visse use cases" },
-          { v: "v" as Cell, label: "Anbefalet — best practice" },
+          { v: "r" as Cell, label: "Krav - direkte forpligtelse" },
+          { v: "c" as Cell, label: "Betinget - kun visse use cases" },
+          { v: "v" as Cell, label: "Anbefalet - best practice" },
           { v: "n" as Cell, label: "Ikke gældende for rollen" },
         ].map((legend) => {
           const cell = renderCell(legend.v);
@@ -2032,7 +2032,7 @@ function InlineNewsletterPrompt({ hook, topic }: { hook: string; topic: string }
     try {
       const formData = new FormData();
       formData.append("fields[email]", email);
-      formData.append("fields[source_website]", "ai-compliance.dk"); // hidden — segments signups by site in MailerLite
+      formData.append("fields[source_website]", "ai-compliance.dk"); // hidden - segments signups by site in MailerLite
       formData.append("ml-submit", "1");
       formData.append("anticsrf", "true");
       await fetch(MAILERLITE_ACTION, {
@@ -2056,7 +2056,7 @@ function InlineNewsletterPrompt({ hook, topic }: { hook: string; topic: string }
         </div>
         {status === "success" ? (
           <div className="rounded-md border border-success/30 bg-success/10 px-4 py-2 text-sm text-success">
-            ✓ Tilmeldt — tjek din indbakke
+            ✓ Tilmeldt - tjek din indbakke
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-2 sm:flex-row md:w-auto md:max-w-sm">
@@ -2097,7 +2097,7 @@ function NewsletterCTA({ showBooking = true }: { showBooking?: boolean }) {
     try {
       const formData = new FormData();
       formData.append("fields[email]", email);
-      formData.append("fields[source_website]", "ai-compliance.dk"); // hidden — segments signups by site in MailerLite
+      formData.append("fields[source_website]", "ai-compliance.dk"); // hidden - segments signups by site in MailerLite
       formData.append("ml-submit", "1");
       formData.append("anticsrf", "true");
       await fetch(MAILERLITE_ACTION, {
@@ -2122,7 +2122,7 @@ function NewsletterCTA({ showBooking = true }: { showBooking?: boolean }) {
           </p>
           {status === "success" ? (
             <div className="mt-4 rounded-md border border-success/30 bg-success/10 p-4 text-sm text-success">
-              ✓ Tak! Du er nu tilmeldt — tjek din indbakke for bekræftelse.
+              ✓ Tak! Du er nu tilmeldt - tjek din indbakke for bekræftelse.
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-2 sm:flex-row">
@@ -2152,7 +2152,7 @@ function NewsletterCTA({ showBooking = true }: { showBooking?: boolean }) {
           <div className="rounded-xl border border-primary/30 bg-primary/5 p-6">
             <h3 className="font-display text-lg font-semibold text-foreground">🗓️ Book 30-min sparring</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              Konkret sparring om jeres situation — risikoklassificering, gap mod 2026-deadline, DPIA/FRIA, leverandørstyring eller noget helt andet.
+              Konkret sparring om jeres situation - risikoklassificering, gap mod 2026-deadline, DPIA/FRIA, leverandørstyring eller noget helt andet.
             </p>
             <a
               href={CALENDLY_URL}
@@ -2203,7 +2203,7 @@ function ToolsIndex({ onHome, onOpenTool }: { onHome: () => void; onOpenTool: (s
           <h1 className="font-display text-2xl font-bold text-foreground">Værktøjer</h1>
         </div>
         <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-          Interaktive værktøjer til EU AI Act-compliance — tidslinjer, matricer og klassificering. Hvert værktøj har sin egen side, så det kan deles direkte på LinkedIn, i mail eller i en præsentation.
+          Interaktive værktøjer til EU AI Act-compliance - tidslinjer, matricer og klassificering. Hvert værktøj har sin egen side, så det kan deles direkte på LinkedIn, i mail eller i en præsentation.
         </p>
       </div>
 
