@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@font-face { font-family: 'Archivo'; font-style: normal; font-weight: 100 900; font-stretch: 100%; font-display: swap; src: url('/fonts/archivo-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Archivo'; font-style: normal; font-weight: 100 900; font-stretch: 100%; font-display: swap; src: url('/fonts/archivo-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/ibm-plex-mono-400-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/ibm-plex-mono-400-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/ibm-plex-mono-500-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/ibm-plex-mono-500-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 @tailwind base;
 @tailwind components;
@@ -6,33 +11,36 @@
 
 @layer base {
   :root {
-    --background: 222 47% 6%;
-    --foreground: 210 40% 93%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 100%;
 
-    --card: 222 40% 9%;
-    --card-foreground: 210 40% 93%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 222 40% 9%;
-    --popover-foreground: 210 40% 93%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 168 60% 40%;
-    --primary-foreground: 222 47% 6%;
+    /* pervasive interactive UI = white (SIGNAL: red is never body text, <5% of surface) */
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 4%;
 
-    --secondary: 215 25% 16%;
-    --secondary-foreground: 210 40% 85%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 215 20% 13%;
-    --muted-foreground: 215 18% 68%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 54%;
 
-    --accent: 200 80% 45%;
-    --accent-foreground: 222 47% 6%;
+    /* CTA / decision mark = Signalrød (reserved; ~0 utility usages today) */
+    --accent: 3 79% 50%;
+    --accent-foreground: 0 0% 100%;
 
+    /* model/functional colours — RETAINED, not SIGNAL chrome */
     --destructive: 0 84% 68%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 215 25% 18%;
-    --input: 215 25% 18%;
-    --ring: 168 60% 40%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 100%;
 
     --radius: 0.5rem;
 
@@ -48,22 +56,35 @@
     --info: 200 80% 45%;
     --info-foreground: 222 47% 6%;
 
-    --sidebar-background: 222 47% 5%;
-    --sidebar-foreground: 210 40% 85%;
-    --sidebar-primary: 168 60% 40%;
-    --sidebar-primary-foreground: 222 47% 6%;
-    --sidebar-accent: 215 25% 14%;
-    --sidebar-accent-foreground: 210 40% 85%;
-    --sidebar-border: 215 25% 15%;
-    --sidebar-ring: 168 60% 40%;
+    --sidebar-background: 0 0% 4%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 4%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 0 0% 100%;
 
-    --gradient-risk: linear-gradient(135deg, hsl(0 72% 51% / 0.15), hsl(168 60% 40% / 0.15));
-    --gradient-hero: linear-gradient(135deg, hsl(222 47% 6%), hsl(215 25% 12%));
-    --gradient-card: linear-gradient(180deg, hsl(222 40% 10%), hsl(222 40% 8%));
-    --gradient-accent: linear-gradient(135deg, hsl(168 60% 40%), hsl(155 65% 35%));
+    /* gradients/glows neutralised (SIGNAL is flat); --gradient-risk kept functional */
+    --gradient-risk: linear-gradient(135deg, hsl(0 84% 68% / 0.15), hsl(0 0% 54% / 0.10));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 4%), hsl(0 0% 10%));
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 12%), hsl(0 0% 9%));
+    --gradient-accent: linear-gradient(135deg, hsl(0 0% 12%), hsl(0 0% 8%));
 
-    --shadow-glow: 0 0 20px hsl(168 60% 40% / 0.15);
-    --shadow-card: 0 4px 24px hsl(222 47% 2% / 0.5);
+    --shadow-glow: 0 0 0 0 transparent;
+    --shadow-card: 0 4px 24px hsl(0 0% 0% / 0.5);
+
+    /* SIGNAL raw palette for the ported footer CSS */
+    --s8-sort: #0A0A0A;
+    --s8-hvid: #FFFFFF;
+    --s8-roed: #E3241B;
+    --s8-graa: #8A8A8A;
+    --s8-graa-dyb: #1E1E1E;
+    --s8-graa-linje: #262626;
+    --s8-font-display: 'Archivo', sans-serif;
+    --s8-font-mono: 'IBM Plex Mono', monospace;
+    --s8-type-mono-label-size: 11px;
+    --s8-type-mono-data-size: 13px;
   }
 }
 
@@ -77,29 +98,25 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Archivo', sans-serif;
   }
 }
 
 @layer utilities {
   .font-display {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Archivo', sans-serif;
   }
   .font-mono {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
   }
-  .text-glow {
-    text-shadow: 0 0 20px hsl(38 92% 50% / 0.3);
-  }
-  .border-glow {
-    box-shadow: 0 0 12px hsl(38 92% 50% / 0.08), inset 0 1px 0 hsl(210 40% 93% / 0.03);
-  }
+  .text-glow { text-shadow: none; }
+  .border-glow { box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.04); }
   .card-hover {
     @apply transition-all duration-300;
   }
   .card-hover:hover {
-    box-shadow: 0 0 24px hsl(38 92% 50% / 0.12);
-    border-color: hsl(38 92% 50% / 0.3);
+    box-shadow: 0 4px 24px hsl(0 0% 0% / 0.4);
+    border-color: hsl(0 0% 100% / 0.18);
     transform: translateY(-2px);
   }
   .fade-in {
@@ -152,3 +169,44 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ── SOLUTION8 shared footer (ported from solution8.ai) ── */
+.footer-source {
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 1.5rem clamp(1.25rem, 5vw, 4rem) 0;
+  font-family: var(--s8-font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--s8-graa);
+  text-align: center;
+}
+.footer-source a { color: var(--s8-graa); text-decoration: underline; text-underline-offset: 2px; }
+.footer-source a:hover, .footer-source a:focus-visible { color: var(--s8-hvid); }
+
+.mono-label { font-family: var(--s8-font-mono); font-weight: 500; font-size: var(--s8-type-mono-label-size); line-height: 1.4; letter-spacing: 0.12em; color: var(--s8-graa); }
+.mono-data { font-family: var(--s8-font-mono); font-weight: 400; font-size: var(--s8-type-mono-data-size); line-height: 1.7; color: var(--s8-graa); }
+.brand-dot { color: var(--s8-roed); }
+.site-footer { max-width: 75rem; margin: 0 auto; padding: 2.5rem clamp(1.25rem, 5vw, 4rem) 3rem; border-top: 1px solid var(--s8-graa-linje); }
+.footer-cols { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 2.5rem 3rem; padding-bottom: 2.25rem; }
+.footer-cols .footer-brand { flex: 0 1 auto; }
+.footer-right { display: flex; gap: 2.75rem; flex: 0 0 auto; }
+.footer-right .fcol { flex: 0 0 auto; }
+.footer-cols ul { list-style: none; margin: 0; padding: 0; }
+.footer-h { margin: 0 0 1.15rem; text-transform: uppercase; }
+.footer-wordmark { font-family: var(--s8-font-display); font-weight: 800; font-size: 1.6rem; letter-spacing: -0.015em; color: var(--s8-hvid); margin: 0 0 1.1rem; }
+.footer-dict { max-width: 62ch; }
+.footer-contrib { margin-top: 1.75rem; display: flex; flex-wrap: nowrap; align-items: center; gap: 0.6rem; }
+.footer-contrib-label { flex: 0 0 auto; margin-right: 0.15rem; }
+.footer-pill { border: 1px solid var(--s8-graa-linje); border-radius: 999px; padding: 0.42rem 0.95rem; font-size: 0.82rem; color: var(--s8-graa); white-space: nowrap; }
+.footer-nav li { margin-bottom: 0.7rem; }
+.footer-nav a { color: var(--s8-graa); text-decoration: none; font-size: 0.95rem; transition: color 0.15s; }
+.footer-nav a:hover, .footer-nav a:focus-visible { color: var(--s8-hvid); }
+.footer-contact li { display: flex; gap: 0.65rem; align-items: flex-start; font-size: 0.92rem; line-height: 1.45; color: var(--s8-hvid); margin-bottom: 0.8rem; }
+.footer-contact svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--s8-graa); margin-top: 0.15rem; }
+.footer-contact a { color: var(--s8-hvid); text-decoration: none; }
+.footer-contact a:hover, .footer-contact a:focus-visible { color: var(--s8-graa); }
+.footer-base { border-top: 1px solid var(--s8-graa-linje); padding-top: 1.75rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-base > * { margin: 0; }
+.footer-links a { color: var(--s8-graa); text-decoration: none; }
+.footer-links a:hover, .footer-links a:focus-visible { color: var(--s8-hvid); }
