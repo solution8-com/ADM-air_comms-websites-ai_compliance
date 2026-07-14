@@ -4,7 +4,7 @@ import { siteConfig } from "@/config/site";
 export function SiteWordmark() {
   return (
     <span
-      className="font-display text-2xl font-extrabold tracking-tight"
+      className="font-display text-2xl font-extrabold"
       style={{ letterSpacing: "-0.015em" }}
     >
       <span style={{ color: "#E3241B" }}>AI</span>{" "}
