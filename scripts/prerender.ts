@@ -136,7 +136,7 @@ for (const tool of toolsMeta) {
     description: tool.description,
     canonical: toolCanonical,
     breadcrumb: [ROOT_CRUMB, { name: "Værktøjer", url: toolsCanonical }, { name: tool.title, url: toolCanonical }],
-    ogImage: `${SITE_ORIGIN}/og-tool-${tool.slug}.png?v=1`,
+    ogImage: `${SITE_ORIGIN}/og-tool-${tool.slug}.png?v=2`,
   });
   sitemap.push({ loc: toolCanonical, priority: "0.7" });
   count++;
