@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const MAX_DAYS = 5;
 const STORE = "s8-booking";
@@ -35,7 +35,7 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
   const [step, setStep] = useState<Step>("form");
   const [status, setStatus] = useState<{ msg: string; error: boolean }>({ msg: "", error: false });
   const [busy, setBusy] = useState(false);
-  const [slots, setSlots] = useState<Slot[] | null>(null);
+  const [slots, setSlots] = useState<Slot[] | null | "loading">(null);
   const [when, setWhen] = useState<string>("");
   const [f, setF] = useState({ navn: "", virksomhed: "", hjemmeside: "", email: "", note: "", nyhedsbrev: false, samtykke: false });
   const booking = useRef<Booking | null>(null);
@@ -46,7 +46,7 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
   useEffect(() => { if (open) warmSlots(); }, [open]);
 
   const loadSlots = useCallback(() => {
-    setStep("slots"); setSlots(undefined as unknown as null);
+    setStep("slots"); setSlots("loading");
     warmSlots().then((s) => setSlots(s));
   }, []);
 
@@ -84,13 +84,13 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ dealId: booking.current.dealId, contactId: booking.current.contactId, when, durationMinutes: 30 }),
       });
-      if (res.status === 409) { setStatus({ msg: "Tidspunktet blev lige taget. Vælg venligst et andet.", error: true }); loadSlots(); return; }
+      if (res.status === 409) { setStatus({ msg: "Tidspunktet blev lige taget. Vælg venligst et andet.", error: true }); slotCache = null; loadSlots(); return; }
       if (!res.ok) throw new Error("meeting");
       const data = await res.json();
-      if (data?.meetingStatus && data.meetingStatus !== "booked") { setStatus({ msg: "Tidspunktet kunne ikke bookes. Vælg venligst et andet.", error: true }); loadSlots(); return; }
+      if (data?.meetingStatus && data.meetingStatus !== "booked") { setStatus({ msg: "Tidspunktet kunne ikke bookes. Vælg venligst et andet.", error: true }); slotCache = null; loadSlots(); return; }
       try { sessionStorage.removeItem(STORE); } catch { /* ignore */ }
       booking.current = null; setStatus({ msg: "", error: false }); setStep("done");
-    } catch { setStatus({ msg: "Booking mislykkedes. Vælg venligst et andet tidspunkt.", error: true }); loadSlots(); }
+    } catch { setStatus({ msg: "Booking mislykkedes. Vælg venligst et andet tidspunkt.", error: true }); slotCache = null; loadSlots(); }
   }
 
   // group slots by day, cap MAX_DAYS
@@ -103,7 +103,7 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg bg-card text-foreground">
-        <DialogHeader><DialogTitle className="font-display">Book et 30-min sparringsmøde</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display">Book et 30-min sparringsmøde</DialogTitle><DialogDescription>Vælg et tidspunkt der passer dig. 30 min., online.</DialogDescription></DialogHeader>
 
         {step === "form" && (
           <form onSubmit={submitLead} className="space-y-3">
@@ -113,14 +113,14 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
             <input className="booking-input" type="email" placeholder="E-mail" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} aria-label="E-mail" />
             <textarea className="booking-input" rows={2} placeholder="Note (valgfri)" value={f.note} onChange={(e) => setF({ ...f, note: e.target.value })} aria-label="Note" />
             <label className="flex gap-2 text-sm text-muted-foreground"><input type="checkbox" checked={f.nyhedsbrev} onChange={(e) => setF({ ...f, nyhedsbrev: e.target.checked })} /><span>Ja tak, hold mig opdateret om AI i danske virksomheder. Afmeld når som helst.</span></label>
-            <label className="flex gap-2 text-sm text-muted-foreground"><input type="checkbox" checked={f.samtykke} onChange={(e) => setF({ ...f, samtykke: e.target.checked })} /><span>Jeg accepterer, at SOLUTION8 behandler mine oplysninger for at kunne kontakte mig.</span></label>
+            <label className="flex gap-2 text-sm text-muted-foreground"><input type="checkbox" checked={f.samtykke} onChange={(e) => setF({ ...f, samtykke: e.target.checked })} /><span>Jeg accepterer, at SOLUTION8 behandler mine oplysninger for at kunne kontakte mig, jf. <a href="https://solution8.ai/privatliv.html" target="_blank" rel="noopener noreferrer" className="underline">privatlivspolitikken</a>.</span></label>
             <button type="submit" disabled={busy} className="rounded-md bg-accent px-5 py-2 text-sm font-medium text-accent-foreground disabled:opacity-60">Vælg tidspunkt</button>
           </form>
         )}
 
         {step === "slots" && (
           <div className="space-y-4">
-            {slots === undefined && <p className="font-mono text-xs text-muted-foreground">Henter ledige tider ...</p>}
+            {slots === "loading" && <p className="font-mono text-xs text-muted-foreground">Henter ledige tider ...</p>}
             {slots === null && <button className="text-sm underline" onClick={() => { slotCache = null; loadSlots(); }}>Kunne ikke hente tider. Prøv igen</button>}
             {Array.isArray(slots) && groups.length === 0 && <p className="text-sm text-muted-foreground">Ingen ledige tider i perioden. Skriv til os, så finder vi et tidspunkt.</p>}
             {groups.slice(0, MAX_DAYS).map((g) => (
@@ -155,7 +155,7 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
           </div>
         )}
 
-        {status.msg && <p className={`text-sm ${status.error ? "text-danger" : "text-muted-foreground"}`} aria-live="polite">{status.msg}</p>}
+        <p className={`text-sm ${status.error ? "text-danger" : "text-muted-foreground"}`} aria-live="polite">{status.msg}</p>
       </DialogContent>
     </Dialog>
   );
