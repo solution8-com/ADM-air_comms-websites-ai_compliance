@@ -2,12 +2,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const MAX_DAYS = 5;
-const STORE = "s8-booking";
+const STORE = "s8-booking-2";
 const DAY_FMT = new Intl.DateTimeFormat("da-DK", { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Copenhagen" });
 const TIME_FMT = new Intl.DateTimeFormat("da-DK", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Copenhagen" });
 
 type Slot = { start: string; end: string };
-type Booking = { dealId: string; contactId: string };
+type Booking = { companyId: string; contactId: string };
 type Step = "form" | "slots" | "confirm" | "done";
 
 let slotCache: Promise<Slot[] | null> | null = null;
@@ -68,7 +68,7 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
       const res = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
       if (!res.ok) throw new Error("lead");
       const data = await res.json();
-      booking.current = { dealId: data.dealId, contactId: data.contactId };
+      booking.current = { companyId: data.companyId, contactId: data.contactId };
       try { sessionStorage.setItem(STORE, JSON.stringify(booking.current)); } catch { /* ignore */ }
       setStatus({ msg: "", error: false }); loadSlots();
     } catch {
@@ -82,7 +82,7 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
     try {
       const res = await fetch("/api/meeting", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ dealId: booking.current.dealId, contactId: booking.current.contactId, when, durationMinutes: 30 }),
+        body: JSON.stringify({ companyId: booking.current.companyId, contactId: booking.current.contactId, when, durationMinutes: 30 }),
       });
       if (res.status === 409) { setStatus({ msg: "Tidspunktet blev lige taget. Vælg venligst et andet.", error: true }); slotCache = null; loadSlots(); return; }
       if (!res.ok) throw new Error("meeting");
