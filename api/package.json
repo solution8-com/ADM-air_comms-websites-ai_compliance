@@ -1,0 +1,9 @@
+{
+  "name": "onepager-booking-proxy",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist/src/functions/*.js",
+  "scripts": { "build": "tsc" },
+  "dependencies": { "@azure/functions": "^4.5.0" },
+  "devDependencies": { "@types/node": "^22.20.0", "typescript": "^5.8.3" }
+}

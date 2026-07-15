@@ -210,3 +210,15 @@
 .footer-base > * { margin: 0; }
 .footer-links a { color: var(--s8-graa); text-decoration: none; }
 .footer-links a:hover, .footer-links a:focus-visible { color: var(--s8-hvid); }
+
+.booking-input {
+  width: 100%;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+}
+.booking-input:focus { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+.booking-input::placeholder { color: hsl(var(--muted-foreground)); }

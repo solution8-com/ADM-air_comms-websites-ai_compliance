@@ -25,6 +25,8 @@ jobs:
       # uploads the prebuilt dist/, so no build runs on the host's meter.
       - run: npm ci
       - run: npm run build
+      - run: npm --prefix api ci
+      - run: npm --prefix api run build
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
@@ -32,4 +34,5 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_SWA_TOKEN }}
           action: upload
           app_location: dist
+          api_location: api
           skip_app_build: true
