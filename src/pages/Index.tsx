@@ -1189,7 +1189,7 @@ function PenaltyTiers() {
       severity: "warning",
     },
     {
-      amount: "€7,5 mio. / 1,5 %",
+      amount: "€7,5 mio. / 1 %",
       label: "Tier 3 - Forkerte oplysninger til myndigheder",
       articles: ["Art. 99(5)"],
       examples: ["Forkerte oplysninger i konformitetserklæring", "Vildledende data i registrering eller audit", "Manglende samarbejde med markedsovervågning"],

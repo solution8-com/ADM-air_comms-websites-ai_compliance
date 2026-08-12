@@ -81,7 +81,7 @@ Content audit revealed several post-build regulatory developments. All shipped v
 ## Identified content gaps (next round)
 
 From audit — not yet shipped:
-- [ ] Bødestruktur as its own subcategory (€35M/7%, €15M/3%, €7.5M/1.5% tiers)
+- [ ] Bødestruktur as its own subcategory (€35M/7%, €15M/3%, €7.5M/1% tiers)
 - [ ] GPAI deployer-pligter ved finetuning (downstream crosses 10²⁵ FLOPs)
 - [ ] Sektor-overlay matrix as visualization (sector × regulations)
 - [ ] EU AI Act timeline strip visualization (top of page, "you are here")
